@@ -19,6 +19,13 @@ TODO: how to deploy the project
 
 ## Authors
 
-TODO: list of authors
+The TeaM: 
+
+  - Irene Lam
+  - Jacob Werzinsky
+  - Junhwi Kim
+  - Maxwell Reiferson
+  - Nalin Vattigunta
+  - Sudharsan Balasubramani
 
 ## Acknowledgments
