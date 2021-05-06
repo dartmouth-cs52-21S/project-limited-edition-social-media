@@ -19,7 +19,7 @@ TODO: how to deploy the project
 
 ## Authors
 
-The TeaM: 
+The Team: 
 
   - Irene Lam
   - Jacob Werzinsky
