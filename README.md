@@ -11,24 +11,31 @@ Explore page (temporary gif until we come up with mockup):
 ![screenshootOfExploreSeciton](https://github.com/blakesanie/React-Bubble-UI/blob/HEAD/example/public/demo.gif?raw=true)
 
 Standard View 
+
 ![screenshootOfStandardView]()
 
 Searching in Standard View:
+
 ![screenshootOfSearching]()
 
 Sign-Up Flow: 
+
 ![screenshootOfSignUpFlow]()
 
 Create a post:
+
 ![screenshootOfCreatingPost]()
 
 Profile View:
+
 ![screenshootOfProfileView]()
 
 Live Commenting:
+
 ![screenshootOfLiveCommenting]()
 
 Messaging:
+
 ![screenshootOfMessaging]()
 
 ## Architecture
