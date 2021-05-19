@@ -7,7 +7,8 @@ A social media platform that restricts the number of unique viewers per post. On
 ## Mock Up
 
 Explore page (temporary gif until we come up with mockup): 
-[screenshootOfExploreSeciton](https://github.com/blakesanie/React-Bubble-UI/blob/HEAD/example/public/demo.gif?raw=true)
+
+![screenshootOfExploreSeciton](https://github.com/blakesanie/React-Bubble-UI/blob/HEAD/example/public/demo.gif?raw=true)
 
 Standard View 
 ![screenshootOfStandardView]()
