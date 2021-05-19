@@ -1,12 +1,12 @@
 import React from 'react';
-// import { Button } from 'react-native';
+import { Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import VideoList from '../components/video_list';
-import VideoDetail from '../components/video_detail';
+// import VideoList from '../components/video_list';
+// import VideoDetail from '../components/video_detail';
 
-// const TempSearch = (props) => (<Button onPress={() => { props.navigation.navigate('Detail'); }} title="next" />);
-// const TempDetail = (props) => (<Button onPress={() => { props.navigation.pop(); }} title="close" />);
+const TempSearch = (props) => (<Button onPress={() => { props.navigation.navigate('Detail'); }} title="next" />);
+const TempDetail = (props) => (<Button onPress={() => { props.navigation.pop(); }} title="close" />);
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,7 @@ const SearchTab = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="Search"
-        component={VideoList}
+        component={TempSearch}
         options={{
           title: 'Youtube Search',
           headerStyle: {
@@ -26,7 +26,7 @@ const SearchTab = () => {
           headerTintColor: '#fff',
         }}
       />
-      <Stack.Screen name="Detail" component={VideoDetail} />
+      <Stack.Screen name="Detail" component={TempDetail} />
     </Stack.Navigator>
   );
 };

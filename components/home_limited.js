@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, Image,
+  StyleSheet, View, Text, Button,
 } from 'react-native';
 
-class About extends Component {
+class HomeLimited extends Component {
+  handleSignInPress() {
+    // navigation.navigate('SignIn');
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.image}
-          source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}
-        />
         <Text>
-          This app was written in React-Native.
+          Restricted feed for users who have not signed in yet.
         </Text>
+        <Button title="Sign In" onPress={this.handleSignInPress} />
       </View>
     );
   }
@@ -31,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default About;
+export default HomeLimited;
