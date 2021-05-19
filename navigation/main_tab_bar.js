@@ -2,7 +2,7 @@ import React from 'react';
 // import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../components/home';
+// import Home from '../components/home';
 import Search from '../components/search';
 import NewPost from '../components/newpost';
 import Activity from '../components/activity';
