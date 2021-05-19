@@ -36,7 +36,8 @@
         "prefer-destructuring": 1,
         "class-methods-use-this": 0,
         "no-use-before-define": [2, { "variables": false }],
-        "import/no-extraneous-dependencies": 0
+        "import/no-extraneous-dependencies": 0,
+        "linebreak-style": 0
     },
     "plugins": [
         "react"

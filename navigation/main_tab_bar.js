@@ -2,14 +2,11 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-const AboutTab = (props) => {
-  return <View style={{ flex: 1, justifyContent: 'center' }}><Text>about</Text></View>;
-};
-
-const SearchTab = (props) => {
-  return <View style={{ flex: 1, justifyContent: 'center' }}><Text>Search</Text></View>;
-};
+import Home from '../components/home';
+import Search from '../components/search';
+import NewPost from '../components/newpost';
+import Activity from '../components/activity';
+import Profile from '../components/profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,8 +14,12 @@ const MainTabBar = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Search" component={SearchTab} />
-        <Tab.Screen name="About" component={AboutTab} />
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Search" component={Search} />
+        <Tab.Screen name="Post" component={NewPost} />
+        <Tab.Screen name="Activity" component={Activity} />
+        <Tab.Screen name="Profile" component={Profile} />
+
       </Tab.Navigator>
     </NavigationContainer>
   );
