@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-native';
+// import { Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import VideoList from '../components/video_list';
