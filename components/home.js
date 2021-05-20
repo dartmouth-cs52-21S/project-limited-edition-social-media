@@ -8,7 +8,7 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <Text>
-          Home Feed
+          Main Feed
         </Text>
       </View>
     );

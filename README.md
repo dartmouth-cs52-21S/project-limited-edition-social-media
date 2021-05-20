@@ -2,15 +2,17 @@
 
 ![Team Photo](https://i.imgur.com/bTG56lp.jpg)
 
-A social media platform that restricts the number of unique viewers per post. Once a post's views are gone it disappears. 
+A social media platform that restricts the number of unique viewers per post. Once a post's views are gone it disappears.
+
+This platform attempts to innovate the existing social media landscape by also giving users a bit more control over how their content is curated. We seek to improve transparency and enhance engagement.
 
 ## Mock Up
 
-Explore page (temporary gif until we come up with mockup): 
+Explore page (temporary gif until we come up with mockup):
 
 ![screenshootOfExploreSeciton](https://github.com/blakesanie/React-Bubble-UI/blob/HEAD/example/public/demo.gif?raw=true)
 
-Standard View 
+Standard View
 
 ![screenshootOfStandardView]()
 
@@ -18,7 +20,7 @@ Searching in Standard View:
 
 ![screenshootOfSearching]()
 
-Sign-Up Flow: 
+Sign-Up Flow:
 
 ![screenshootOfSignUpFlow]()
 
@@ -41,7 +43,7 @@ Messaging:
 ## Architecture
 
 TODO:  descriptions of code organization and tools and libraries used
-* React Native
+* React Native 
 * Firebase/ MongoDB
 * Heroku (for deployment)
 * Amazon S3
@@ -64,11 +66,11 @@ TODO: how to deploy the project
     * (Backend) `git clone git@github.com:dartmouth-cs52-21S/project-api-limited-edition-social-media.git`
 
 2. Install necessary dependencies using `npm install`
-3. Run the application! `npm start` 
+3. Run the application! `npm start`
 
 ## Authors
 
-The Team: 
+The Team:
 
   - Irene Lam
   - Jacob Werzinsky

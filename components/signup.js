@@ -5,7 +5,6 @@ import {
 
 class SignUp extends Component {
   handleSignUpPress() {
-    // eslint-disable-next-line react/destructuring-assignment
     this.props.navigation.replace('MainTab');
   }
 
@@ -17,10 +16,7 @@ class SignUp extends Component {
         </Text>
         <Button title="Sign Up"
           onPress={
-            () => {
-              this.handleSignUpPress();
-            }
-        }
+            () => {this.handleSignUpPress();}}
         />
       </View>
     );
