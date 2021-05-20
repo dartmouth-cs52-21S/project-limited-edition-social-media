@@ -9,6 +9,7 @@ const youtubeSearch = (term) => {
     key: API_KEY,
     q: term,
     type: 'video',
+    // could change this
     maxResults: 15,
   };
 
