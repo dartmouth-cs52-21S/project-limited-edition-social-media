@@ -2,9 +2,11 @@
 
 ![Team Photo](https://i.imgur.com/bTG56lp.jpg)
 
-A social media platform that restricts the number of unique viewers per post. Once a post's views are gone it disappears.
+Introducing the next best social media! We're a platform that aims to maximize engagement while minimizing social clout. Gone are the like counters, the emphasis on who's following who and how high your follower count is. Instead, we restrict the number of unique views per post. Once a post's views are gone... *poof* the post also disappears. Welcome to a social media platform that breaks all the rules.
 
-This platform attempts to innovate the existing social media landscape by also giving users a bit more control over how their content is curated. We seek to improve transparency and enhance engagement.
+Our platform attempts to innovate the existing social media landscape by also giving users a bit more control over how their content is curated. We seek to improve transparency and enhance engagement.
+
+[#FeelingCuteMightDeleteLater](https://github.com/dartmouth-cs52-21S/project-limited-edition-social-media)
 
 ## Mock Up
 
@@ -14,7 +16,7 @@ Explore page (temporary gif until we come up with mockup):
 
 Standard View
 
-![screenshootOfStandardView]()
+![screenshootOfStandardView](assets/Poof.png)
 
 Searching in Standard View:
 
@@ -22,7 +24,7 @@ Searching in Standard View:
 
 Sign-Up Flow:
 
-![screenshootOfSignUpFlow]()
+![screenshootOfSignUpFlow](assets/Sign_Up.png)
 
 Create a post:
 
@@ -30,23 +32,24 @@ Create a post:
 
 Profile View:
 
-![screenshootOfProfileView]()
+![screenshootOfProfileView](assets/Profile.png)
 
 Live Commenting:
 
-![screenshootOfLiveCommenting]()
+![screenshootOfLiveCommenting](assets/Live_Messaging.png)
 
 Messaging:
 
-![screenshootOfMessaging]()
+![screenshootOfMessaging](assets/Messaging1.png)
+![screenshootOfMessaging](assets/Messaging2.png)
 
 ## Architecture
 
-TODO:  descriptions of code organization and tools and libraries used
-* React Native 
-* Firebase/ MongoDB
-* Heroku (for deployment)
-* Amazon S3
+For all descriptions of code organization and tools and libraries used:
+* React Native - to bring the app to your mobile devices
+* Firebase/ MongoDB - database storage 
+* Heroku - for deployment
+* Amazon S3 - object storage 
 
 ## Setup
 
@@ -60,7 +63,6 @@ TODO:  descriptions of code organization and tools and libraries used
 
 ## Deployment
 
-TODO: how to deploy the project
 1. Clone this repository in your favorite location:
     * (Client) `git clone git@github.com:dartmouth-cs52-21S/project-limited-edition-social-media.git`
     * (Backend) `git clone git@github.com:dartmouth-cs52-21S/project-api-limited-edition-social-media.git`
@@ -81,4 +83,4 @@ The Team:
 
 ## :heart: Acknowledgments :heart:
 
-Acnowledgement to our professor, Tim Tregubov, for his amazing insight and feedback. <3
+Acnowledgement to our professor, Tim Tregubov, and the amazing TAs for their insight and feedback!
