@@ -4,15 +4,17 @@
 
 Introducing the next best social media! We're a platform that aims to maximize engagement while minimizing social clout. Gone are the like counters, the emphasis on who's following who and how high your follower count is. Instead, we restrict the number of unique views per post. Once a post's views are gone... *poof* the post also disappears. Welcome to a social media platform that breaks all the rules.
 
+Our platform attempts to innovate the existing social media landscape by also giving users a bit more control over how their content is curated. We seek to improve transparency and enhance engagement.
+
 [#FeelingCuteMightDeleteLater](https://github.com/dartmouth-cs52-21S/project-limited-edition-social-media)
 
 ## Mock Up
 
-Explore page (temporary gif until we come up with mockup): 
+Explore page (temporary gif until we come up with mockup):
 
 ![screenshootOfExploreSeciton](https://github.com/blakesanie/React-Bubble-UI/blob/HEAD/example/public/demo.gif?raw=true)
 
-Standard View 
+Standard View
 
 ![screenshootOfStandardView](assets/Poof.png)
 
@@ -20,7 +22,7 @@ Searching in Standard View:
 
 ![screenshootOfSearching]()
 
-Sign-Up Flow: 
+Sign-Up Flow:
 
 ![screenshootOfSignUpFlow](assets/Sign_Up.png)
 
@@ -66,11 +68,11 @@ For all descriptions of code organization and tools and libraries used:
     * (Backend) `git clone git@github.com:dartmouth-cs52-21S/project-api-limited-edition-social-media.git`
 
 2. Install necessary dependencies using `npm install`
-3. Run the application! `npm start` 
+3. Run the application! `npm start`
 
 ## Authors
 
-The Team: 
+The Team:
 
   - Irene Lam
   - Jacob Werzinsky

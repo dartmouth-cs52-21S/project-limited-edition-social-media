@@ -5,7 +5,6 @@ import {
 
 class Profile extends Component {
   handleSignOutPress() {
-    // eslint-disable-next-line react/destructuring-assignment
     this.props.navigation.replace('HomeLimited');
   }
 
