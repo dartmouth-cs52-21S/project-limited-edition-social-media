@@ -11,11 +11,11 @@ class HomeLimited extends Component {
   }
 
   handleSignInPress() {
-    this.props.navigation.replace('SignIn');
+    this.navigation.replace('SignIn');
   }
 
   handleSignUpPress() {
-    this.props.navigation.replace('SignUp');
+    this.navigation.replace('SignUp');
   }
 
   render() {
