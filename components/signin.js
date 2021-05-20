@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text,
+  StyleSheet, View, Text, Button,
 } from 'react-native';
 
 class SignIn extends Component {
+  handleSignInPress() {
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.navigation.replace('MainTab');
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text>
           Sign In
         </Text>
+        <Button title="Sign In"
+          onPress={
+            () => {
+              this.handleSignInPress();
+            }
+        }
+        />
       </View>
     );
   }

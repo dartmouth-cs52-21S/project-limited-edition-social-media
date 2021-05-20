@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text,
+  StyleSheet, View, Text, Button,
 } from 'react-native';
 
 class Profile extends Component {
+  handleSignOutPress() {
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.navigation.replace('HomeLimited');
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text>
           My Profile
         </Text>
+        <Button title="Sign Out"
+          onPress={
+            () => {
+              this.handleSignOutPress();
+            }
+        }
+        />
       </View>
     );
   }

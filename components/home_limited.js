@@ -4,8 +4,20 @@ import {
 } from 'react-native';
 
 class HomeLimited extends Component {
+  constructor(props) {
+    super(props);
+    const { navigation } = this.props;
+    this.navigation = navigation;
+  }
+
   handleSignInPress() {
-    // navigation.navigate('SignIn');
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.navigation.replace('SignIn');
+  }
+
+  handleSignUpPress() {
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.navigation.replace('SignUp');
   }
 
   render() {
@@ -14,7 +26,20 @@ class HomeLimited extends Component {
         <Text>
           Restricted feed for users who have not signed in yet.
         </Text>
-        <Button title="Sign In" onPress={this.handleSignInPress} />
+        <Button title="Sign In"
+          onPress={
+            () => {
+              this.handleSignInPress();
+            }
+        }
+        />
+        <Button title="Sign Up"
+          onPress={
+            () => {
+              this.handleSignUpPress();
+            }
+        }
+        />
       </View>
     );
   }
