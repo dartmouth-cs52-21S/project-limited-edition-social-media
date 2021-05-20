@@ -48,11 +48,13 @@ TODO:  descriptions of code organization and tools and libraries used
 
 ## Setup
 
-TODO: how to get the project dev environment up and running, npm install etc
-* Likely npm install
-* Node -- see installation details [here](https://nodejs.org/en/download/)
-* Watchman
-    `brew install watchman`
+* `brew install node`
+* `brew install watchman`
+* `cd` into project repository (if not already there).
+* `npm install`
+* `expo start`
+* Download the Expo Go app, create an account.
+* Scan the QR code generated with your phone camera, making sure your phone is on the same network as wherever `expo start` was run.
 
 ## Deployment
 
