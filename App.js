@@ -5,6 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActionTypes } from './actions';
 import HomeLimited from './components/home_limited';
 import SignIn from './components/signin';
 import SignUp from './components/signup';
@@ -25,6 +27,24 @@ const store = createStore(reducers, {}, compose(
   applyMiddleware(thunk),
   window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,
 ));
+
+// const token = .getItem('token');
+// if (token) {
+//   store.dispatch({ type: ActionTypes.AUTH_USER });
+// }
+
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('token');
+    if (value !== null) {
+      store.dispatch({ type: ActionTypes.AUTH_USER });
+    }
+  } catch (e) {
+    // error reading value
+  }
+};
+
+getData();
 
 const App = (props) => {
   return (
@@ -55,11 +75,6 @@ const App = (props) => {
 };
 
 export default App;
-
-// const token = localStorage.getItem('token');
-// if (token) {
-//   store.dispatch({ type: ActionTypes.AUTH_USER });
-// }
 
 // we now wrap App in a Provider
 // AppRegistry.registerComponent(appName, () => RNRedux);
