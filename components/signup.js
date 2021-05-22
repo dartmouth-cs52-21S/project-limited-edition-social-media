@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import {
   StyleSheet, View, Text, Button,
 } from 'react-native';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import AuthInput from './auth_input';
-import { signupUser } from '../actions/index';
+// import { signupUser } from '../actions/index';
 
 class SignUp extends Component {
   constructor(props) {
