@@ -4,8 +4,14 @@ import {
 } from 'react-native';
 
 class SignIn extends Component {
+  constructor(props) {
+    super(props);
+    const { navigation } = this.props;
+    this.navigation = navigation;
+  }
+
   handleSignInPress() {
-    this.props.navigation.replace('MainTab');
+    this.navigation.replace('MainTab');
   }
 
   render() {
@@ -15,7 +21,7 @@ class SignIn extends Component {
           Sign In
         </Text>
         <Button title="Sign In"
-          onPress={() => {this.handleSignInPress();}}
+          onPress={() => { this.handleSignInPress(); }}
         />
       </View>
     );

@@ -11,13 +11,11 @@ class HomeLimited extends Component {
   }
 
   handleSignInPress() {
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.navigation.replace('SignIn');
+    this.navigation.replace('SignIn');
   }
 
   handleSignUpPress() {
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.navigation.replace('SignUp');
+    this.navigation.replace('SignUp');
   }
 
   render() {
