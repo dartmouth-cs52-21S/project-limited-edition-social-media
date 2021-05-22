@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
 // keys for actiontypes
 export const ActionTypes = {
@@ -12,7 +13,8 @@ export const ActionTypes = {
 };
 
 // lmited is not a typo do not change.
-export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
+// export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
+export const ROOT_URL = 'http://localhost:9090/api';
 /// IMPORTANT! API CALLS ONLY IN HERE, NOWHERE ELSE
 
 // Learned about axios calls from https://blog.logrocket.com/how-to-make-http-requests-like-a-pro-with-axios/
@@ -86,7 +88,7 @@ export function authError(error) {
   };
 }
 
-export function signinUser({ email, password }, history) {
+export function signinUser({ email, password }, navigation) {
   // takes in an object with email and password (minimal user object)
   // returns a thunk method that takes dispatch as an argument (just like our create post method really)
   // does an axios.post on the /signin endpoint
@@ -96,18 +98,22 @@ export function signinUser({ email, password }, history) {
   // on error should dispatch(authError(`Sign In Failed: ${error.response.data}`));
 
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/signin`, { email, password }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    console.log('got here1');
+    axios.post(`${ROOT_URL}/signin`, { email, password }).then((response) => {
+      console.log('got here2');
       dispatch({ type: ActionTypes.AUTH_USER });
-      localStorage.setItem('token', response.data.token);
-      history.push('/');
+      storeData(response.data.token);
+      // localStorage.setItem('token', response.data.token);
+      navigation.replace('MainTab');
     }).catch((error) => {
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
-      history.push('/');
     });
   };
 }
 
-export function signupUser({ email, password, authorname }, history) {
+export function signupUser({
+  email, password, displayname, username,
+}, navigation) {
   // takes in an object with email and password (minimal user object)
   // returns a thunk method that takes dispatch as an argument (just like our create post method really)
   // does an axios.post on the /signup endpoint (only difference from above)
@@ -116,13 +122,16 @@ export function signupUser({ email, password, authorname }, history) {
   //  localStorage.setItem('token', response.data.token);
   // on error should dispatch(authError(`Sign Up Failed: ${error.response.data}`));
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/signup`, { email, password, authorname }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    axios.post(`${ROOT_URL}/signup`, {
+      email, password, displayname, username,
+    }).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
-      localStorage.setItem('token', response.data.token);
-      history.push('/');
+      storeData(response.data.token);
+      // localStorage.setItem('token', response.data.token);
+      navigation.replace('MainTab');
     }).catch((error) => {
+      console.log(error.response.data);
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
-      history.push('/');
     });
   };
 }
@@ -136,3 +145,11 @@ export function signoutUser(history) {
     history.push('/');
   };
 }
+
+const storeData = async (value) => {
+  try {
+    await AsyncStorage.setItem('token', value);
+  } catch (e) {
+    // saving error
+  }
+};

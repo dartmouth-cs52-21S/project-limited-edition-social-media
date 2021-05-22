@@ -8,7 +8,7 @@ const AuthInput = (props) => {
   return (
     <TextInput
       style={styles.input}
-      onChangeText={() => props.onChange()}
+      onChangeText={(value) => props.onChange(value)}
       value={props.value}
       placeholder={props.placeholder}
     />

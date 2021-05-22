@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import {
   StyleSheet, View, Text, Button,
 } from 'react-native';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import AuthInput from './auth_input';
-// import { signupUser } from '../actions/index';
+import { signupUser } from '../actions';
 
 class SignUp extends Component {
   constructor(props) {
@@ -15,13 +15,14 @@ class SignUp extends Component {
     this.state = {
       email: '',
       password: '',
+      displayname: '',
       username: '',
-      author: '',
     };
   }
 
   handleSignUpPress() {
-    this.navigation.replace('MainTab');
+    this.props.signupUser(this.state, this.navigation);
+    // this.navigation.replace('MainTab');
   }
 
   onEmailChange = (change) => {
@@ -32,8 +33,8 @@ class SignUp extends Component {
     this.setState({ password: change });
   }
 
-  onAuthorChange = (change) => {
-    this.setState({ author: change });
+  onDisplaynameChange = (change) => {
+    this.setState({ displayname: change });
   }
 
   onUsernameChange = (change) => {
@@ -41,16 +42,17 @@ class SignUp extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <View style={styles.container}>
         <Text>
           Sign Up
         </Text>
-        <AuthInput placeholder="Email" value={this.state.email} onChange={(change) => this.onEmailChange(change)} />
-        <AuthInput placeholder="Display Name" value={this.state.author} onChange={(change) => this.onAuthorChange(change)} />
-        <AuthInput placeholder="Username" value={this.state.username} onChange={(change) => this.onUsernameChange(change)} />
-        <AuthInput placeholder="Password" value={this.state.password} onChange={(change) => this.onPasswordChange(change)} />
-        <Button title="Sign Up - Not Functional"
+        <AuthInput placeholder="Email" value={this.state.email} onChange={this.onEmailChange} />
+        <AuthInput placeholder="Display Name" value={this.state.displayname} onChange={this.onDisplaynameChange} />
+        <AuthInput placeholder="Username" value={this.state.username} onChange={this.onUsernameChange} />
+        <AuthInput placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
+        <Button title="Sign Up"
           onPress={
             () => { this.handleSignUpPress(); }
           }
@@ -72,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
+export default connect(null, { signupUser })(SignUp);
