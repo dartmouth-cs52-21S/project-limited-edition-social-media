@@ -138,11 +138,11 @@ export function signupUser({
 
 // deletes token from localstorage
 // and deauths
-export function signoutUser(history) {
+export function signoutUser(navigation) {
   return (dispatch) => {
-    localStorage.removeItem('token');
+    removeData();
     dispatch({ type: ActionTypes.DEAUTH_USER });
-    history.push('/');
+    navigation.replace('HomeLimited');
   };
 }
 
@@ -151,5 +151,13 @@ const storeData = async (value) => {
     await AsyncStorage.setItem('token', value);
   } catch (e) {
     // saving error
+  }
+};
+
+const removeData = async () => {
+  try {
+    await AsyncStorage.removeItem('token');
+  } catch (e) {
+    // remove error
   }
 };
