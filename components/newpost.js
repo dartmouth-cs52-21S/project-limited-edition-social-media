@@ -41,13 +41,14 @@ class NewPost extends Component {
 
   /// text input change event handlers
   onMaxViewsChange = (text) => {
-    // removing periods since those are the only non-numerical input from numeric keyboard
-    this.setState({ maxViews: text.replace(/\./g, '') });
+    // regex expression removes non-numeric(not 0-9) characters from input
+    // got the regex expression from here: https://stackoverflow.com/questions/32946793/react-native-textinput-that-only-accepts-numeric-characters
+    this.setState({ maxViews: text.replace(/[^0-9]/g, '') });
   }
 
   onBlurChange = (text) => {
     // doing the same as onMaxViewsChange
-    this.setState({ blur: text.replace(/\./g, '') });
+    this.setState({ blur: text.replace(/[^0-9]/g, '') });
   }
 
   /// button press event handlers
