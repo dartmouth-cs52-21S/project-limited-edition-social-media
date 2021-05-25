@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBar } from 'react-native';
 import { ActionTypes } from './actions';
 import HomeLimited from './components/home_limited';
 import SignIn from './components/signin';
@@ -48,29 +49,35 @@ getData();
 
 const App = (props) => {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="HomeLimited">
-          <Stack.Screen
-            name="HomeLimited"
-            component={HomeLimited}
-          />
-          <Stack.Screen
-            name="SignIn"
-            component={SignIn}
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={SignUp}
-          />
-          <Stack.Screen
-            name="MainTab"
-            component={MainTabBar}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
-
+    <>
+      <StatusBar barStyle="dark-content" />
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="HomeLimited"
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen
+              name="HomeLimited"
+              component={HomeLimited}
+            />
+            <Stack.Screen
+              name="SignIn"
+              component={SignIn}
+            />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUp}
+            />
+            <Stack.Screen
+              name="MainTab"
+              component={MainTabBar}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </>
   );
 };
 
