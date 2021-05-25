@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import MenuButton from './menu_button';
 
 // (may delete this when submitting final project, just here for reference)
+// used in newpost.js
 // potentially reusable when editting an existing post or viewing an existing post
 // if you are using this in the future remember to:
 // set this component up in a stack navigation(or whichever kind of navigation)

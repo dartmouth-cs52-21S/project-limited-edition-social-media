@@ -32,6 +32,7 @@ class MenuButton extends Component {
     this.inputRef.current.focus();
   }
 
+  // deciding whether to render the arrow icon on the right side of button
   renderArrow() {
     if (this.props.arrow) {
       return (
@@ -45,6 +46,7 @@ class MenuButton extends Component {
   }
 
   renderEditableOrViewOnly() {
+    // adding any passed extra styles. Also not displaying text if it was not passed in.
     const primaryTextStyles = this.props.primaryText ? [styles.primaryText, this.props.extraPrimaryTextStyles] : { display: 'none' };
     const secondaryTextStyles = this.props.secondaryText ? [styles.secondaryText, this.props.extraSecondaryTextStyles] : { display: 'none' };
     const buttonPressColor = 'rgb(196, 193, 200)';

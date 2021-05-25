@@ -15,6 +15,7 @@ const PostReducer = (state = initialState, action) => {
     case ActionTypes.FETCH_POSTS:
       return { ...state, all: action.payload };
     case ActionTypes.FETCH_POST:
+      console.log(action.payload);
       return { ...state, current: action.payload };
     case ActionTypes.ERROR_SET:
       return { ...state, error: action.payload };

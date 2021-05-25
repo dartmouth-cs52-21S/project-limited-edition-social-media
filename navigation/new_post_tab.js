@@ -7,9 +7,8 @@ import FieldViewer from '../components/fieldViewer';
 const Stack = createStackNavigator();
 
 const NewPostTab = () => {
-  console.log(Stack);
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Camera">
       <Stack.Screen name="Camera"
         component={Camera}
         options={{
