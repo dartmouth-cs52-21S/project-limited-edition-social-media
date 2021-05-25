@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   StyleSheet, View, Text, Button,
 } from 'react-native';
+import { signoutUser } from '../actions';
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+    const { navigation } = this.props;
+    this.navigation = navigation;
+  }
+
   handleSignOutPress() {
-    this.props.navigation.replace('HomeLimited');
+    this.props.signoutUser(this.navigation);
   }
 
   render() {
@@ -38,4 +46,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default connect(null, { signoutUser })(Profile);
