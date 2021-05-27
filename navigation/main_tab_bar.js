@@ -4,7 +4,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../components/home';
 import Search from '../components/search';
-import NewPost from '../components/newpost';
+import NewPostTab from './new_post_tab';
 import Activity from '../components/activity';
 import Profile from '../components/profile';
 
@@ -18,7 +18,7 @@ const MainTabBar = () => {
         authentication status as well. */}
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="Post" component={NewPost} />
+      <Tab.Screen name="Post" component={NewPostTab} options={{ tabBarVisible: false }} />
       <Tab.Screen name="Activity" component={Activity} />
       <Tab.Screen name="Profile" component={Profile} />
 
