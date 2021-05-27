@@ -95,6 +95,21 @@ export function authError(error) {
   };
 }
 
+
+export function searchProfiles({ profileName }, navigation) {
+  return (dispatch) => {
+    console.log('got here1');
+    axios.post(`${ROOT_URL}/search`, { profileName }).then((response) => {
+      console.log('got here2');
+      dispatch({ type: ActionTypes.FETCH_POSTS});
+      storeData('token', response.data.token);
+      navigation.replace('MainTab');
+    }).catch((error) => {
+      dispatch(authError(`Search Failed: ${error.response.data}`));
+    });
+  };
+}
+
 export function signinUser({ email, password }, navigation) {
   // takes in an object with email and password (minimal user object)
   // returns a thunk method that takes dispatch as an argument (just like our create post method really)
