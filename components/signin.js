@@ -21,7 +21,6 @@ class SignIn extends Component {
   }
 
   handleSignInPress = () => {
-    console.log('hello');
     this.props.signinUser(this.state, this.navigation);
   }
 

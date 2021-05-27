@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
+import { AsyncStorage } from 'react-native';
 
 // keys for actiontypes
 export const ActionTypes = {
@@ -13,8 +13,8 @@ export const ActionTypes = {
 };
 
 // lmited is not a typo do not change.
-export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
-// export const ROOT_URL = 'http://localhost:9090/api';
+// export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
+export const ROOT_URL = 'http://localhost:9090/api';
 /// IMPORTANT! API CALLS ONLY IN HERE, NOWHERE ELSE
 
 // Learned about axios calls from https://blog.logrocket.com/how-to-make-http-requests-like-a-pro-with-axios/
@@ -98,9 +98,7 @@ export function signinUser({ email, password }, navigation) {
   // on error should dispatch(authError(`Sign In Failed: ${error.response.data}`));
 
   return (dispatch) => {
-    console.log('got here1');
     axios.post(`${ROOT_URL}/signin`, { email, password }).then((response) => {
-      console.log('got here2');
       dispatch({ type: ActionTypes.AUTH_USER });
       storeData(response.data.token);
       // localStorage.setItem('token', response.data.token);
@@ -143,6 +141,22 @@ export function signoutUser(navigation) {
     removeData();
     dispatch({ type: ActionTypes.DEAUTH_USER });
     navigation.replace('HomeLimited');
+  };
+}
+
+export function profileUser() {
+  return async (dispatch) => {
+    const headers = { authorization: await AsyncStorage.getItem('token') };
+    // console.warn(`profile user - ${JSON.stringify(headers)}`);
+    axios.post(`${ROOT_URL}/profile`, {}, { headers }).then((response) => {
+      console.error(response.data);
+      // storeData(response.data.token);
+      // localStorage.setItem('token', response.data.token);
+      // navigation.replace('MainTab');
+    }).catch((error) => {
+      console.error(`Profile failed with error: ${error}`);
+      dispatch(authError(`profile failed: ${error.response.data}`));
+    });
   };
 }
 

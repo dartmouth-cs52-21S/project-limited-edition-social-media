@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import {
   StyleSheet, View, Text, Button,
 } from 'react-native';
-import { signoutUser } from '../actions';
+
+import { signoutUser, profileUser } from '../actions';
 
 class Profile extends Component {
   constructor(props) {
@@ -16,19 +17,18 @@ class Profile extends Component {
     this.props.signoutUser(this.navigation);
   }
 
+  async handleViewProfile() {
+    this.props.profileUser();
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text>
           My Profile
         </Text>
-        <Button title="Sign Out"
-          onPress={
-            () => {
-              this.handleSignOutPress();
-            }
-        }
-        />
+        <Button title="Sign Out" onPress={() => this.handleSignOutPress()} />
+        <Button title="Profile" onPress={() => this.handleViewProfile()} />
       </View>
     );
   }
@@ -46,4 +46,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { signoutUser })(Profile);
+const mapStateToProps = ({ auth }) => (
+  {
+    auth,
+  }
+);
+
+export default connect(mapStateToProps, { signoutUser, profileUser })(Profile);
