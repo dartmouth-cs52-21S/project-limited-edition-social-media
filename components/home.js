@@ -7,8 +7,13 @@ import { fetchPosts } from '../actions';
 
 class Home extends Component {
   componentDidMount() {
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.fetchPosts();
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.props.fetchPosts();
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   renderJSXPostArray() {
