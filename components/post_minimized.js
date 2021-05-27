@@ -41,7 +41,7 @@ const renderPostMinimizedItem = (props) => {
     <PostMinimized
       caption={props.item.caption}
       content={props.item.content}
-      displayName={props.item.displayName}
+      displayName={props.item.author.displayName}
       currentViews={props.item.currentViews}
       viewLimit={props.item.viewLimit}
     />

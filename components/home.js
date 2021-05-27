@@ -8,7 +8,13 @@ import { renderPostMinimizedItem } from './post_minimized';
 
 class Home extends Component {
   componentDidMount() {
-    this.props.fetchPosts();
+    this._fetchPostsCleanup = this.props.navigation.addListener('focus', () => {
+      this.props.fetchPosts();
+    });
+  }
+
+  componentWillUnmount() {
+    this._fetchPostsCleanup();
   }
 
   render() {
