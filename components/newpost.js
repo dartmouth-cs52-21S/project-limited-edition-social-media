@@ -19,24 +19,30 @@ class NewPost extends Component {
     };
   }
 
-  componentDidUpdate() {
-    this.props.navigation.addListener('focus', () => {
-      // getting updated states from fieldViewer component
-      if (this.props.route.params.Caption || this.props.route.params.Caption === '') {
-        this.setState({ caption: this.props.route.params.Caption });
-      }
-      if (this.props.route.params.hashtags || this.props.route.params.hashtags === '') {
-        const seperatedTags = [];
-        const tags = this.props.route.params.hashtags;
-        // looping through hashtags string word by word and inserting them into an array
-        tags.replace(/#/g, '').split(' ').forEach((tag) => {
-          if (tag !== '') {
-            seperatedTags.push(tag);
-          }
-        });
-        this.setState({ hashtags: seperatedTags });
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      if (this.props.route.params) {
+        // getting updated states from fieldViewer component
+        if (this.props.route.params.Caption || this.props.route.params.Caption === '') {
+          this.setState({ caption: this.props.route.params.Caption });
+        }
+        if (this.props.route.params.hashtags || this.props.route.params.hashtags === '') {
+          const seperatedTags = [];
+          const tags = this.props.route.params.hashtags;
+          // looping through hashtags string word by word and inserting them into an array
+          tags.replace(/#/g, '').split(' ').forEach((tag) => {
+            if (tag !== '') {
+              seperatedTags.push(tag);
+            }
+          });
+          this.setState({ hashtags: seperatedTags });
+        }
       }
     });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   /// text input change event handlers
