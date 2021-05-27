@@ -8,9 +8,11 @@ class PostMinimized extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground source={{ uri: this.props.content }} style={styles.contentImage}>
-          <Text style={styles.font}>
-            {this.props.caption ? this.props.caption : 'NO CAPTION'}
-          </Text>
+          <View style={styles.subcontainer}>
+            <Text style={styles.font}>
+              {this.props.caption ? this.props.caption : 'NO CAPTION'}
+            </Text>
+          </View>
         </ImageBackground>
       </View>
     );
@@ -25,15 +27,19 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: '1%',
     marginHorizontal: '5%',
+    backgroundColor: 'black',
     borderRadius: 10,
-
+  },
+  subcontainer: {
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'black',
+    padding: '20%',
   },
   contentImage: {
     flex: 1,
-    resizeMode: 'cover',
+    borderRadius: 10,
+    overflow: 'hidden',
+    resizeMode: 'contain',
     justifyContent: 'center',
   },
   font: {
