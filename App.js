@@ -10,6 +10,7 @@ import SignIn from './components/signin';
 import SignUp from './components/signup';
 import MainTabBar from './navigation/main_tab_bar';
 import reducers from './reducers';
+import { ActionTypes } from './actions';
 // import { name as appName } from './app.json';
 
 // disable really annoying in app warnings
@@ -25,6 +26,11 @@ const store = createStore(reducers, {}, compose(
   applyMiddleware(thunk),
   window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,
 ));
+
+const token = localStorage.getItem('token');
+if (token) {
+  store.dispatch({ type: ActionTypes.AUTH_USER });
+}
 
 const App = (props) => {
   return (
@@ -55,11 +61,6 @@ const App = (props) => {
 };
 
 export default App;
-
-// const token = localStorage.getItem('token');
-// if (token) {
-//   store.dispatch({ type: ActionTypes.AUTH_USER });
-// }
 
 // we now wrap App in a Provider
 // AppRegistry.registerComponent(appName, () => RNRedux);
