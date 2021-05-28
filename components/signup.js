@@ -42,7 +42,6 @@ class SignUp extends Component {
   }
 
   render() {
-    console.warn(this.state);
     return (
       <View style={styles.container}>
         <Text>

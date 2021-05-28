@@ -1,26 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  StyleSheet, View,
+  StyleSheet, View, Text,
 } from 'react-native';
-import { Appbar, Button } from 'react-native-paper';
 
 class Profile extends Component {
-  navbar = () => (
-    <Appbar style={styles.top}>
-      <Appbar.Action
-        icon="arrow-left-circle"
-        onPress={() => this.handleBack()}
-      />
-    </Appbar>
-  );
-
   render() {
     return (
       <View style={styles.container}>
-        {this.navbar()}
-
-        <Button title="Sign Out" onPress={() => console.log('hello')} />
+        <Text> Settings </Text>
       </View>
     );
   }

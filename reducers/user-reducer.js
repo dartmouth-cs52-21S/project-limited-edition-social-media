@@ -11,7 +11,6 @@ const initialState = {
 };
 
 const UserReducer = (state = initialState, action) => {
-  console.log('hit reducer');
   switch (action.type) {
     case ActionTypes.FETCH_USER:
       return {

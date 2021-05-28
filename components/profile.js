@@ -5,17 +5,17 @@ import {
 } from 'react-native';
 import { Appbar } from 'react-native-paper';
 import { signoutUser, profileUser } from '../actions';
-// import Settings from './settings';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
     this.navigation = navigation;
+    // state variable for didMount, load when true, loading screen if not
+    // conditional render
   }
 
   componentDidMount = () => {
-    console.log('did mount');
     this.props.profileUser().then(
       console.log(this.props.user),
     );
@@ -26,34 +26,21 @@ class Profile extends Component {
   }
 
   handleSettingsPress = () => {
-    console.log('hit settings');
-  }
-
-  handleBack = () => {
-    console.log('hit back');
+    this.props.navigation.navigate('Settings', { name: 'Settings' });
   }
 
   navbar = () => {
-    // this.navigation.navigate('Settings', { name: 'Settings' });
-    <Appbar style={styles.top}>
-      <Appbar.Action
-        icon="arrow-left-circle"
-        onPress={() => this.handleBack()}
-      />
-      <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
-    </Appbar>;
+    return (
+      <Appbar style={styles.top}>
+        <Appbar.Action icon="cog" style={styles.right} onPress={() => this.handleSettingsPress()} />
+      </Appbar>
+    );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {/* <Appbar style={styles.top}>
-          <Appbar.Action
-            icon="arrow-left-circle"
-            onPress={() => this.handleBack()}
-          />
-          <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
-        </Appbar> */}
+        {this.navbar()}
 
         <Text>
           {this.props.user.displayname}
@@ -92,8 +79,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    display: 'flex',
-    justifyContent: 'space-between',
+  },
+  right: {
+    right: 0,
+    position: 'absolute',
   },
 });
 
