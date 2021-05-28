@@ -95,12 +95,18 @@ export function authError(error) {
   };
 }
 
+// in search bar, map users to props
+// .filter (js function that can be called on an array like map that filters based on 
+// field) so filter on display name, based on what strings in the array include the search
+// query
 
-export function searchProfiles({ profileName }, navigation) {
+export function getUsers() {
   return (dispatch) => {
     console.log('got here1');
     axios.post(`${ROOT_URL}/search`, { profileName }).then((response) => {
       console.log('got here2');
+      // fetch search results
+      // 
       dispatch({ type: ActionTypes.FETCH_POSTS});
       storeData('token', response.data.token);
       navigation.replace('MainTab');
