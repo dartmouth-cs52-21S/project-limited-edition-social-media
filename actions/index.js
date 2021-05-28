@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { AsyncStorage } from 'react-native';
+// import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // keys for actiontypes
 export const ActionTypes = {
@@ -8,6 +9,7 @@ export const ActionTypes = {
   FETCH_POST: 'FETCH_POST',
   ERROR_SET: 'ERROR_SET',
   AUTH_USER: 'AUTH_USER',
+  FETCH_USER: 'FETCH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
 };
@@ -149,10 +151,7 @@ export function profileUser() {
     const headers = { authorization: await AsyncStorage.getItem('token') };
     // console.warn(`profile user - ${JSON.stringify(headers)}`);
     axios.post(`${ROOT_URL}/profile`, {}, { headers }).then((response) => {
-      console.error(response.data);
-      // storeData(response.data.token);
-      // localStorage.setItem('token', response.data.token);
-      // navigation.replace('MainTab');
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
     }).catch((error) => {
       console.error(`Profile failed with error: ${error}`);
       dispatch(authError(`profile failed: ${error.response.data}`));

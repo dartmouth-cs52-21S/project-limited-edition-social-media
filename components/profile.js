@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  StyleSheet, View, Text, Button,
+  StyleSheet, View, Text,
 } from 'react-native';
-
+import { Appbar, Button } from 'react-native-paper';
 import { signoutUser, profileUser } from '../actions';
 
 class Profile extends Component {
@@ -13,22 +13,40 @@ class Profile extends Component {
     this.navigation = navigation;
   }
 
+  componentDidMount = () => {
+    this.props.profileUser();
+  };
+
   handleSignOutPress() {
     this.props.signoutUser(this.navigation);
   }
 
-  async handleViewProfile() {
-    this.props.profileUser();
-  }
+  navbar = () => (
+    <Appbar style={styles.bottom}>
+      <Appbar.Action
+        icon="archive"
+        onPress={() => console.log('Pressed archive')}
+      />
+      <Appbar.Action icon="mail" onPress={() => console.log('Pressed mail')} />
+      <Appbar.Action icon="label" onPress={() => console.log('Pressed label')} />
+      <Appbar.Action
+        icon="delete"
+        onPress={() => console.log('Pressed delete')}
+      />
+    </Appbar>
+  );
 
   render() {
     return (
       <View style={styles.container}>
+        {/* {this.navbar()} */}
         <Text>
+          {this.props.user.displayname}
+          {this.props.user.followerList.length}
+          {this.props.user.followingList.length}
           My Profile
         </Text>
         <Button title="Sign Out" onPress={() => this.handleSignOutPress()} />
-        <Button title="Profile" onPress={() => this.handleViewProfile()} />
       </View>
     );
   }
@@ -46,9 +64,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ auth }) => (
+const mapStateToProps = ({ user }) => (
   {
-    auth,
+    user,
   }
 );
 
