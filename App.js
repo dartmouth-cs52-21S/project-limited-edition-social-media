@@ -29,11 +29,6 @@ const store = createStore(reducers, {}, compose(
   window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,
 ));
 
-// const token = .getItem('token');
-// if (token) {
-//   store.dispatch({ type: ActionTypes.AUTH_USER });
-// }
-
 const getData = async () => {
   try {
     const value = await AsyncStorage.getItem('token');

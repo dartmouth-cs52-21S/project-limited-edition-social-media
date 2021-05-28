@@ -149,9 +149,10 @@ export function signoutUser(navigation) {
 export function profileUser() {
   return async (dispatch) => {
     const headers = { authorization: await AsyncStorage.getItem('token') };
-    // console.warn(`profile user - ${JSON.stringify(headers)}`);
     axios.post(`${ROOT_URL}/profile`, {}, { headers }).then((response) => {
+      console.warn(response.data);
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+      console.warn('end profileUser');
     }).catch((error) => {
       console.error(`Profile failed with error: ${error}`);
       dispatch(authError(`profile failed: ${error.response.data}`));

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  StyleSheet, View, Text,
+  StyleSheet, View, Text, Button, Image,
 } from 'react-native';
-import { Appbar, Button } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
 import { signoutUser, profileUser } from '../actions';
+// import Settings from './settings';
 
 class Profile extends Component {
   constructor(props) {
@@ -14,7 +15,10 @@ class Profile extends Component {
   }
 
   componentDidMount = () => {
-    this.props.profileUser();
+    console.log('did mount');
+    this.props.profileUser().then(
+      console.log(this.props.user),
+    );
   };
 
   handleSignOutPress() {
@@ -29,24 +33,42 @@ class Profile extends Component {
     console.log('hit back');
   }
 
-  navbar = () => (
+  navbar = () => {
+    // this.navigation.navigate('Settings', { name: 'Settings' });
     <Appbar style={styles.top}>
       <Appbar.Action
         icon="arrow-left-circle"
         onPress={() => this.handleBack()}
       />
       <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
-    </Appbar>
-  );
+    </Appbar>;
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        {this.navbar()}
+        {/* <Appbar style={styles.top}>
+          <Appbar.Action
+            icon="arrow-left-circle"
+            onPress={() => this.handleBack()}
+          />
+          <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
+        </Appbar> */}
+
         <Text>
           {this.props.user.displayname}
+          <Image
+            // style={styles.pic}
+            source={{ url: this.props.user.profilePic }}
+          />
+          Followers:
+          {' '}
           {this.props.user.followerList.length}
+          Following:
+          {' '}
           {this.props.user.followingList.length}
+          Badges:
+          {this.props.user.badges?.length}
           My Profile
         </Text>
         <Button title="Sign Out" onPress={() => this.handleSignOutPress()} />
