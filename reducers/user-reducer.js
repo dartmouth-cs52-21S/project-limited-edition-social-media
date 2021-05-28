@@ -9,7 +9,6 @@ const initialState = {
 };
 
 const UserReducer = (state = initialState, action) => {
-  console.log('reached user reducer');
   switch (action.type) {
     // case ActionTypes.FETCH_USER:
     //   return {

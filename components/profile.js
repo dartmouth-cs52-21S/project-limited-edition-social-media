@@ -21,25 +21,28 @@ class Profile extends Component {
     this.props.signoutUser(this.navigation);
   }
 
+  handleSettingsPress = () => {
+    console.log('hit settings');
+  }
+
+  handleBack = () => {
+    console.log('hit back');
+  }
+
   navbar = () => (
-    <Appbar style={styles.bottom}>
+    <Appbar style={styles.top}>
       <Appbar.Action
-        icon="archive"
-        onPress={() => console.log('Pressed archive')}
+        icon="arrow-left-circle"
+        onPress={() => this.handleBack()}
       />
-      <Appbar.Action icon="mail" onPress={() => console.log('Pressed mail')} />
-      <Appbar.Action icon="label" onPress={() => console.log('Pressed label')} />
-      <Appbar.Action
-        icon="delete"
-        onPress={() => console.log('Pressed delete')}
-      />
+      <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
     </Appbar>
   );
 
   render() {
     return (
       <View style={styles.container}>
-        {/* {this.navbar()} */}
+        {this.navbar()}
         <Text>
           {this.props.user.displayname}
           {this.props.user.followerList.length}
@@ -61,6 +64,14 @@ const styles = StyleSheet.create({
   image: {
     width: 400,
     height: 300,
+  },
+  top: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 });
 
