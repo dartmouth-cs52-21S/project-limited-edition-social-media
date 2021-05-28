@@ -36,14 +36,21 @@ export function fetchPosts() {
   };
 }
 
-export function createPost(post, history) {
-  /* axios post */
+export function createPost(navigation, post) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/posts`, post, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      // I think this is all we need to do? Do we need to refetch the posts?
-      history.push('/');
-    }).catch((error) => {
-      dispatch({ type: ActionTypes.ERROR_SET, error });
+    // getting the auth token
+    getData('token').then((token) => {
+      // using auth token to create a post on the server
+      axios.post(`${ROOT_URL}/posts`, post, { headers: { authorization: token } }).then((response) => {
+        // reseting navigation for new_post_tab
+        navigation.navigate('Camera');
+        // for now navigate to home page, but maybe in the future
+        // navigate to the page where they can see their posted post
+        navigation.navigate('Home');
+        dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
+      }).catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
     });
   };
 }
@@ -102,8 +109,7 @@ export function signinUser({ email, password }, navigation) {
   return (dispatch) => {
     axios.post(`${ROOT_URL}/signin`, { email, password }).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
-      storeData(response.data.token);
-      // localStorage.setItem('token', response.data.token);
+      storeData('token', response.data.token);
       navigation.replace('MainTab');
     }).catch((error) => {
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
@@ -126,7 +132,7 @@ export function signupUser({
       email, password, displayname, username,
     }).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
-      storeData(response.data.token);
+      storeData('token', response.data.token);
       // localStorage.setItem('token', response.data.token);
       navigation.replace('MainTab');
     }).catch((error) => {
@@ -158,11 +164,23 @@ export function profileUser() {
   };
 }
 
-const storeData = async (value) => {
+// storing token locally
+const storeData = async (dataName, value) => {
   try {
-    await AsyncStorage.setItem('token', value);
+    await AsyncStorage.setItem(dataName, value);
   } catch (e) {
     // saving error
+  }
+};
+
+// fetching local data
+const getData = async (dataName) => {
+  try {
+    const value = await AsyncStorage.getItem(dataName);
+    return value;
+  } catch (e) {
+    // saving error
+    return e;
   }
 };
 
