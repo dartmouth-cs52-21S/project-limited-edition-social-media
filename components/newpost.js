@@ -73,6 +73,7 @@ class NewPost extends Component {
       fieldText: this.state.hashtags.length === 0 ? '' : `#${this.state.hashtags.join(' #')}`,
       editable: true,
       route: 'New Post',
+      hashtags: true,
     });
   }
 

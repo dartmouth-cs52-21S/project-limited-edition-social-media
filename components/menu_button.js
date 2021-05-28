@@ -55,7 +55,8 @@ class MenuButton extends Component {
         <TouchableHighlight activeOpacity={1} underlayColor={buttonPressColor} style={styles.button} onPress={this.onEditPress}>
           <View style={this.props.centerText ? styles.centerButtonContent : styles.buttonContents}>
             <Text style={primaryTextStyles}>{this.props.primaryText}</Text>
-            <TextInput ref={this.inputRef}
+            <TextInput
+              ref={this.inputRef}
               returnKeyType="done"
               keyboardType={this.props.numericKeyboard ? 'numeric' : 'default'}
               maxLength={this.props.maxLength || 10}
@@ -63,6 +64,7 @@ class MenuButton extends Component {
               onChangeText={this.props.onChangeText}
               value={this.props.secondaryText}
               style={[secondaryTextStyles, { width: 'auto' }]}
+              selectionColor="rgb(78, 20, 140)"
             />
           </View>
         </TouchableHighlight>
