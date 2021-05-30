@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import {
   StyleSheet, View, Text,
 } from 'react-native';
+import { withRouter } from 'react-router';
+import { getSearchedUsers } from '../actions/index.js'
+import userReducer from '../reducers/user-reducer.js';
 
 // Some code refactored from previous labs
 class Search extends Component {
@@ -17,6 +20,10 @@ class Search extends Component {
     this.props.onSearchChange(event.target.value);
   }
 
+  displayUsers() {
+    // array of obejcts that are links to user's profiles
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -24,11 +31,16 @@ class Search extends Component {
           Search
         </Text>
         <input onChange={this.onInputChange} value={this.state.searchterm} />
+        <Button type="button" onClick={this.onInputChange} value={this.state.searchterm} />
+
+        <View style={styles.container}>
+          
+        </View>
+
       </View>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -42,4 +54,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Search;
+const mapStateToProps = (state) => ( {
+  users: state.search.searchedUsers
+});
+
+
+
+export default connect (mapStateToProps, {getSearchedUsers})(Search)

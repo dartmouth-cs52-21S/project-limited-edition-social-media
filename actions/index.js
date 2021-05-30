@@ -1,5 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import archived_feed from '../components/archived_feed';
 
 // keys for actiontypes
 export const ActionTypes = {
@@ -10,6 +11,8 @@ export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
+  GET_ARCHIVES: 'GET_ARCHIVE',
+  FIND_USER: 'FIND_USER'
 };
 
 // lmited is not a typo do not change.
@@ -119,6 +122,21 @@ export function getUsers() {
   };
 }
 
+export function getSearchedUsers(profileName) {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/search`, { profileName }).then((response) => {
+      // fetch search results
+      // 
+      dispatch({ type: ActionTypes.FIND_USER, payload: response});
+      storeData('token', response.data.token);
+      navigation.replace('MainTab');
+    }).catch((error) => {
+      dispatch(authError(`Search Failed: ${error.response.data}`));
+    });
+  };
+}
+
+
 export function signinUser({ email, password }, navigation) {
   // takes in an object with email and password (minimal user object)
   // returns a thunk method that takes dispatch as an argument (just like our create post method really)
@@ -201,5 +219,40 @@ const removeData = async () => {
     await AsyncStorage.removeItem('token');
   } catch (e) {
     // remove error
+  }
+};
+
+ const getArchives = async () => {
+  try {
+    await AsyncStorage.getItem('token');
+    return dispatch => {
+      axios.get(`${ROOT_URL}/archive`).then((response) => {
+   dispatch({type: ActionTypes.GET_ARCHIVES, payload: response })
+  } ).catch ((e) => {
+    // remove error
+    return e;
+  });
+}
+  } catch (e) {
+    return e;
+  }
+};
+ 
+
+ const updateArchives = async (postid) => {
+  try {
+    await AsyncStorage.getItem('token');
+    return dispatch => {
+      axios.post(`${ROOT_URL}/archive`, {
+      postid,
+    }).then((response) => {
+    getArchives()(dispatch)
+  } ).catch ((e) => {
+    // remove error
+    return e;
+  });
+}
+  } catch (e) {
+    return e;
   }
 };
