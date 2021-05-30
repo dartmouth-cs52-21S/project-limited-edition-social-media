@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { AsyncStorage } from 'react-native';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // keys for actiontypes
 export const ActionTypes = {
