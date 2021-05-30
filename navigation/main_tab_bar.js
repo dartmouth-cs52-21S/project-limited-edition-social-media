@@ -2,13 +2,28 @@ import React from 'react';
 // import { Text, View } from 'react-native';
 // import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../components/home';
 import Search from '../components/search';
 import NewPostTab from './new_post_tab';
 import Activity from '../components/activity';
 import Profile from '../components/profile';
+import Settings from '../components/settings';
+
+const Stack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
+
+const ProfileStack = () => {
+  return (
+  // <NavigationContainer independent>
+    <Stack.Navigator>
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Settings" component={Settings} />
+    </Stack.Navigator>
+  // </NavigationContainer>
+  );
+};
 
 const MainTabBar = () => {
   return (
@@ -20,8 +35,8 @@ const MainTabBar = () => {
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Post" component={NewPostTab} options={{ tabBarVisible: false }} />
       <Tab.Screen name="Activity" component={Activity} />
-      <Tab.Screen name="Profile" component={Profile} />
-
+      {/* <Tab.Screen name="Profile" component={Profile} /> */}
+      <Tab.Screen name="Profile" component={ProfileStack} />
     </Tab.Navigator>
   );
 };
