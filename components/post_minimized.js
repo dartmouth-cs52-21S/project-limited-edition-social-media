@@ -1,20 +1,79 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, ImageBackground, Dimensions,
+  StyleSheet, View, Text, ImageBackground, Dimensions, TouchableHighlight,
 } from 'react-native';
+import {
+  Modal, Portal, Button, Provider,
+} from 'react-native-paper';
+// import { profileUser } from '../actions';
 
 class PostMinimized extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: true,
+    };
+  }
+
+  componentDidMount = () => {
+    this.props.profileUser();
+  };
+
+  setVisible = () => {
+    const currVisibility = this.state.visible;
+    this.setState({ visible: !currVisibility });
+  }
+
+  showModal = () => {
+    console.log('show modal');
+    this.setVisible(true);
+  }
+
+  hideModal = () => {
+    console.log('hide modal');
+    this.setVisible(false);
+  }
+
+  openProfileModal = (postUsername) => {
+    // if (this.props.user.username != postUsername) {
+
+    // }
+    console.warn('Creating Modal');
+    return (
+      <Provider>
+        <Portal>
+          <Modal onDismiss={this.hideModal} contentContainerStyle={styles.containerStyle}>
+            <Text>Example Modal.  Click outside this area to dismiss.</Text>
+          </Modal>
+        </Portal>
+        <Button style={{ marginTop: 30 }} onPress={this.showModal}>
+          Show
+        </Button>
+      </Provider>
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <Provider>
+          <Portal>
+            <Modal onDismiss={this.hideModal} contentContainerStyle={styles.containerStyle}>
+              <Text>Example Modal.  Click outside this area to dismiss.</Text>
+            </Modal>
+          </Portal>
+          <Button style={{ marginTop: 30 }} onPress={this.showModal}>
+            Show
+          </Button>
+        </Provider>
         <ImageBackground source={{ uri: this.props.content }} style={styles.contentImage}>
           <View style={styles.subcontainer}>
             <View style={styles.topbar}>
-              <View style={styles.topbarAuthor}>
+              <TouchableHighlight style={styles.topbarAuthor} onPress={() => this.openProfileModal()}>
                 <Text style={styles.font}>
                   {this.props.displayName ? this.props.displayName : 'author'}
                 </Text>
-              </View>
+              </TouchableHighlight>
               <View style={styles.topbarViewLimit}>
                 <Text style={styles.topbarViewLimitText}>
                   {this.props.currentViews !== undefined ? this.props.currentViews : 'nan'}
@@ -35,17 +94,16 @@ class PostMinimized extends Component {
   }
 }
 
-const renderPostMinimizedItem = (props) => {
-  return (
-    <PostMinimized
-      caption={props.item.caption}
-      content={props.item.preview}
-      displayName={props.item.author.displayname}
-      currentViews={props.item.currentViews}
-      viewLimit={props.item.viewLimit}
-    />
-  );
-};
+const renderPostMinimizedItem = ({ item }) => (
+  <PostMinimized
+    caption={item.caption}
+    content={item.preview}
+    displayName={item.author.displayname}
+    username={item.author.username}
+    currentViews={item.currentViews}
+    viewLimit={item.viewLimit}
+  />
+);
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -102,6 +160,18 @@ const styles = StyleSheet.create({
   font: {
     color: 'white',
   },
+  containerStyle: {
+    backgroundColor: 'blue',
+    padding: 20,
+  },
 });
+
+// const mapStateToProps = ({ user }) => (
+//   {
+//     user,
+//   }
+// );
+
+// export default connect(mapStateToProps, { profileUser })(PostMinimized, renderPostMinimizedItem);
 
 export { PostMinimized, renderPostMinimizedItem };

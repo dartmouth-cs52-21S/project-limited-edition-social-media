@@ -16,9 +16,7 @@ class Profile extends Component {
   }
 
   componentDidMount = () => {
-    this.props.profileUser().then(
-      console.log(this.props.user),
-    );
+    this.props.profileUser();
   };
 
   handleSignOutPress() {
