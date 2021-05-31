@@ -42,8 +42,8 @@ export function createPost(navigation, post) {
       axios.post(`${ROOT_URL}/posts`, post, { headers: { authorization: token } }).then((response) => {
         // reseting navigation for new_post_tab
         navigation.navigate('Camera');
-        // for now navigate to home page, but maybe in the future
-        // navigate to the page where they can see their posted post
+        navigation.replace('Camera');
+        // navigating to the home page
         navigation.navigate('Home');
         dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
       }).catch((error) => {

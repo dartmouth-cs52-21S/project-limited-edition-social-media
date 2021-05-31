@@ -36,11 +36,10 @@ class PostMinimized extends Component {
 }
 
 const renderPostMinimizedItem = (props) => {
-  console.log(props.item);
   return (
     <PostMinimized
       caption={props.item.caption}
-      content={props.item.content}
+      content={props.item.preview}
       displayName={props.item.author.displayname}
       currentViews={props.item.currentViews}
       viewLimit={props.item.viewLimit}
