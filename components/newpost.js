@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, Image,
+  StyleSheet, View, Text, ImageBackground,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { ImageManipulator } from 'expo-image-crop';
 import MenuButton from './menu_button';
 import { createPost } from '../actions';
 
@@ -18,6 +19,7 @@ class NewPost extends Component {
       maxViews: '100',
       blur: '5',
       hashtags: [],
+      showImageEditor: false,
     };
   }
 
@@ -89,6 +91,12 @@ class NewPost extends Component {
     });
   }
 
+  onImageEditPress = () => {
+    this.setState((prevState) => ({
+      showImageEditor: !prevState.showImageEditor,
+    }));
+  }
+
   onPublishPress = () => {
     // sending post to server for creation and navigating to home page
     this.props.createPost(this.props.navigation, {
@@ -108,7 +116,32 @@ class NewPost extends Component {
       <View style={styles.container}>
         <View style={styles.preview}>
           <Text style={styles.text}>Cover Preview</Text>
-          <Image style={styles.image} source={{ uri: this.state.preview }} blurRadius={parseInt(this.state.blur, 10) || 0} />
+          <ImageBackground
+            style={styles.image}
+            imageStyle={{ borderRadius: 50, width: '100%', height: '100%' }}
+            source={{ uri: this.state.preview }}
+            blurRadius={parseInt(this.state.blur, 10) || 0}
+          >
+            <MenuButton
+              primaryText="Edit Cover"
+              centerText
+              extraButtonStyles={{ width: '42%', backgroundColor: 'rgba(255,255,255,0.6)' }}
+              onPress={this.onImageEditPress}
+            />
+            <ImageManipulator
+              photo={{ uri: this.state.preview }}
+              isVisible={this.state.showImageEditor}
+              onPictureChoosed={(data) => {
+                this.setState({ preview: data.uri });
+              }}
+              onToggleModal={this.onImageEditPress}
+              saveOptions={{
+                compress: 1,
+                format: 'png',
+              }}
+              borderColor="rgba(78, 20, 140, 0.5)"
+            />
+          </ImageBackground>
         </View>
         <MenuButton
           primaryText="Blur"
@@ -172,7 +205,8 @@ const styles = StyleSheet.create({
   image: {
     width: '90%',
     height: '85%',
-    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   publishText: {
     color: 'rgb(78, 20, 140)',
