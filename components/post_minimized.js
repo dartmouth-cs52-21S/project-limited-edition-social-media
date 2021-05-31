@@ -5,13 +5,10 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { updateFollow } from '../actions';
 
 const ROOT_URL = 'http://localhost:9090/api';
-// import {
-//   Modal, Portal, Button, Provider,
-// } from 'react-native-paper';
-// import { connect } from 'react-redux';
-// import { updateFollow } from '../actions';
 
 class PostMinimized extends Component {
   constructor(props) {
@@ -21,56 +18,20 @@ class PostMinimized extends Component {
     };
   }
 
-  // componentDidMount = () => {
-  //   this.props.updateFollow();
-  // };
-
   setVisible = () => {
     const currVisibility = this.state.visible;
     this.setState({ visible: !currVisibility });
   }
 
-  showModal = () => {
-    console.log('show modal');
-    this.setVisible(true);
-  }
-
-  hideModal = () => {
-    console.log('hide modal');
-    this.setVisible(false);
-  }
-
-  openProfileModal = async () => {
+  openProfileModal = () => {
     const { username } = this.props;
     AsyncStorage.getItem('token').then((authorization) => axios.post(`${ROOT_URL}/profile/follow/${username}`, {},
-      { headers: { authorization } })).catch(console.warn);
-    // return (
-    //   <Provider>
-    //     <Portal>
-    //       <Modal onDismiss={this.hideModal} contentContainerStyle={styles.containerStyle}>
-    //         <Text>Example Modal.  Click outside this area to dismiss.</Text>
-    //       </Modal>
-    //     </Portal>
-    //     <Button style={{ marginTop: 30 }} onPress={this.showModal}>
-    //       Show
-    //     </Button>
-    //   </Provider>
-    // );
+      { headers: { authorization } })).then(() => this.setVisible()).catch(console.warn);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {/* <Provider>
-          <Portal>
-            <Modal onDismiss={this.hideModal} contentContainerStyle={styles.containerStyle}>
-              <Text>Example Modal.  Click outside this area to dismiss.</Text>
-            </Modal>
-          </Portal>
-          <Button style={{ marginTop: 30 }} onPress={this.showModal}>
-            Show
-          </Button>
-        </Provider> */}
         <ImageBackground source={{ uri: this.props.content }} style={styles.contentImage}>
           <View style={styles.subcontainer}>
             <View style={styles.topbar}>
@@ -98,17 +59,6 @@ class PostMinimized extends Component {
     );
   }
 }
-
-const renderPostMinimizedItem = ({ item }) => (
-  <PostMinimized
-    caption={item.caption}
-    content={item.preview}
-    displayName={item.author.displayname}
-    username={item.author.username}
-    currentViews={item.currentViews}
-    viewLimit={item.viewLimit}
-  />
-);
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -165,18 +115,6 @@ const styles = StyleSheet.create({
   font: {
     color: 'white',
   },
-  containerStyle: {
-    backgroundColor: 'blue',
-    padding: 20,
-  },
 });
 
-// const mapStateToProps = ({ user }) => (
-//   {
-//     user,
-//   }
-// );
-
-// export default connect(null, { updateFollow })(PostMinimized, renderPostMinimizedItem);
-
-export { PostMinimized, renderPostMinimizedItem };
+export default connect(null, { updateFollow })(PostMinimized);

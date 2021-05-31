@@ -27,18 +27,13 @@ class Profile extends Component {
     this.props.navigation.navigate('Settings', { name: 'Settings' });
   }
 
-  navbar = () => {
-    return (
-      <Appbar style={styles.top}>
-        <Appbar.Action icon="cog" style={styles.right} onPress={() => this.handleSettingsPress()} />
-      </Appbar>
-    );
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        {this.navbar()}
+        <Appbar style={styles.top}>
+          <Appbar.Action icon="cog" style={styles.right} onPress={() => this.handleSettingsPress()} />
+          <Appbar.Action icon="refresh" onPress={() => this.props.profileUser()} />
+        </Appbar>
 
         <Text>
           {this.props.user.displayname}

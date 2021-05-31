@@ -21,6 +21,12 @@ const UserReducer = (state = initialState, action) => {
         badges: action.payload.badges,
         profilePic: action.payload.profilePic,
       };
+    case ActionTypes.UPDATE_FOLLOW:
+      return {
+        ...state,
+        followingList: action.payload.followingList,
+        followerList: action.payload.followerList,
+      };
     default:
       return state;
   }

@@ -168,11 +168,12 @@ export function profileUser() {
 }
 
 export function updateFollow(id, otherId) {
-  return async (dispatch) => {
-    const headers = { authorization: await AsyncStorage.getItem('token') };
-    axios.post(`${ROOT_URL}/profile/follow/${otherId}`, {}, { headers }).then((response) => {
-      dispatch({ type: ActionTypes.UPDATE_FOLLOW, payload: response.data });
-    }).catch((error) => {
+  return (dispatch) => {
+    getData('token').then((authorization) => (
+      axios.put(`${ROOT_URL}/profile/follow/${otherId}`, {}, { headers: { authorization } }).then((response) => {
+        dispatch({ type: ActionTypes.UPDATE_FOLLOW, payload: response.data });
+      })
+    )).catch((error) => {
       console.error(`Updating follow failed with error: ${error}`);
       dispatch({ type: ActionTypes.ERROR_SET, error });
     });
