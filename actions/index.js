@@ -12,11 +12,12 @@ export const ActionTypes = {
   FETCH_USER: 'FETCH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
+  UPDATE_FOLLOW: 'UPDATE_FOLLOW',
 };
 
 // lmited is not a typo do not change
-export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
-// export const ROOT_URL = 'http://localhost:9090/api';
+// export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
+export const ROOT_URL = 'http://localhost:9090/api';
 /// IMPORTANT! API CALLS ONLY IN HERE, NOWHERE ELSE
 
 // Learned about axios calls from https://blog.logrocket.com/how-to-make-http-requests-like-a-pro-with-axios/
@@ -58,10 +59,12 @@ export function createPost(navigation, post) {
 export function updatePost(id, fields) {
   /* axios put */
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/posts/${id}`, fields, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
-    }).catch((error) => {
-      dispatch({ type: ActionTypes.ERROR_SET, error });
+    getData('token').then((authorization) => {
+      axios.put(`${ROOT_URL}/posts/${id}`, fields, { headers: { authorization } }).then((response) => {
+        dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
+      }).catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
     });
   };
 }
@@ -80,7 +83,7 @@ export function fetchPost(id) {
 export function deletePost(id, history) {
   /* axios delete */
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/posts/${id}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    axios.delete(`${ROOT_URL}/posts/${id}`, { headers: { authorization: AsyncStorage.getItem('token') } }).then((response) => {
       history.push('/');
     }).catch((error) => {
       dispatch({ type: ActionTypes.ERROR_SET, error });
@@ -160,6 +163,18 @@ export function profileUser() {
     }).catch((error) => {
       console.error(`Profile failed with error: ${error}`);
       dispatch(authError(`profile failed: ${error.response.data}`));
+    });
+  };
+}
+
+export function updateFollow(id, otherId) {
+  return async (dispatch) => {
+    const headers = { authorization: await AsyncStorage.getItem('token') };
+    axios.post(`${ROOT_URL}/profile/follow/${otherId}`, {}, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.UPDATE_FOLLOW, payload: response.data });
+    }).catch((error) => {
+      console.error(`Updating follow failed with error: ${error}`);
+      dispatch({ type: ActionTypes.ERROR_SET, error });
     });
   };
 }

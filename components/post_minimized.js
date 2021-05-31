@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import {
   StyleSheet, View, Text, ImageBackground, Dimensions, TouchableHighlight,
 } from 'react-native';
-import {
-  Modal, Portal, Button, Provider,
-} from 'react-native-paper';
-// import { profileUser } from '../actions';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
+const ROOT_URL = 'http://localhost:9090/api';
+// import {
+//   Modal, Portal, Button, Provider,
+// } from 'react-native-paper';
+// import { connect } from 'react-redux';
+// import { updateFollow } from '../actions';
 
 class PostMinimized extends Component {
   constructor(props) {
@@ -15,9 +21,9 @@ class PostMinimized extends Component {
     };
   }
 
-  componentDidMount = () => {
-    this.props.profileUser();
-  };
+  // componentDidMount = () => {
+  //   this.props.updateFollow();
+  // };
 
   setVisible = () => {
     const currVisibility = this.state.visible;
@@ -34,29 +40,28 @@ class PostMinimized extends Component {
     this.setVisible(false);
   }
 
-  openProfileModal = (postUsername) => {
-    // if (this.props.user.username != postUsername) {
-
-    // }
-    console.warn('Creating Modal');
-    return (
-      <Provider>
-        <Portal>
-          <Modal onDismiss={this.hideModal} contentContainerStyle={styles.containerStyle}>
-            <Text>Example Modal.  Click outside this area to dismiss.</Text>
-          </Modal>
-        </Portal>
-        <Button style={{ marginTop: 30 }} onPress={this.showModal}>
-          Show
-        </Button>
-      </Provider>
-    );
+  openProfileModal = async () => {
+    const { username } = this.props;
+    AsyncStorage.getItem('token').then((authorization) => axios.post(`${ROOT_URL}/profile/follow/${username}`, {},
+      { headers: { authorization } })).catch(console.warn);
+    // return (
+    //   <Provider>
+    //     <Portal>
+    //       <Modal onDismiss={this.hideModal} contentContainerStyle={styles.containerStyle}>
+    //         <Text>Example Modal.  Click outside this area to dismiss.</Text>
+    //       </Modal>
+    //     </Portal>
+    //     <Button style={{ marginTop: 30 }} onPress={this.showModal}>
+    //       Show
+    //     </Button>
+    //   </Provider>
+    // );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Provider>
+        {/* <Provider>
           <Portal>
             <Modal onDismiss={this.hideModal} contentContainerStyle={styles.containerStyle}>
               <Text>Example Modal.  Click outside this area to dismiss.</Text>
@@ -65,26 +70,26 @@ class PostMinimized extends Component {
           <Button style={{ marginTop: 30 }} onPress={this.showModal}>
             Show
           </Button>
-        </Provider>
+        </Provider> */}
         <ImageBackground source={{ uri: this.props.content }} style={styles.contentImage}>
           <View style={styles.subcontainer}>
             <View style={styles.topbar}>
               <TouchableHighlight style={styles.topbarAuthor} onPress={() => this.openProfileModal()}>
                 <Text style={styles.font}>
-                  {this.props.displayName ? this.props.displayName : 'author'}
+                  {this.props.displayName || 'author'}
                 </Text>
               </TouchableHighlight>
               <View style={styles.topbarViewLimit}>
                 <Text style={styles.topbarViewLimitText}>
                   {this.props.currentViews !== undefined ? this.props.currentViews : 'nan'}
                   /
-                  {this.props.viewLimit !== undefined ? this.props.viewLimit : 'nan'}
+                  {this.props.viewLimit || 'nan'}
                 </Text>
               </View>
             </View>
             <View style={styles.body}>
               <Text style={styles.bodyContent}>
-                {this.props.caption ? this.props.caption : 'NO CAPTION'}
+                {this.props.caption || 'NO CAPTION'}
               </Text>
             </View>
           </View>
@@ -172,6 +177,6 @@ const styles = StyleSheet.create({
 //   }
 // );
 
-// export default connect(mapStateToProps, { profileUser })(PostMinimized, renderPostMinimizedItem);
+// export default connect(null, { updateFollow })(PostMinimized, renderPostMinimizedItem);
 
 export { PostMinimized, renderPostMinimizedItem };
