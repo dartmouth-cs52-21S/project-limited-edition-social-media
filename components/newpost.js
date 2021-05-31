@@ -11,7 +11,9 @@ class NewPost extends Component {
     super(props);
 
     this.state = {
-      preview: 'https://facebook.github.io/react/logo-og.png',
+      preview: 'https://facebook.github.io/react/logo-og.png', // uri format
+      content: '', // uri format
+      type: '', // string that says 'image' or 'video'
       caption: '',
       maxViews: '100',
       blur: '5',
@@ -36,6 +38,16 @@ class NewPost extends Component {
             }
           });
           this.setState({ hashtags: seperatedTags });
+        }
+        // getting the content, preview and content type from the camera
+        if (this.props.route.params.contentUri) {
+          this.setState({ content: this.props.route.params.contentUri });
+        }
+        if (this.props.route.params.previewUri) {
+          this.setState({ preview: this.props.route.params.previewUri });
+        }
+        if (this.props.route.params.type) {
+          this.setState({ type: this.props.route.params.type });
         }
       }
     });
@@ -81,11 +93,13 @@ class NewPost extends Component {
     // sending post to server for creation and navigating to home page
     this.props.createPost(this.props.navigation, {
       caption: this.state.caption,
-      content: this.state.preview,
+      content: this.state.content,
       viewLimit: this.state.maxViews,
       currentViews: 0,
       hashtags: this.state.hashtags,
       coverBlur: this.state.blur,
+      type: this.state.type,
+      preview: this.state.preview,
     });
   }
 
@@ -100,7 +114,7 @@ class NewPost extends Component {
           primaryText="Blur"
           secondaryText={this.state.blur}
           editable
-          maxLength={2}
+          maxLength={3}
           onChangeText={this.onBlurChange}
           numericKeyboard
           extraButtonStyles={styles.blurButton}
