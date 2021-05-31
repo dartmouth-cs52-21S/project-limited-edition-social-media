@@ -14,7 +14,7 @@ export const ActionTypes = {
   AUTH_ERROR: 'AUTH_ERROR',
 };
 
-// lmited is not a typo do not change.
+// lmited is not a typo do not change
 export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
 // export const ROOT_URL = 'http://localhost:9090/api';
 /// IMPORTANT! API CALLS ONLY IN HERE, NOWHERE ELSE
