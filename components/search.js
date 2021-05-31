@@ -6,7 +6,8 @@ import { withRouter } from 'react-router';
 import { getSearchedUsers } from '../actions/index.js'
 import userReducer from '../reducers/user-reducer.js';
 
-// Some code refactored from previous labs
+// Includes both the bar itself and the dropdown with the list of queried
+// users
 class Search extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +21,7 @@ class Search extends Component {
     this.props.onSearchChange(event.target.value);
   }
 
+  // in progress
   displayUsers() {
     // array of obejcts that are links to user's profiles
   }
@@ -34,7 +36,6 @@ class Search extends Component {
         <Button type="button" onClick={this.onInputChange} value={this.state.searchterm} />
 
         <View style={styles.container}>
-          
         </View>
 
       </View>
