@@ -10,9 +10,8 @@ import { createPost } from '../actions';
 class NewPost extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      preview: 'https://facebook.github.io/react/logo-og.png', // uri format
+      preview: this.props.route.params?.previewUri || 'https://facebook.github.io/react/logo-og.png', // uri format
       content: '', // uri format
       type: '', // string that says 'image' or 'video'
       caption: '',
