@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements';
 import NewPostCamera from '../components/camera';
 import NewPost from '../components/newpost';
 import FieldViewer from '../components/fieldViewer';
+import VideoEditor from '../components/videoEditor';
 
 const Stack = createStackNavigator();
 
@@ -25,21 +26,30 @@ const NewPostTab = () => {
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}
               onPress={() => {
                 navigation.goBack();
-                // need to call replace here to remount camera because
-                // the camera flip does not work after you record a video
-                // I think it's a bug in expo-camera but good chance I just
-                // messed up somewhere in camera.js
-                navigation.replace('Camera');
+
+                if (route.params?.type === 'image') {
+                  // need to call replace here to remount camera because
+                  // the camera flip does not work after you record a video
+                  // I think it's a bug in expo-camera but good chance I just
+                  // messed up somewhere in camera.js
+                  navigation.replace('Camera');
+                }
               }}
             >
               <Icon name="chevron-back-outline" type="ionicon" color="rgb(0,0,0)" />
-              <Text>Camera</Text>
+              <Text>{route.params?.type === 'video' ? 'Choose Cover' : 'Camera'}</Text>
             </TouchableOpacity>
           ),
         })}
       />
       <Stack.Screen name="Edit Field"
         component={FieldViewer}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="Edit Video"
+        component={VideoEditor}
         options={{
           headerShown: false,
         }}
