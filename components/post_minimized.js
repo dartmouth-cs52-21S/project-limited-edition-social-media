@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const PostMinimized = (props) => {
   const navigation = useNavigation();
+  console.log(props);
   return (
     <TouchableOpacity
       style={styles.container}
