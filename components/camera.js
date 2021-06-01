@@ -77,7 +77,7 @@ class NewPostCamera extends Component {
           if (result.type === 'image') {
             this.props.navigation.navigate('New Post', { contentUri: result.uri, previewUri: result.uri, type: 'image' });
           } else {
-            this.props.navigation.navigate('New Post', { contentUri: result.uri, previewUri: null, type: 'video' });
+            this.props.navigation.navigate('Edit Video', { contentUri: result.uri });
           }
         }
       }
@@ -149,10 +149,8 @@ class NewPostCamera extends Component {
         const video = await this.camera.current.recordAsync();
         // once the recording is finished...
         this.setState({ isRecording: false });
-        // take a picture for the thumbnail
-        const image = await this.camera.current.takePictureAsync({ quality: 1 });
-        // send the picture and video to the new post editor
-        this.props.navigation.navigate('New Post', { contentUri: video.uri, previewUri: image.uri, type: 'video' });
+        // send video to the video editor
+        this.props.navigation.navigate('Edit Video', { contentUri: video.uri });
       }
     }
   }
