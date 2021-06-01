@@ -18,7 +18,7 @@ class VideoEditor extends Component {
       video: props.route.params.contentUri,
       thumbnail: 'https://facebook.github.io/react/logo-og.png',
       currentTimestamp: 0,
-      displayError: 'flex',
+      displayError: 'none',
     };
   }
 
