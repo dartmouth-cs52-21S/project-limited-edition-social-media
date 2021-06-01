@@ -12,7 +12,7 @@ class NewPostCamera extends Component {
     super(props);
 
     this.state = {
-      cameraPermission: null, // are we allowed to use the camera. 'granted' is yes, otherwise is no
+      cameraPermission: null, // are we allowed to use the camera.
       cameraView: Camera.Constants.Type.back, // front facing or back facing camera
       statusBarStyle: 'white-content', // changing status bar to white
       isVideo: false, // are we in video mode
@@ -81,9 +81,7 @@ class NewPostCamera extends Component {
             };
             this.props.navigation.navigate('New Post', post);
           } else {
-            this.props.navigation.navigate('New Post', {
-              contentUri: result.uri, previewUri: null, base64: result.base64, type: 'video',
-            });
+            this.props.navigation.navigate('Edit Video', { contentUri: result.uri, base64: result.base64 });
           }
         }
       }
@@ -121,36 +119,43 @@ class NewPostCamera extends Component {
   }
 
   handleCameraPress = async () => {
+    // ask for permissions if we don't have permissions
     if (!this.state.cameraPermission) {
       this.handleAskPermissions();
+    // is the camera ready
     } else if (this.camera.current) {
+      // are we currently recording
       if (this.state.isRecording) {
         this.setState({ disableCameraPress: true });
+        // animate capture button to a circle
         Animated.timing(this.state.captureButtonBorder, {
           toValue: 40,
           duration: 500,
           useNativeDriver: true,
         }).start();
+        // stop the recording
         await this.camera.current.stopRecording();
+      // are we in photo mode
       } else if (!this.state.isVideo) {
         this.setState({ disableCameraPress: true });
-        const image = await this.camera.current.takePictureAsync({ quality: 1 });
+        // take picture and send it to the new post editor
+        const image = await this.camera.current.takePictureAsync({ quality: 1, base64: true });
         this.props.navigation.navigate('New Post', {
           contentUri: image.uri, previewUri: image.uri, base64: image.base64, type: 'image',
         });
       } else {
         this.setState({ isRecording: true, disableCameraPress: false });
+        // animate capture button to a rectangular shape
         Animated.timing(this.state.captureButtonBorder, {
           toValue: 15,
           duration: 500,
           useNativeDriver: true,
         }).start();
-        const video = await this.camera.current.recordAsync();
+        const video = await this.camera.current.recordAsync({ base64: true });
+        // once the recording is finished...
         this.setState({ isRecording: false });
-        const image = await this.camera.current.takePictureAsync({ quality: 1 });
-        this.props.navigation.navigate('New Post', {
-          contentUri: video.uri, previewUri: image.uri, base64: video.base64, type: 'video',
-        });
+        // send video to the video editor
+        this.props.navigation.navigate('Edit Video', { contentUri: video.uri, base64: video.base64 });
       }
     }
   }
