@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, Image,
+  StyleSheet, View, Text, ImageBackground,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { ImageManipulator } from 'expo-image-crop';
 import MenuButton from './menu_button';
 import { createPost } from '../actions';
 
 class NewPost extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      preview: 'https://facebook.github.io/react/logo-og.png',
+      preview: this.props.route.params?.previewUri || 'https://facebook.github.io/react/logo-og.png', // uri format
+      content: '', // uri format
+      type: '', // string that says 'image' or 'video'
       caption: '',
       maxViews: '100',
       blur: '5',
       hashtags: [],
+      showImageEditor: false,
     };
   }
 
@@ -36,6 +39,16 @@ class NewPost extends Component {
             }
           });
           this.setState({ hashtags: seperatedTags });
+        }
+        // getting the content, preview and content type from the camera
+        if (this.props.route.params.contentUri) {
+          this.setState({ content: this.props.route.params.contentUri });
+        }
+        if (this.props.route.params.previewUri) {
+          this.setState({ preview: this.props.route.params.previewUri });
+        }
+        if (this.props.route.params.type) {
+          this.setState({ type: this.props.route.params.type });
         }
       }
     });
@@ -73,18 +86,27 @@ class NewPost extends Component {
       fieldText: this.state.hashtags.length === 0 ? '' : `#${this.state.hashtags.join(' #')}`,
       editable: true,
       route: 'New Post',
+      hashtags: true,
     });
+  }
+
+  onImageEditPress = () => {
+    this.setState((prevState) => ({
+      showImageEditor: !prevState.showImageEditor,
+    }));
   }
 
   onPublishPress = () => {
     // sending post to server for creation and navigating to home page
     this.props.createPost(this.props.navigation, {
       caption: this.state.caption,
-      content: this.state.preview,
+      content: this.state.content,
       viewLimit: this.state.maxViews,
       currentViews: 0,
       hashtags: this.state.hashtags,
       coverBlur: this.state.blur,
+      type: this.state.type,
+      preview: this.state.preview,
     });
   }
 
@@ -93,13 +115,38 @@ class NewPost extends Component {
       <View style={styles.container}>
         <View style={styles.preview}>
           <Text style={styles.text}>Cover Preview</Text>
-          <Image style={styles.image} source={{ uri: this.state.preview }} blurRadius={parseInt(this.state.blur, 10) || 0} />
+          <ImageBackground
+            style={styles.image}
+            imageStyle={{ borderRadius: 50, width: '100%', height: '100%' }}
+            source={{ uri: this.state.preview }}
+            blurRadius={parseInt(this.state.blur, 10) || 0}
+          >
+            <MenuButton
+              primaryText="Edit Cover"
+              centerText
+              extraButtonStyles={{ width: '42%', backgroundColor: 'rgba(255,255,255,0.6)' }}
+              onPress={this.onImageEditPress}
+            />
+            <ImageManipulator
+              photo={{ uri: this.state.preview }}
+              isVisible={this.state.showImageEditor}
+              onPictureChoosed={(data) => {
+                this.setState({ preview: data.uri });
+              }}
+              onToggleModal={this.onImageEditPress}
+              saveOptions={{
+                compress: 1,
+                format: 'png',
+              }}
+              borderColor="rgba(78, 20, 140, 0.5)"
+            />
+          </ImageBackground>
         </View>
         <MenuButton
           primaryText="Blur"
           secondaryText={this.state.blur}
           editable
-          maxLength={2}
+          maxLength={3}
           onChangeText={this.onBlurChange}
           numericKeyboard
           extraButtonStyles={styles.blurButton}
@@ -157,7 +204,8 @@ const styles = StyleSheet.create({
   image: {
     width: '90%',
     height: '85%',
-    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   publishText: {
     color: 'rgb(78, 20, 140)',

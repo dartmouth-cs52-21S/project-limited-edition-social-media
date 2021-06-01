@@ -28,9 +28,32 @@ class FieldViewer extends Component {
     };
   }
 
-  // replacing any whitespace with just a space
   onTextChange = (newText) => {
-    this.setState({ text: newText.replace(/\s/g, ' ') });
+    // checking to see what the character count would be if the hashtags were parsed
+    // so that the hashtags do not exceed character limit
+    if (this.props.route.params.hashtags) {
+      const seperatedTags = [];
+      // removing #s and seperating string by ' '
+      newText.replace(/#/g, '').split(' ').forEach((tag) => {
+        if (tag !== '') {
+          // putting all words into an array
+          seperatedTags.push(tag);
+        }
+      });
+      // if the array has words then create a string out of them
+      // seperated by #s, else just create an empty string
+      const tagsString = seperatedTags.length === 0 ? '' : `#${seperatedTags.join(' #')}`;
+      // if this new string does not exceed the character limit then update state
+      if (!(tagsString.length > 600)) {
+        // replacing multiple spaces with one space
+        // got the regex '\s\s+' here:
+        // https://stackoverflow.com/questions/1981349/regex-to-replace-multiple-spaces-with-a-single-space
+        this.setState({ text: newText.replace(/\s\s+/g, ' ') });
+      }
+    } else {
+    // replacing all whitespace with just a space
+      this.setState({ text: newText.replace(/\s/g, ' ') });
+    }
   }
 
   handleNavigationBack = () => {
@@ -49,7 +72,8 @@ class FieldViewer extends Component {
             <Text>Go Back</Text>
           </TouchableOpacity>
           <MenuButton primaryText={this.props.route.params.field} extraButtonStyles={styles.title} />
-          <TextInput onChangeText={this.onTextChange}
+          <TextInput
+            onChangeText={this.onTextChange}
             value={this.state.text}
             style={styles.inputText}
             autoFocus
@@ -59,6 +83,7 @@ class FieldViewer extends Component {
             placeholder={`Type ${this.props.route.params.field} here...`}
             scrollEnabled={false}
             onSubmitEditing={this.handleNavigationBack}
+            selectionColor="rgb(78, 20, 140)"
           />
         </View>
       );

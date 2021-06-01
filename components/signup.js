@@ -42,7 +42,6 @@ class SignUp extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <View style={styles.container}>
         <Text>
@@ -52,11 +51,7 @@ class SignUp extends Component {
         <AuthInput placeholder="Display Name" value={this.state.displayname} onChange={this.onDisplaynameChange} />
         <AuthInput placeholder="Username" value={this.state.username} onChange={this.onUsernameChange} />
         <AuthInput placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
-        <Button title="Sign Up"
-          onPress={
-            () => { this.handleSignUpPress(); }
-          }
-        />
+        <Button title="Sign Up" onPress={() => this.handleSignUpPress()} />
       </View>
     );
   }

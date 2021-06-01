@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import { AsyncStorage } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import archived_feed from '../components/archived_feed';
 
@@ -9,13 +10,14 @@ export const ActionTypes = {
   FETCH_POST: 'FETCH_POST',
   ERROR_SET: 'ERROR_SET',
   AUTH_USER: 'AUTH_USER',
+  FETCH_USER: 'FETCH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
   GET_ARCHIVES: 'GET_ARCHIVE',
   FIND_USER: 'FIND_USER'
 };
 
-// lmited is not a typo do not change.
+// lmited is not a typo do not change
 export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
 // export const ROOT_URL = 'http://localhost:9090/api';
 /// IMPORTANT! API CALLS ONLY IN HERE, NOWHERE ELSE
@@ -45,8 +47,8 @@ export function createPost(navigation, post) {
       axios.post(`${ROOT_URL}/posts`, post, { headers: { authorization: token } }).then((response) => {
         // reseting navigation for new_post_tab
         navigation.navigate('Camera');
-        // for now navigate to home page, but maybe in the future
-        // navigate to the page where they can see their posted post
+        navigation.replace('Camera');
+        // navigating to the home page
         navigation.navigate('Home');
         dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
       }).catch((error) => {
@@ -147,9 +149,7 @@ export function signinUser({ email, password }, navigation) {
   // on error should dispatch(authError(`Sign In Failed: ${error.response.data}`));
 
   return (dispatch) => {
-    console.log('got here1');
     axios.post(`${ROOT_URL}/signin`, { email, password }).then((response) => {
-      console.log('got here2');
       dispatch({ type: ActionTypes.AUTH_USER });
       storeData('token', response.data.token);
       navigation.replace('MainTab');
@@ -191,6 +191,18 @@ export function signoutUser(navigation) {
     removeData();
     dispatch({ type: ActionTypes.DEAUTH_USER });
     navigation.replace('HomeLimited');
+  };
+}
+
+export function profileUser() {
+  return async (dispatch) => {
+    const headers = { authorization: await AsyncStorage.getItem('token') };
+    axios.post(`${ROOT_URL}/profile`, {}, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+    }).catch((error) => {
+      console.error(`Profile failed with error: ${error}`);
+      dispatch(authError(`profile failed: ${error.response.data}`));
+    });
   };
 }
 
