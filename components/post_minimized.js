@@ -81,6 +81,7 @@ const renderPostMinimizedItem = (props) => {
       blur={props.item.coverBlur}
       tags={props.item.hashtags}
       type={props.item.type}
+      id={props.item.id}
     />
   );
 };

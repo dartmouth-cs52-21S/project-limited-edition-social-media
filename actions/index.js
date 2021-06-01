@@ -57,8 +57,9 @@ export function createPost(navigation, post) {
 
 export function updatePost(id, fields) {
   /* axios put */
-  return (dispatch) => {
-    axios.put(`${ROOT_URL}/posts/${id}`, fields, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+  return async (dispatch) => {
+    const headers = { authorization: await AsyncStorage.getItem('token') };
+    axios.put(`${ROOT_URL}/posts/${id}`, fields, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
     }).catch((error) => {
       dispatch({ type: ActionTypes.ERROR_SET, error });

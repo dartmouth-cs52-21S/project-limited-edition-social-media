@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
   StyleSheet, View, Text, ImageBackground, Dimensions,
 } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Video from 'react-native-video';
+import { updatePost } from '../actions';
 
 const PostMaximized = (props) => {
   const postProps = props.route.params;
   let post = null;
+
+  useEffect(() => {
+    props.updatePost(postProps.id, { currentViews: postProps.currentViews + 1 });
+  }, []);
 
   const postOverlay = (
     <View style={styles.overlayContainer}>
@@ -166,4 +172,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostMaximized;
+export default connect(null, { updatePost })(PostMaximized);
