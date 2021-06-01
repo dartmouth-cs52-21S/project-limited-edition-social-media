@@ -71,18 +71,22 @@ const PostMinimized = (props) => {
 
 const renderPostMinimizedItem = (props) => {
   return (
-    <PostMinimized
-      caption={props.item.caption}
-      preview={props.item.preview}
-      content={props.item.content}
-      displayName={props.item.author.displayname}
-      currentViews={props.item.currentViews}
-      viewLimit={props.item.viewLimit}
-      blur={props.item.coverBlur}
-      tags={props.item.hashtags}
-      type={props.item.type}
-      id={props.item.id}
-    />
+    <View>
+      {props.item.currentViews < props.item.viewLimit && (
+      <PostMinimized
+        caption={props.item.caption}
+        preview={props.item.preview}
+        content={props.item.content}
+        displayName={props.item.author.displayname}
+        currentViews={props.item.currentViews}
+        viewLimit={props.item.viewLimit}
+        blur={props.item.coverBlur}
+        tags={props.item.hashtags}
+        type={props.item.type}
+        id={props.item.id}
+      />
+      )}
+    </View>
   );
 };
 
