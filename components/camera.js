@@ -68,6 +68,7 @@ class NewPostCamera extends Component {
         // I set editting to false and quality to undefined to allow for gifs
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
+          base64: true,
           allowsEditing: false,
           quality: undefined,
         });
@@ -75,9 +76,14 @@ class NewPostCamera extends Component {
         // sending media to new post editor
         if (!result.cancelled) {
           if (result.type === 'image') {
-            this.props.navigation.navigate('New Post', { contentUri: result.uri, previewUri: result.uri, type: 'image' });
+            const post = {
+              contentUri: result.uri, previewUri: result.uri, base64: result.base64, type: 'image',
+            };
+            this.props.navigation.navigate('New Post', post);
           } else {
-            this.props.navigation.navigate('New Post', { contentUri: result.uri, previewUri: null, type: 'video' });
+            this.props.navigation.navigate('New Post', {
+              contentUri: result.uri, previewUri: null, base64: result.base64, type: 'video',
+            });
           }
         }
       }
@@ -129,7 +135,9 @@ class NewPostCamera extends Component {
       } else if (!this.state.isVideo) {
         this.setState({ disableCameraPress: true });
         const image = await this.camera.current.takePictureAsync({ quality: 1 });
-        this.props.navigation.navigate('New Post', { contentUri: image.uri, previewUri: image.uri, type: 'image' });
+        this.props.navigation.navigate('New Post', {
+          contentUri: image.uri, previewUri: image.uri, base64: image.base64, type: 'image',
+        });
       } else {
         this.setState({ isRecording: true, disableCameraPress: false });
         Animated.timing(this.state.captureButtonBorder, {
@@ -140,7 +148,9 @@ class NewPostCamera extends Component {
         const video = await this.camera.current.recordAsync();
         this.setState({ isRecording: false });
         const image = await this.camera.current.takePictureAsync({ quality: 1 });
-        this.props.navigation.navigate('New Post', { contentUri: video.uri, previewUri: image.uri, type: 'video' });
+        this.props.navigation.navigate('New Post', {
+          contentUri: video.uri, previewUri: image.uri, base64: video.base64, type: 'video',
+        });
       }
     }
   }
