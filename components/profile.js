@@ -32,25 +32,32 @@ class Profile extends Component {
       <View style={styles.container}>
         <Appbar style={styles.top}>
           <Appbar.Action icon="cog" style={styles.right} onPress={() => this.handleSettingsPress()} />
+          {/* Temporary until I find the appropriate React lifecycle fuction */}
           <Appbar.Action icon="refresh" onPress={() => this.props.profileUser()} />
         </Appbar>
-
-        <Text>
+        <Image
+          style={styles.pic}
+          // source={{ uri: 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg' }}
+          source={{ uri: this.props.user.profilePic }}
+        />
+        <Text style={styles.name}>
+          {' '}
           {this.props.user.displayname}
-          <Image
-            // style={styles.pic}
-            source={{ url: this.props.user.profilePic }}
-          />
-          Followers:
           {' '}
-          {this.props.user.followerList.length}
-          Following:
-          {' '}
-          {this.props.user.followingList.length}
-          Badges:
-          {this.props.user.badges?.length}
-          My Profile
         </Text>
+        <View style={styles.followContainer}>
+          <View style={styles.follow}>
+            <Text style={styles.followNum}>{this.props.user.followerList.length}</Text>
+            <Text style={styles.followWord}>followers</Text>
+          </View>
+          <View style={styles.follow}>
+            <Text style={styles.followNum}>{this.props.user.followingList.length}</Text>
+            <Text style={styles.followWord}>following</Text>
+          </View>
+        </View>
+        <View style={styles.badges}>
+          <Text style={styles.badgeWord}>My Badges:</Text>
+        </View>
         <Button title="Sign Out" onPress={() => this.handleSignOutPress()} />
       </View>
     );
@@ -62,10 +69,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   image: {
     width: 400,
     height: 300,
+  },
+  pic: {
+    width: 200,
+    height: 200,
+    borderRadius: 49,
   },
   top: {
     position: 'absolute',
@@ -77,6 +90,17 @@ const styles = StyleSheet.create({
     right: 0,
     position: 'absolute',
   },
+  followContainer: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+  },
+  followNum: {
+    fontWeight: '600',
+    textAlign: 'center',
+    fontSize: 20,
+  },
+
 });
 
 const mapStateToProps = ({ user }) => (

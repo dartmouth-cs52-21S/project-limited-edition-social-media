@@ -3,12 +3,10 @@ import {
   StyleSheet, View, Text, ImageBackground, Dimensions, TouchableHighlight,
 } from 'react-native';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import { updateFollow } from '../actions';
-
-const ROOT_URL = 'http://localhost:9090/api';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import axios from 'axios';
+// import { connect } from 'react-redux';
+// import { updateFollow } from '../actions';
 
 class PostMinimized extends Component {
   constructor(props) {
@@ -24,9 +22,9 @@ class PostMinimized extends Component {
   }
 
   openProfileModal = () => {
-    const { username } = this.props;
-    AsyncStorage.getItem('token').then((authorization) => axios.post(`${ROOT_URL}/profile/follow/${username}`, {},
-      { headers: { authorization } })).then(() => this.setVisible()).catch(console.warn);
+    this.props.showModal(this.props);
+    // const { username } = this.props;
+    // this.props.updateFollow(username);
   }
 
   render() {
@@ -117,4 +115,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { updateFollow })(PostMinimized);
+export default PostMinimized;
+
+// export default connect(null, { updateFollow })(PostMinimized);
