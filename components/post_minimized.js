@@ -27,7 +27,7 @@ const PostMinimized = (props) => {
       onPress={() => navigation.navigate('PostFullScreen', props)}
     >
       <ImageBackground
-        source={{ uri: props.preview }}
+        source={{ uri: props.content }}
         style={{ ...styles.contentImage, borderColor: rarity, borderWidth: 5 }}
         blurRadius={parseInt(props.blur, 10) || 0}
       >
