@@ -3,11 +3,6 @@ import {
   StyleSheet, View, Text, ImageBackground, Dimensions, TouchableHighlight,
 } from 'react-native';
 
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import axios from 'axios';
-// import { connect } from 'react-redux';
-// import { updateFollow } from '../actions';
-
 class PostMinimized extends Component {
   constructor(props) {
     super(props);
@@ -23,8 +18,6 @@ class PostMinimized extends Component {
 
   openProfileModal = () => {
     this.props.showModal(this.props);
-    // const { username } = this.props;
-    // this.props.updateFollow(username);
   }
 
   render() {
@@ -116,5 +109,3 @@ const styles = StyleSheet.create({
 });
 
 export default PostMinimized;
-
-// export default connect(null, { updateFollow })(PostMinimized);
