@@ -32,7 +32,7 @@ const PostMaximized = (props) => {
         </View>
         <View style={styles.topbarViewLimit}>
           <Text style={styles.topbarViewLimitText}>
-            {postProps.currentViews !== undefined ? postProps.currentViews : 'nan'}
+            {postProps.currentViews !== undefined ? postProps.viewLimit - postProps.currentViews : 'nan'}
             /
             {postProps.viewLimit !== undefined ? postProps.viewLimit : 'nan'}
           </Text>

@@ -38,7 +38,7 @@ const PostMinimized = (props) => {
             </View>
             <View style={styles.topbarViewLimit}>
               <Text style={styles.topbarViewLimitText}>
-                {props.currentViews !== undefined ? props.currentViews : 'nan'}
+                {props.currentViews !== undefined ? props.viewLimit - props.currentViews : 'nan'}
                 /
                 {props.viewLimit !== undefined ? props.viewLimit : 'nan'}
               </Text>
