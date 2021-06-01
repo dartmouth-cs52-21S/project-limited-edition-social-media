@@ -77,7 +77,7 @@ class NewPostCamera extends Component {
           if (result.type === 'image') {
             this.props.navigation.navigate('New Post', { contentUri: result.uri, previewUri: result.uri, type: 'image' });
           } else {
-            this.props.navigation.navigate('New Post', { contentUri: result.uri, previewUri: null, type: 'video' });
+            this.props.navigation.navigate('Edit Video', { contentUri: result.uri });
           }
         }
       }
@@ -115,32 +115,42 @@ class NewPostCamera extends Component {
   }
 
   handleCameraPress = async () => {
+    // ask for permissions if we don't have permissions
     if (!this.state.cameraPermission) {
       this.handleAskPermissions();
+    // is the camera ready
     } else if (this.camera.current) {
+      // are we currently recording
       if (this.state.isRecording) {
         this.setState({ disableCameraPress: true });
+        // animate capture button to a circle
         Animated.timing(this.state.captureButtonBorder, {
           toValue: 40,
           duration: 500,
           useNativeDriver: true,
         }).start();
+        // stop the recording
         await this.camera.current.stopRecording();
+      // are we in photo mode
       } else if (!this.state.isVideo) {
         this.setState({ disableCameraPress: true });
+        // take picture and send it to the new post editor
         const image = await this.camera.current.takePictureAsync({ quality: 1 });
         this.props.navigation.navigate('New Post', { contentUri: image.uri, previewUri: image.uri, type: 'image' });
+      // else we are in video mode but have not started recording
       } else {
         this.setState({ isRecording: true, disableCameraPress: false });
+        // animate capture button to a rectangular shape
         Animated.timing(this.state.captureButtonBorder, {
           toValue: 15,
           duration: 500,
           useNativeDriver: true,
         }).start();
         const video = await this.camera.current.recordAsync();
+        // once the recording is finished...
         this.setState({ isRecording: false });
-        const image = await this.camera.current.takePictureAsync({ quality: 1 });
-        this.props.navigation.navigate('New Post', { contentUri: video.uri, previewUri: image.uri, type: 'video' });
+        // send video to the video editor
+        this.props.navigation.navigate('Edit Video', { contentUri: video.uri });
       }
     }
   }
