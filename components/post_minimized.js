@@ -4,9 +4,23 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+const computeRarity = (viewLimit) => {
+  if (viewLimit < 100) {
+    // rare
+    return '#D0D03E';
+  } else if (viewLimit < 1000) {
+    // medium rare
+    return '#3ED087';
+  } else {
+    // commmon
+    return '#3ED087';
+  }
+};
+
 const PostMinimized = (props) => {
   const navigation = useNavigation();
-  console.log(props);
+  const rarity = computeRarity(props.viewLimit);
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -14,7 +28,7 @@ const PostMinimized = (props) => {
     >
       <ImageBackground
         source={{ uri: props.preview }}
-        style={styles.contentImage}
+        style={{ ...styles.contentImage, borderColor: rarity, borderWidth: 5 }}
         blurRadius={parseInt(props.blur, 10) || 0}
       >
         <View style={styles.subcontainer}>
@@ -66,6 +80,7 @@ const renderPostMinimizedItem = (props) => {
       viewLimit={props.item.viewLimit}
       blur={props.item.coverBlur}
       tags={props.item.hashtags}
+      type={props.item.type}
     />
   );
 };
