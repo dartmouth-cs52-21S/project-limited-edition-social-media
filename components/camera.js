@@ -12,7 +12,7 @@ class NewPostCamera extends Component {
     super(props);
 
     this.state = {
-      cameraPermission: null, // are we allowed to use the camera. 'granted' is yes, otherwise is no
+      cameraPermission: null, // are we allowed to use the camera.
       cameraView: Camera.Constants.Type.back, // front facing or back facing camera
       statusBarStyle: 'white-content', // changing status bar to white
       isVideo: false, // are we in video mode
