@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import { AsyncStorage } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import archived_feed from '../components/archived_feed';
+// import archived_feed from '../components/archived_feed';
 
 // keys for actiontypes
 export const ActionTypes = {
@@ -14,7 +14,7 @@ export const ActionTypes = {
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
   GET_ARCHIVES: 'GET_ARCHIVE',
-  FIND_USER: 'FIND_USER'
+  FIND_USER: 'FIND_USER',
 };
 
 // lmited is not a typo do not change
@@ -104,21 +104,20 @@ export function authError(error) {
 // Does this even need an action for search?
 
 // in search bar, map users to props
-// .filter (js function that can be called on an array like map that filters based on 
+// .filter (js function that can be called on an array like map that filters based on
 // field) so filter on display name, based on what strings in the array include the search
 // query
 
-
-export function getUsers() {
+export function getUsers(profileName) {
   return (dispatch) => {
     console.log('got here1');
     axios.post(`${ROOT_URL}/search`, { profileName }).then((response) => {
       console.log('got here2');
       // fetch search results
-      // 
-      dispatch({ type: ActionTypes.FETCH_POSTS});
-      storeData('token', response.data.token);
-      navigation.replace('MainTab');
+      //
+      dispatch({ type: ActionTypes.FETCH_POSTS });
+      // storeData('token', response.data.token);
+      // navigation.replace('MainTab');
     }).catch((error) => {
       dispatch(authError(`Search Failed: ${error.response.data}`));
     });
@@ -129,16 +128,15 @@ export function getSearchedUsers(profileName) {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/search`, { profileName }).then((response) => {
       // fetch search results
-      // 
-      dispatch({ type: ActionTypes.FIND_USER, payload: response});
-      storeData('token', response.data.token);
-      navigation.replace('MainTab');
+      //
+      dispatch({ type: ActionTypes.FIND_USER, payload: response });
+      // storeData('token', response.data.token);
+      // navigation.replace('MainTab');
     }).catch((error) => {
       dispatch(authError(`Search Failed: ${error.response.data}`));
     });
   };
 }
-
 
 export function signinUser({ email, password }, navigation) {
   // takes in an object with email and password (minimal user object)
@@ -235,37 +233,36 @@ const removeData = async () => {
   }
 };
 
- const getArchives = async () => {
-  try {
-    await AsyncStorage.getItem('token');
-    return dispatch => {
-      axios.get(`${ROOT_URL}/archive`).then((response) => {
-   dispatch({type: ActionTypes.GET_ARCHIVES, payload: response })
-  } ).catch ((e) => {
-    // remove error
-    return e;
-  });
-}
-  } catch (e) {
-    return e;
-  }
-};
- 
+// const getArchives = async () => {
+//   try {
+//     await AsyncStorage.getItem('token');
+//     return (dispatch) => {
+//       axios.get(`${ROOT_URL}/archive`).then((response) => {
+//         dispatch({ type: ActionTypes.GET_ARCHIVES, payload: response });
+//       }).catch((e) => {
+//         // remove error
+//         return e;
+//       });
+//     };
+//   } catch (e) {
+//     return e;
+//   }
+// };
 
- const updateArchives = async (postid) => {
-  try {
-    await AsyncStorage.getItem('token');
-    return dispatch => {
-      axios.post(`${ROOT_URL}/archive`, {
-      postid,
-    }).then((response) => {
-    getArchives()(dispatch)
-  } ).catch ((e) => {
-    // remove error
-    return e;
-  });
-}
-  } catch (e) {
-    return e;
-  }
-};
+// const updateArchives = async (postid) => {
+//   try {
+//     await AsyncStorage.getItem('token');
+//     return (dispatch) => {
+//       axios.post(`${ROOT_URL}/archive`, {
+//         postid,
+//       }).then((response) => {
+//         getArchives()(dispatch);
+//       }).catch((e) => {
+//         // remove error
+//         return e;
+//       });
+//     };
+//   } catch (e) {
+//     return e;
+//   }
+// };

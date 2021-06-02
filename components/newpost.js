@@ -3,7 +3,7 @@ import {
   StyleSheet, View, Text, ImageBackground,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { ImageManipulator } from 'expo-image-crop';
+// import { ImageManipulator } from 'expo-image-crop';
 import MenuButton from './menu_button';
 import { createPost } from '../actions';
 
@@ -127,7 +127,7 @@ class NewPost extends Component {
               extraButtonStyles={{ width: '42%', backgroundColor: 'rgba(255,255,255,0.6)' }}
               onPress={this.onImageEditPress}
             />
-            <ImageManipulator
+            {/* <ImageManipulator
               photo={{ uri: this.state.preview }}
               isVisible={this.state.showImageEditor}
               onPictureChoosed={(data) => {
@@ -139,7 +139,7 @@ class NewPost extends Component {
                 format: 'png',
               }}
               borderColor="rgba(78, 20, 140, 0.5)"
-            />
+            /> */}
           </ImageBackground>
         </View>
         <MenuButton

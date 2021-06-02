@@ -4,7 +4,8 @@ import {
   StyleSheet, View, Text, ImageBackground, Dimensions,
 } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import Video from 'react-native-video';
+// import Video from 'react-native-video';
+import { Video } from 'expo-av';
 import { updatePost } from '../actions';
 
 const PostMaximized = (props) => {
