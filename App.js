@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -37,7 +38,7 @@ getData();
 
 const App = (props) => {
   return (
-    <>
+    <PaperProvider>
       <StatusBar barStyle="dark-content" />
       <Provider store={store}>
         <NavigationContainer>
@@ -73,7 +74,7 @@ const App = (props) => {
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
-    </>
+    </PaperProvider>
   );
 };
 
