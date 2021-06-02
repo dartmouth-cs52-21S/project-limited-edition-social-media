@@ -1,26 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  StyleSheet, View, Text, Button, Image,
+  StyleSheet, View, Text, Image,
 } from 'react-native';
 import { Appbar } from 'react-native-paper';
-import { signoutUser, profileUser } from '../actions';
+import { profileUser } from '../actions';
 
 class Profile extends Component {
-  constructor(props) {
-    super(props);
-    this.navigation = this.props.navigation;
-    // state variable for didMount, load when true, loading screen if not
-    // conditional render
-  }
-
   componentDidMount = () => {
     this.props.profileUser();
   };
-
-  handleSignOutPress() {
-    this.props.signoutUser(this.navigation);
-  }
 
   handleSettingsPress = () => {
     this.props.navigation.navigate('Settings', { name: 'Settings' });
@@ -30,15 +19,16 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <Appbar style={styles.top}>
-          <Appbar.Action icon="cog" style={styles.right} onPress={() => this.handleSettingsPress()} />
           {/* Temporary until I find the appropriate React lifecycle fuction */}
           <Appbar.Action icon="refresh" onPress={() => this.props.profileUser()} />
+          <Text style={styles.center}>Profile</Text>
+          <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
         </Appbar>
         <Image
           style={styles.pic}
-          source={{ uri: this.props.user.profilePic }}
+          source={{ uri: this.props.user.profilePic || 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg' }}
         />
-        <Text style={styles.name}>
+        <Text style={styles.followNum}>
           {' '}
           {this.props.user.displayname}
           {' '}
@@ -49,6 +39,10 @@ class Profile extends Component {
             <Text style={styles.followWord}>followers</Text>
           </View>
           <View style={styles.follow}>
+            {/* Very confused by native styling o_o */}
+            <Text style={styles.followNum}>            </Text>
+          </View>
+          <View style={styles.follow}>
             <Text style={styles.followNum}>{this.props.user.followingList.length}</Text>
             <Text style={styles.followWord}>following</Text>
           </View>
@@ -56,7 +50,6 @@ class Profile extends Component {
         <View style={styles.badges}>
           <Text style={styles.badgeWord}>My Badges:</Text>
         </View>
-        <Button title="Sign Out" onPress={() => this.handleSignOutPress()} />
       </View>
     );
   }
@@ -77,28 +70,46 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 49,
+    top: 40,
   },
   top: {
     position: 'absolute',
     left: 0,
     right: 0,
     top: 0,
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   right: {
     right: 0,
     position: 'absolute',
   },
+  center: {
+    fontSize: 20,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
   followContainer: {
     display: 'flex',
     justifyContent: 'space-around',
     flexDirection: 'row',
+    marginRight: 20,
+    // paddingRight: 20,
   },
   followNum: {
-    fontWeight: '600',
+    fontWeight: '800',
     textAlign: 'center',
     fontSize: 20,
   },
-
+  badgeWord: {
+    fontWeight: '600',
+    // textAlign: 'left',
+    fontSize: 20,
+    // display: 'flex',
+    // justifyContent: 'flex-start',
+    // right: 0,
+    // position: 'absolute',
+  },
 });
 
 const mapStateToProps = ({ user }) => (
@@ -107,4 +118,4 @@ const mapStateToProps = ({ user }) => (
   }
 );
 
-export default connect(mapStateToProps, { signoutUser, profileUser })(Profile);
+export default connect(mapStateToProps, { profileUser })(Profile);
