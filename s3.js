@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ROOT_URL } from './actions';
 
 function getSignedRequest(file) {
-  const fileName = encodeURIComponent(file.name);
+  const fileName = `${(new Date()).getTime()}`;
   // hit our own server to get a signed s3 url
   return axios.get(`${ROOT_URL}/sign-s3?file-name=${fileName}&file-type=${file.type}`);
 }
@@ -12,7 +12,8 @@ function getSignedRequest(file) {
 // since we already know what the url will be - just not that it has been uploaded
 function uploadFileToS3(signedRequest, file, url) {
   // eslint-disable-next-line no-param-reassign
-  url += `?${(new Date()).getTime()}`;
+  // url += `?${(new Date()).getTime()}`;
+  console.log(url);
   return new Promise((fulfill, reject) => {
     axios.put(signedRequest, file, { headers: { 'Content-Type': file.type } }).then((response) => {
       fulfill(url);
