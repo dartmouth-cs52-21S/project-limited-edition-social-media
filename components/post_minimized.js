@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+// computing rarity
 const computeRarity = (viewLimit) => {
   if (viewLimit < 100) {
     // rare
