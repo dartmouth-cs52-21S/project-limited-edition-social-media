@@ -15,6 +15,7 @@ export const ActionTypes = {
   AUTH_ERROR: 'AUTH_ERROR',
   GET_ARCHIVES: 'GET_ARCHIVE',
   FIND_USER: 'FIND_USER',
+  UPDATE_FOLLOW: 'UPDATE_FOLLOW',
 };
 
 // lmited is not a typo do not change
@@ -60,12 +61,11 @@ export function createPost(navigation, post) {
 
 export function updatePost(id, fields) {
   /* axios put */
-  return async (dispatch) => {
-    const headers = { authorization: await AsyncStorage.getItem('token') };
-    axios.put(`${ROOT_URL}/posts/${id}`, fields, { headers }).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
-    }).catch((error) => {
-      dispatch({ type: ActionTypes.ERROR_SET, error });
+  return (dispatch) => {
+    getData('token').then((authorization) => {
+      axios.put(`${ROOT_URL}/posts/${id}`, fields, { headers: { authorization } }).then((response) => {
+        dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
+      }).catch((error) => dispatch({ type: ActionTypes.ERROR_SET, error }));
     });
   };
 }
@@ -73,22 +73,22 @@ export function updatePost(id, fields) {
 export function fetchPost(id) {
   /* axios get */
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/posts/${id}`).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
-    }).catch((error) => {
-      dispatch({ type: ActionTypes.ERROR_SET, error });
-    });
+    axios.get(`${ROOT_URL}/posts/${id}`)
+      .then(({ data: payload }) => dispatch({ type: ActionTypes.FETCH_POST, payload }))
+      .catch((error) => dispatch({ type: ActionTypes.ERROR_SET, error }));
   };
 }
 
 export function deletePost(id, history) {
   /* axios delete */
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/posts/${id}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      history.push('/');
-    }).catch((error) => {
-      dispatch({ type: ActionTypes.ERROR_SET, error });
-    });
+    const url = `${ROOT_URL}/posts/${id}`;
+    getData('token').then((authorization) => axios.delete(url, { headers: { authorization } }))
+      .then((response) => {
+        history.push('/');
+      }).catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
   };
 }
 
@@ -195,13 +195,13 @@ export function signoutUser(navigation) {
 
 export function profileUser() {
   return async (dispatch) => {
-    const headers = { authorization: await AsyncStorage.getItem('token') };
-    axios.post(`${ROOT_URL}/profile`, {}, { headers }).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
-    }).catch((error) => {
-      console.error(`Profile failed with error: ${error}`);
-      dispatch(authError(`profile failed: ${error.response.data}`));
-    });
+    const url = `${ROOT_URL}/profile`;
+    getData('token').then((authorization) => axios.post(url, {}, { headers: { authorization } }))
+      .then(({ data: payload }) => dispatch({ type: ActionTypes.FETCH_USER, payload }))
+      .catch((error) => {
+        console.error(`Profile failed with error: ${error}`);
+        dispatch(authError(`profile failed: ${error.data}`));
+      });
   };
 }
 
@@ -266,3 +266,36 @@ const removeData = async () => {
 //     return e;
 //   }
 // };
+
+export function updateFollow(username) {
+  return (dispatch) => {
+    const url = `${ROOT_URL}/profile/follow/${username}`;
+    getData('token').then((authorization) => axios.post(url, {}, { headers: { authorization } }))
+      .catch((error) => {
+        console.error(`Updating follow failed with error: ${error}`);
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
+  };
+}
+
+export function updateUnfollow(username) {
+  return (dispatch) => {
+    const url = `${ROOT_URL}/profile/unfollow/${username}`;
+    getData('token').then((authorization) => axios.post(url, {}, { headers: { authorization } }))
+      .catch((error) => {
+        console.error(`Unfollow failed with error: ${error}`);
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
+  };
+}
+
+export function isFollowing(username) {
+  return async (dispatch) => {
+    const url = `${ROOT_URL}/profile/follow/${username}`;
+    return getData('token').then((authorization) => axios.get(url, { headers: { authorization } }))
+      .catch((error) => {
+        console.error(`Get follow failed with error: ${error}`);
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
+  };
+}

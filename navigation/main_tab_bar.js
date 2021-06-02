@@ -16,12 +16,10 @@ const Tab = createBottomTabNavigator();
 
 const ProfileStack = () => {
   return (
-  // <NavigationContainer independent>
     <Stack.Navigator>
-      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
       <Stack.Screen name="Settings" component={Settings} />
     </Stack.Navigator>
-  // </NavigationContainer>
   );
 };
 
