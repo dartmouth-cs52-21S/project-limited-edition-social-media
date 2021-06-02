@@ -7,7 +7,7 @@ import {
   Modal, Portal, Button, Text,
 } from 'react-native-paper';
 import {
-  fetchPosts, updateFollow, updateUnfollow, isFollowing,
+  fetchPosts, updateFollow, updateUnfollow, isFollowing, profileUser,
 } from '../actions';
 import PostMinimized from './post_minimized';
 
@@ -24,6 +24,7 @@ class AllPosts extends Component {
 
   componentDidMount() {
     this._fetchPostsCleanup = this.props.navigation.addListener('focus', () => this.props.fetchPosts());
+    this.props.profileUser();
   }
 
   componentWillUnmount() {
@@ -55,13 +56,27 @@ class AllPosts extends Component {
 
   hideModal = () => this.setVisible(false);
 
-  follow = () => this.props.updateFollow(this.state.currUser);
+  follow = () => {
+    this.hideModal();
+    this.props.updateFollow(this.state.currUser);
+  }
 
-  unfollow = () => this.props.updateUnfollow(this.state.currUser);
+  unfollow = () => {
+    this.hideModal();
+    this.props.updateUnfollow(this.state.currUser);
+  }
+
+  routeProfile = () => {
+    this.hideModal();
+    this.props.navigation.navigate('Profile', { name: 'Profile' });
+  }
 
   renderModal = () => {
     if (!this.state.currUser) {
       return <View><Text>No user found</Text></View>;
+    }
+    if (this.state.currUser === this.props.user.username) {
+      return <Button style={styles.follow} onPress={this.routeProfile}>My Profile</Button>;
     }
     this.props.isFollowing(this.state.currUser).then(({ data }) => {
       if (this.state.isFollow !== data) this.setState({ isFollow: data });
@@ -135,9 +150,10 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => (
   {
     posts: state.posts.all,
+    user: state.user,
   }
 );
 
 export default connect(mapStateToProps, {
-  fetchPosts, updateFollow, updateUnfollow, isFollowing,
+  fetchPosts, updateFollow, updateUnfollow, isFollowing, profileUser,
 })(AllPosts);
