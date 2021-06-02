@@ -24,6 +24,10 @@ class SignIn extends Component {
     this.props.signinUser(this.state, this.navigation);
   }
 
+  handleBackPress = () => {
+    this.navigation.goBack();
+  }
+
   onEmailChange = (change) => {
     this.setState({ email: change });
   }
@@ -44,6 +48,13 @@ class SignIn extends Component {
           onPress={
             () => {
               this.handleSignInPress();
+            }
+          }
+        />
+        <Button title="Back"
+          onPress={
+            () => {
+              this.handleBackPress();
             }
           }
         />

@@ -3,21 +3,25 @@ import {
   StyleSheet, View, Text, ImageBackground,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Buffer } from 'buffer';
 import { ImageManipulator } from 'expo-image-crop';
 import MenuButton from './menu_button';
 import { createPost } from '../actions';
+import uploadImage from '../s3';
 
 class NewPost extends Component {
   constructor(props) {
     super(props);
     this.state = {
       preview: this.props.route.params?.previewUri || 'https://facebook.github.io/react/logo-og.png', // uri format
+      // eslint-disable-next-line react/no-unused-state
       content: '', // uri format
       type: '', // string that says 'image' or 'video'
       caption: '',
       maxViews: '100',
       blur: '5',
       hashtags: [],
+      base64: '',
       showImageEditor: false,
     };
   }
@@ -42,6 +46,7 @@ class NewPost extends Component {
         }
         // getting the content, preview and content type from the camera
         if (this.props.route.params.contentUri) {
+          // eslint-disable-next-line react/no-unused-state
           this.setState({ content: this.props.route.params.contentUri });
         }
         if (this.props.route.params.previewUri) {
@@ -49,6 +54,10 @@ class NewPost extends Component {
         }
         if (this.props.route.params.type) {
           this.setState({ type: this.props.route.params.type });
+        }
+        // console.log(this.props.route.params.base64);
+        if (this.props.route.params.base64) {
+          this.setState({ base64: this.props.route.params.base64 });
         }
       }
     });
@@ -98,16 +107,36 @@ class NewPost extends Component {
 
   onPublishPress = () => {
     // sending post to server for creation and navigating to home page
-    this.props.createPost(this.props.navigation, {
-      caption: this.state.caption,
-      content: this.state.content,
-      viewLimit: this.state.maxViews,
-      currentViews: 0,
-      hashtags: this.state.hashtags,
-      coverBlur: this.state.blur,
-      type: this.state.type,
-      preview: this.state.preview,
-    });
+    // console.log(this.state.base64);
+    if (this.state.base64) {
+      uploadImage(Buffer.from(this.state.base64, 'base64')).then((url) => {
+        this.props.createPost(this.props.navigation, {
+          caption: this.state.caption,
+          content: url,
+          viewLimit: this.state.maxViews,
+          currentViews: 0,
+          hashtags: this.state.hashtags,
+          coverBlur: this.state.blur,
+          type: this.state.type,
+          preview: this.state.preview,
+        });
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+
+    // if (this.state.base64) {
+    //   uploadImage(this.state.file).then((url) => {
+    //     this.props.createPost({
+    //       title: this.state.title,
+    //       tags: this.state.tags,
+    //       content: this.state.content,
+    //       coverUrl: url,
+    //     }, this.props.history);
+    //   }).catch((error) => {
+    //     console.log(error);
+    //   });
+    // }
   }
 
   render() {
@@ -117,7 +146,7 @@ class NewPost extends Component {
           <Text style={styles.text}>Cover Preview</Text>
           <ImageBackground
             style={styles.image}
-            imageStyle={{ borderRadius: 50, width: '100%', height: '100%' }}
+            imageStyle={{ borderRadius: 10, width: '100%', height: '100%' }}
             source={{ uri: this.state.preview }}
             blurRadius={parseInt(this.state.blur, 10) || 0}
           >

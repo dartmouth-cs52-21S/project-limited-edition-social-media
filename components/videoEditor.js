@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     height: 255,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 50,
+    borderRadius: 10,
   },
   video: {
     width: '100%',
