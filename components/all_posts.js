@@ -90,7 +90,7 @@ class AllPosts extends Component {
     <View>
       <PostMinimized
         caption={item.caption}
-        preview={item.preview}
+        preview={item.content}
         content={item.content}
         currentViews={item.currentViews}
         viewLimit={item.viewLimit}
