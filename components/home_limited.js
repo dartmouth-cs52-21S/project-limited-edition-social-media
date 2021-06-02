@@ -11,7 +11,7 @@ class HomeLimited extends Component {
   }
 
   handleSignInPress() {
-    this.navigation.replace('SignIn');
+    this.navigation.navigate('SignIn');
   }
 
   handleSignUpPress() {
