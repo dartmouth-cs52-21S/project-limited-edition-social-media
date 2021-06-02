@@ -15,11 +15,11 @@ class HomeLimited extends Component {
   }
 
   handleSignInPress() {
-    this.navigation.replace('SignIn');
+    this.navigation.navigate('SignIn');
   }
 
   handleSignUpPress() {
-    this.navigation.replace('SignUp');
+    this.navigation.navigate('SignUp');
   }
 
   render() {
@@ -100,9 +100,10 @@ const styles = StyleSheet.create({
   },
   signinFunctions: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     position: 'absolute',
-    bottom: 50,
+    bottom: 100,
+    width: '100%',
   },
   button: {
     elevation: 40,

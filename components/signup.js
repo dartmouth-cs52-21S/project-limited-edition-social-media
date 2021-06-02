@@ -25,6 +25,10 @@ class SignUp extends Component {
     // this.navigation.replace('MainTab');
   }
 
+  handleBackPress = () => {
+    this.navigation.goBack();
+  }
+
   onEmailChange = (change) => {
     this.setState({ email: change });
   }
@@ -52,6 +56,7 @@ class SignUp extends Component {
         <AuthInput placeholder="Username" value={this.state.username} onChange={this.onUsernameChange} />
         <AuthInput placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
         <Button title="Sign Up" onPress={() => this.handleSignUpPress()} />
+        <Button title="Back" onPress={() => { this.handleBackPress(); }} />
       </View>
     );
   }

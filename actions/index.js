@@ -111,7 +111,11 @@ export function signinUser({ email, password }, navigation) {
     axios.post(`${ROOT_URL}/signin`, { email, password }).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
       storeData('token', response.data.token);
-      navigation.replace('MainTab');
+      // navigation.reset('MainTab');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainTab' }],
+      });
     }).catch((error) => {
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
     });
@@ -135,7 +139,10 @@ export function signupUser({
       dispatch({ type: ActionTypes.AUTH_USER });
       storeData('token', response.data.token);
       // localStorage.setItem('token', response.data.token);
-      navigation.replace('MainTab');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainTab' }],
+      });
     }).catch((error) => {
       console.log(error.response.data);
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
