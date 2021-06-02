@@ -4,6 +4,7 @@ import {
   StyleSheet, View, Text, Image,
 } from 'react-native';
 import { Appbar } from 'react-native-paper';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { profileUser } from '../actions';
 
 class Profile extends Component {
@@ -55,6 +56,8 @@ class Profile extends Component {
   }
 }
 
+const statusBarHeight = getStatusBarHeight();
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -70,13 +73,13 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 49,
-    top: 40,
+    top: statusBarHeight,
   },
   top: {
     position: 'absolute',
     left: 0,
     right: 0,
-    top: 0,
+    top: statusBarHeight,
     display: 'flex',
     justifyContent: 'space-between',
   },

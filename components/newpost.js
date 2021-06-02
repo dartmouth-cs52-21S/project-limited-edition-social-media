@@ -117,7 +117,7 @@ class NewPost extends Component {
           <Text style={styles.text}>Cover Preview</Text>
           <ImageBackground
             style={styles.image}
-            imageStyle={{ borderRadius: 50, width: '100%', height: '100%' }}
+            imageStyle={{ borderRadius: 10, width: '100%', height: '100%' }}
             source={{ uri: this.state.preview }}
             blurRadius={parseInt(this.state.blur, 10) || 0}
           >

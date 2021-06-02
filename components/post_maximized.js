@@ -4,7 +4,8 @@ import {
   StyleSheet, View, Text, ImageBackground, Dimensions,
 } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import Video from 'react-native-video';
+import { Video } from 'expo-av';
+import { Icon } from 'react-native-elements';
 import { updatePost } from '../actions';
 
 const PostMaximized = (props) => {
@@ -15,9 +16,23 @@ const PostMaximized = (props) => {
     props.updatePost(postProps.id, { currentViews: postProps.currentViews + 1 });
   }, []);
 
+  const video = React.createRef();
+
   const postOverlay = (
     <View style={styles.overlayContainer}>
       <View style={styles.statusBar} />
+      <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+        <Icon
+          name="close-outline"
+          type="ionicon"
+          color="rgb(255, 255, 255)"
+          size={46}
+          containerStyle={{ borderRadius: 15 }}
+          onPress={() => {
+            props.navigation.goBack();
+          }}
+        />
+      </View>
       <View style={styles.topbar}>
         <View style={styles.topbarAuthor}>
           <Text style={styles.font}>
@@ -39,7 +54,7 @@ const PostMaximized = (props) => {
         <View style={styles.topbarViewLimit}>
           <Text style={styles.topbarViewLimitText}>
             {postProps.currentViews !== undefined ? postProps.viewLimit - postProps.currentViews : 'nan'}
-            /
+            Left/
             {postProps.viewLimit !== undefined ? postProps.viewLimit : 'nan'}
           </Text>
         </View>
@@ -56,8 +71,12 @@ const PostMaximized = (props) => {
     post = (
       <View style={styles.container}>
         <Video
+          ref={video}
           source={{ uri: postProps.content }}
           style={styles.backgroundVideo}
+          isLooping
+          resizeMode="cover"
+          onLoad={() => { video.setPositionAsync(0); video.current.playAsync(); }}
         />
         {postOverlay}
       </View>

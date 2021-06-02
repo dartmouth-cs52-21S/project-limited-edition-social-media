@@ -16,6 +16,9 @@ import SignUp from './components/signup';
 import MainTabBar from './navigation/main_tab_bar';
 import reducers from './reducers';
 
+// disable really annoying in app warnings
+// console.disableYellowBox = true;
+
 const Stack = createStackNavigator();
 
 const store = createStore(reducers, {}, compose(
