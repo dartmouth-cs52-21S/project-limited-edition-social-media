@@ -20,10 +20,7 @@ const computeRarity = (viewLimit) => {
 const PostMinimized = (props) => {
   const navigation = useNavigation();
   const rarity = computeRarity(props.viewLimit);
-
-  const openProfileModal = () => {
-    props.showModal(props);
-  };
+  const openProfileModal = () => props.showModal(props);
 
   return (
     <TouchableOpacity
@@ -37,22 +34,20 @@ const PostMinimized = (props) => {
       >
         <View style={styles.subcontainer}>
           <View style={styles.topbar}>
-            <TouchableHighlight style={styles.topbarAuthor} onPress={() => openProfileModal()}>
+            <TouchableHighlight style={styles.topbarAuthor} onPress={openProfileModal}>
               <Text style={styles.font}>
-                {props.displayName ? props.displayName : 'author'}
+                {props.author.displayname || 'author'}
               </Text>
             </TouchableHighlight>
             <View style={styles.topbarTags}>
-              {props.tags.map((tag) => {
-                return (
-                  <View style={styles.topbarTagItem} key={tag}>
-                    <Text style={styles.topbarTagItemText}>
-                      #
-                      {tag}
-                    </Text>
-                  </View>
-                );
-              })}
+              {props.tags.map((tag) => (
+                <View style={styles.topbarTagItem} key={tag}>
+                  <Text style={styles.topbarTagItemText}>
+                    #
+                    {tag}
+                  </Text>
+                </View>
+              ))}
             </View>
             <View style={styles.topbarViewLimit}>
               <Text style={styles.topbarViewLimitText}>
@@ -64,7 +59,7 @@ const PostMinimized = (props) => {
           </View>
           <View style={styles.body}>
             <Text style={styles.bodyContent}>
-              {props.caption ? props.caption : 'NO CAPTION'}
+              {props.caption || 'NO CAPTION'}
             </Text>
           </View>
         </View>

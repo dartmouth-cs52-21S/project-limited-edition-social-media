@@ -9,8 +9,7 @@ import { signoutUser, profileUser } from '../actions';
 class Profile extends Component {
   constructor(props) {
     super(props);
-    const { navigation } = this.props;
-    this.navigation = navigation;
+    this.navigation = this.props.navigation;
     // state variable for didMount, load when true, loading screen if not
     // conditional render
   }
@@ -37,7 +36,6 @@ class Profile extends Component {
         </Appbar>
         <Image
           style={styles.pic}
-          // source={{ uri: 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg' }}
           source={{ uri: this.props.user.profilePic }}
         />
         <Text style={styles.name}>

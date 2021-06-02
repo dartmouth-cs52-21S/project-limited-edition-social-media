@@ -48,7 +48,7 @@ class AllPosts extends Component {
 
   setVisible = (bool) => this.setState({ visible: bool });
 
-  showModal = ({ username: currUser, displayName }) => {
+  showModal = ({ author: { username: currUser, displayname: displayName } }) => {
     this.setVisible(true);
     this.setState({ currUser, displayName });
   }
@@ -67,29 +67,27 @@ class AllPosts extends Component {
       if (this.state.isFollow !== data) this.setState({ isFollow: data });
     });
     return this.state.isFollow
-      ? <Button style={styles.follow} onPress={() => this.unfollow()}>Unfollow</Button>
+      ? <Button style={styles.follow} onPress={this.unfollow}>Unfollow</Button>
       : <Button style={styles.follow} onPress={this.follow}>Follow</Button>;
   }
 
-  renderPostMinimizedItem = ({ item }) => {
-    return (
-      <View>
-        <PostMinimized
-          caption={item.caption}
-          preview={item.preview}
-          content={item.content}
-          displayName={item.author.displayname}
-          currentViews={item.currentViews}
-          viewLimit={item.viewLimit}
-          blur={item.coverBlur}
-          tags={item.hashtags}
-          type={item.type}
-          showModal={this.showModal}
-          id={item.id}
-        />
-      </View>
-    );
-  };
+  renderPostMinimizedItem = ({ item }) => (
+    <View>
+      <PostMinimized
+        caption={item.caption}
+        preview={item.preview}
+        content={item.content}
+        currentViews={item.currentViews}
+        viewLimit={item.viewLimit}
+        blur={item.coverBlur}
+        tags={item.hashtags}
+        type={item.type}
+        author={item.author}
+        showModal={this.showModal}
+        id={item.id}
+      />
+    </View>
+  );
 
   render() {
     return (
