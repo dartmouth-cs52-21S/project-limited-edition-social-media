@@ -1,21 +1,21 @@
 import axios from 'axios';
 import { ROOT_URL } from './actions';
 
-function getSignedRequest(file) {
+function getSignedRequest(file, type) {
   const fileName = `${(new Date()).getTime()}`;
   // hit our own server to get a signed s3 url
-  return axios.get(`${ROOT_URL}/sign-s3?file-name=${fileName}&file-type=${file.type}`);
+  return axios.get(`${ROOT_URL}/sign-s3?file-name=${fileName}&file-type=${type}`);
 }
 
 // return a promise that uploads file directly to S3
 // note how we return the passed in url here rather than any return value
 // since we already know what the url will be - just not that it has been uploaded
-function uploadFileToS3(signedRequest, file, url) {
+function uploadFileToS3(signedRequest, file, url, type) {
   // eslint-disable-next-line no-param-reassign
   // url += `?${(new Date()).getTime()}`;
   console.log(url);
   return new Promise((fulfill, reject) => {
-    axios.put(signedRequest, file, { headers: { 'Content-Type': file.type } }).then((response) => {
+    axios.put(signedRequest, file, { headers: { 'Content-Type': type } }).then((response) => {
       fulfill(url);
     }).catch((error) => {
       reject(error);
@@ -23,9 +23,10 @@ function uploadFileToS3(signedRequest, file, url) {
   });
 }
 
-export default function uploadImage(file) {
+export default function uploadImage(file, type) {
+  console.log(type);
   // returns a promise so you can handle error and completion in your component
-  return getSignedRequest(file).then((response) => {
-    return uploadFileToS3(response.data.signedRequest, file, response.data.url);
+  return getSignedRequest(file, type).then((response) => {
+    return uploadFileToS3(response.data.signedRequest, file, response.data.url, type);
   });
 }
