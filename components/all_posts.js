@@ -88,19 +88,21 @@ class AllPosts extends Component {
 
   renderPostMinimizedItem = ({ item }) => (
     <View>
-      <PostMinimized
-        caption={item.caption}
-        preview={item.content}
-        content={item.content}
-        currentViews={item.currentViews}
-        viewLimit={item.viewLimit}
-        blur={item.coverBlur}
-        tags={item.hashtags}
-        type={item.type}
-        author={item.author}
-        showModal={this.showModal}
-        id={item.id}
-      />
+      {item.currentViews < item.viewLimit && (
+        <PostMinimized
+          caption={item.caption}
+          preview={item.content}
+          content={item.content}
+          currentViews={item.currentViews}
+          viewLimit={item.viewLimit}
+          blur={item.coverBlur}
+          tags={item.hashtags}
+          type={item.type}
+          author={item.author}
+          showModal={this.showModal}
+          id={item.id}
+        />
+      )}
     </View>
   );
 
