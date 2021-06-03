@@ -65,12 +65,11 @@ class NewPostCamera extends Component {
     })().then(async (response) => {
       // allowing user to select a piece of media if given permissions
       if (response === 'granted') {
-        // I set editting to false and quality to undefined to allow for gifs
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           base64: true,
           allowsEditing: false,
-          quality: undefined,
+          quality: 0,
         });
 
         // sending media to new post editor
@@ -139,7 +138,7 @@ class NewPostCamera extends Component {
       } else if (!this.state.isVideo) {
         this.setState({ disableCameraPress: true });
         // take picture and send it to the new post editor
-        const image = await this.camera.current.takePictureAsync({ quality: 1, base64: true });
+        const image = await this.camera.current.takePictureAsync({ quality: 0, base64: true });
         this.props.navigation.navigate('New Post', {
           contentUri: image.uri, previewUri: image.uri, base64: image.base64, type: 'image',
         });
@@ -151,7 +150,7 @@ class NewPostCamera extends Component {
           duration: 500,
           useNativeDriver: true,
         }).start();
-        const video = await this.camera.current.recordAsync({ base64: true });
+        const video = await this.camera.current.recordAsync({ base64: true, quality: 0 });
         // once the recording is finished...
         this.setState({ isRecording: false });
         // send video to the video editor
@@ -242,6 +241,7 @@ class NewPostCamera extends Component {
         <Camera ref={this.camera}
           style={styles.camera}
           type={this.state.cameraView}
+          useCamera2Api={Platform.OS === 'android'}
         >
           {this.renderCameraOverlay()}
         </Camera>
