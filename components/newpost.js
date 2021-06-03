@@ -128,10 +128,12 @@ class NewPost extends Component {
             preview: previewUrl,
           });
         }).catch((error) => {
+          console.log(error);
           this.setState({ isLoading: false });
           this.setState({ showError: true });
         });
       }).catch((error) => {
+        console.log(error);
         this.setState({ isLoading: false });
         this.setState({ showError: true });
       });
@@ -164,7 +166,11 @@ class NewPost extends Component {
           <MenuButton
             primaryText="Go Home"
             centerText
-            onPress={() => { this.props.navigation.navigate('Home'); }}
+            onPress={() => {
+              this.props.navigation.navigate('Camera');
+              this.props.navigation.replace('Camera');
+              this.props.navigation.navigate('Home');
+            }}
           />
         </View>
       );
