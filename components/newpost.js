@@ -110,6 +110,7 @@ class NewPost extends Component {
   onPublishPress = async () => {
     this.setState({ isLoading: true });
     const previewBase64 = await FileSystem.readAsStringAsync(this.state.preview, { encoding: FileSystem.EncodingType.Base64 });
+    // Got code for file extension extraction here: https://stackoverflow.com/questions/54342873/how-to-get-file-extension-with-expo-filesystem
     const previewType = this.state.preview.substr(this.state.preview.lastIndexOf('.') + 1);
     const contentType = this.state.content.substr(this.state.content.lastIndexOf('.') + 1);
     // sending post to server for creation and navigating to home page
@@ -127,12 +128,15 @@ class NewPost extends Component {
             preview: previewUrl,
           });
         }).catch((error) => {
+          this.setState({ isLoading: false });
           this.setState({ showError: true });
         });
       }).catch((error) => {
+        this.setState({ isLoading: false });
         this.setState({ showError: true });
       });
     } else {
+      this.setState({ isLoading: false });
       this.setState({ showError: true });
     }
   }
