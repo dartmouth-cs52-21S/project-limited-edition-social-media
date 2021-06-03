@@ -28,7 +28,7 @@ class VideoEditor extends Component {
         this.state.video,
         {
           time: this.state.currentTimestamp,
-          quality: 1,
+          quality: 0,
         },
       );
       this.setState({ thumbnail: uri });
@@ -48,6 +48,7 @@ class VideoEditor extends Component {
         contentUri: this.state.video,
         previewUri: this.state.thumbnail,
         type: 'video',
+        base64: this.props.route.params.base64,
       });
   }
 
@@ -67,7 +68,7 @@ class VideoEditor extends Component {
         this.state.video,
         {
           time: this.state.currentTimestamp,
-          quality: 1,
+          quality: 0,
         },
       );
       this.setState({ thumbnail: uri });
