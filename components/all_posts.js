@@ -88,7 +88,7 @@ class AllPosts extends Component {
 
   renderPostMinimizedItem = ({ item }) => (
     <View>
-      {item.currentViews < item.viewLimit && (
+      {(item.currentViews < item.viewLimit) && (
         <PostMinimized
           caption={item.caption}
           preview={item.preview}

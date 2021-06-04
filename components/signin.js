@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  StyleSheet, View, Text, Button,
+  StyleSheet, View, Text,
 } from 'react-native';
-// import { connect } from 'react-redux';
+import { Button } from 'react-native-elements';
 import AuthInput from './auth_input';
-import { signinUser } from '../actions';
-// import { signupUser } from '../actions/index';
+import { signinUser, clearAuthError } from '../actions';
 
 class SignIn extends Component {
   constructor(props) {
@@ -20,12 +19,16 @@ class SignIn extends Component {
     };
   }
 
-  handleSignInPress = () => {
-    this.props.signinUser(this.state, this.navigation);
+  componentDidMount() {
+    this._setErrorCleanup = this.props.navigation.addListener('focus', () => this.props.clearAuthError());
   }
 
-  handleBackPress = () => {
-    this.navigation.goBack();
+  componentWillUnmount() {
+    this._setErrorCleanup();
+  }
+
+  handleSignInPress = () => {
+    this.props.signinUser(this.state, this.navigation);
   }
 
   onEmailChange = (change) => {
@@ -36,27 +39,32 @@ class SignIn extends Component {
     this.setState({ password: change });
   }
 
+  renderError = () => {
+    if (this.props.signInError) {
+      return (
+        <Text style={styles.error}>
+          {this.props.signInError}
+        </Text>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-          Sign In
-        </Text>
+        <View style={styles.errorContainer}>
+          {this.renderError()}
+        </View>
         <AuthInput placeholder="Email" value={this.state.email} onChange={this.onEmailChange} />
         <AuthInput placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
-        <Button title="Sign In"
-          onPress={
-            () => {
-              this.handleSignInPress();
-            }
-          }
-        />
-        <Button title="Back"
-          onPress={
-            () => {
-              this.handleBackPress();
-            }
-          }
+        <Button
+          title="Sign In"
+          onPress={this.handleSignInPress}
+          buttonStyle={styles.button}
+          containerStyle={styles.buttonContainer}
+          titleStyle={styles.buttonText}
         />
       </View>
     );
@@ -66,8 +74,27 @@ class SignIn extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  errorContainer: {
+    margin: 12,
+    height: '2%',
+  },
+  button: {
+    backgroundColor: '#9e28ed',
+  },
+  buttonContainer: {
+    margin: 12,
+    width: '80%',
+  },
+  buttonText: {
+    color: 'white',
+    fontFamily: 'Gill Sans',
+  },
+  error: {
+    color: '#f52c4e', // red
+    textAlign: 'center',
   },
   image: {
     width: 400,
@@ -75,4 +102,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { signinUser })(SignIn);
+const mapStateToProps = (state) => (
+  {
+    signInError: state.auth.error,
+  }
+);
+
+export default connect(mapStateToProps, { signinUser, clearAuthError })(SignIn);

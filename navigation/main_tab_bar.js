@@ -25,7 +25,14 @@ const ProfileStack = () => {
 
 const MainTabBar = () => {
   return (
-    <Tab.Navigator initialRouteName="Home">
+    <Tab.Navigator initialRouteName="Home"
+      tabBarOptions={{
+        tabStyle: {
+          justifyContent: 'center',
+        },
+        showIcon: false,
+      }}
+    >
       {/* Eventually, the Home tab will point to either Home or HomeLimited, depending
         on whether the user is logged in. initialRouteName above will need to alternate based on
         authentication status as well. */}
@@ -33,7 +40,6 @@ const MainTabBar = () => {
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Post" component={NewPostTab} options={{ tabBarVisible: false }} />
       <Tab.Screen name="Activity" component={Activity} />
-      {/* <Tab.Screen name="Profile" component={Profile} /> */}
       <Tab.Screen name="Profile" component={ProfileStack} />
     </Tab.Navigator>
   );

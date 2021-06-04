@@ -12,12 +12,13 @@ export const ActionTypes = {
   FETCH_USER: 'FETCH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
+  CLEAR_AUTH_ERROR: 'CLEAR_AUTH_ERROR',
   UPDATE_FOLLOW: 'UPDATE_FOLLOW',
 };
 
 // lmited is not a typo do not change
-export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
-// export const ROOT_URL = 'http://localhost:9090/api';
+// export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
+export const ROOT_URL = 'http://localhost:9090/api';
 /// IMPORTANT! API CALLS ONLY IN HERE, NOWHERE ELSE
 
 // Learned about axios calls from https://blog.logrocket.com/how-to-make-http-requests-like-a-pro-with-axios/
@@ -92,9 +93,31 @@ export function deletePost(id, history) {
 // trigger to deauth if there is error
 // can also use in your error reducer if you have one to display an error message
 export function authError(error) {
+  let errorMessage;
+
+  console.log(error);
+  if (error.response) {
+    if (error.response.status === 401) {
+      errorMessage = 'username/password does not exist';
+    } else {
+      errorMessage = error.response.data;
+    }
+  } else if (error.request) {
+    errorMessage = error.request.responseText;
+  } else {
+    console.log('error other');
+    errorMessage = error;
+  }
+
   return {
     type: ActionTypes.AUTH_ERROR,
-    message: error,
+    message: errorMessage,
+  };
+}
+
+export function clearAuthError() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.CLEAR_AUTH_ERROR });
   };
 }
 
@@ -117,7 +140,7 @@ export function signinUser({ email, password }, navigation) {
         routes: [{ name: 'MainTab' }],
       });
     }).catch((error) => {
-      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      dispatch(authError(error));
     });
   };
 }
@@ -145,7 +168,7 @@ export function signupUser({
       });
     }).catch((error) => {
       console.log(error.response.data);
-      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      dispatch(authError(error));
     });
   };
 }

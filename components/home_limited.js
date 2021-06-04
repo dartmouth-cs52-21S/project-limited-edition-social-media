@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet, View, Text, Pressable,
 } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import AllPosts from './all_posts';
-
-const ModalStack = createStackNavigator();
 
 class HomeLimited extends Component {
   constructor(props) {
@@ -14,52 +10,29 @@ class HomeLimited extends Component {
     this.navigation = navigation;
   }
 
-  handleSignInPress() {
+  handleSignInPress = () => {
     this.navigation.navigate('SignIn');
   }
 
-  handleSignUpPress() {
+  handleSignUpPress = () => {
     this.navigation.navigate('SignUp');
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {/* <View style={styles.homelimited}>
-          <ModalStack.Navigator mode="modal">
-            <ModalStack.Screen name="Home Limited" component={AllPosts} />
-          </ModalStack.Navigator>
-        </View> */}
         <View style={styles.signinFunctions}>
           <Pressable
-            style={({ pressed }) => [
-              {
-                backgroundColor: pressed ? '#4166b0' : '#5486E8',
-              },
-              styles.button,
-            ]}
-            onPress={
-          () => {
-            this.handleSignInPress();
-          }
-          }
+            style={{ ...styles.button, ...styles.signInButton }}
+            onPress={this.handleSignInPress}
           >
             <Text style={styles.buttonText}>
               Sign In
             </Text>
           </Pressable>
           <Pressable
-            style={({ pressed }) => [
-              {
-                backgroundColor: pressed ? '#4166b0' : '#5486E8',
-              },
-              styles.button,
-            ]}
-            onPress={
-          () => {
-            this.handleSignUpPress();
-          }
-          }
+            style={{ ...styles.button, ...styles.signUpButton }}
+            onPress={this.handleSignUpPress}
           >
             <Text style={styles.buttonText}>
               Sign Up
@@ -67,25 +40,6 @@ class HomeLimited extends Component {
           </Pressable>
         </View>
       </View>
-    // <View style={styles.container}>
-    //   <Text>
-    //     Restricted feed for users who have not signed in yet.
-    //   </Text>
-    //   <Button title="Sign In"
-    //     onPress={
-    //       () => {
-    //         this.handleSignInPress();
-    //       }
-    //   }
-    //   />
-    //   <Button title="Sign Up"
-    //     onPress={
-    //       () => {
-    //         this.handleSignUpPress();
-    //       }
-    //   }
-    //   />
-    // </View>
     );
   }
 }
@@ -111,13 +65,20 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 40,
     marginHorizontal: 30,
+    backgroundColor: 'red',
+  },
+  signInButton: {
+    backgroundColor: '#9e28ed',
+  },
+  signUpButton: {
+    backgroundColor: '#ed2860',
   },
   buttonText: {
     fontSize: 18,
     color: '#fff',
-    fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',
+    fontFamily: 'Gill Sans',
   },
 
 });

@@ -5,7 +5,11 @@ import AllPosts from './all_posts';
 const ModalStack = createStackNavigator();
 
 const Home = () => (
-  <ModalStack.Navigator mode="modal">
+  <ModalStack.Navigator mode="modal"
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
     <ModalStack.Screen name="AllPosts" component={AllPosts} />
   </ModalStack.Navigator>
 );

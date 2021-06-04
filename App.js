@@ -6,7 +6,9 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StatusBar, LogBox } from 'react-native';
+import {
+  StatusBar, LogBox,
+} from 'react-native';
 import { ActionTypes } from './actions';
 import Home from './components/home';
 import PostMaximized from './components/post_maximized';
@@ -17,8 +19,6 @@ import MainTabBar from './navigation/main_tab_bar';
 import reducers from './reducers';
 
 LogBox.ignoreAllLogs();
-
-
 
 const Stack = createStackNavigator();
 
@@ -48,7 +48,9 @@ const App = (props) => {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="HomeLimited"
             screenOptions={{
-              headerShown: false,
+              headerShown: true,
+              headerTitle: 'Poof',
+              headerTitleStyle: { fontFamily: 'Gill Sans' },
             }}
           >
             <Stack.Screen
@@ -58,6 +60,10 @@ const App = (props) => {
             <Stack.Screen
               name="SignIn"
               component={SignIn}
+              options={{
+                headerTitle: 'Sign In',
+                headerBackTitle: 'Back',
+              }}
             />
             <Stack.Screen
               name="SignUp"
@@ -83,6 +89,3 @@ const App = (props) => {
 };
 
 export default App;
-
-// we now wrap App in a Provider
-// AppRegistry.registerComponent(appName, () => RNRedux);
