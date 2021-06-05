@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  StyleSheet, View, Text, Button,
+  StyleSheet, View, Text,
 } from 'react-native';
-// import { connect } from 'react-redux';
 import AuthInput from './auth_input';
 import AuthButton from './auth_button';
 import { signinUser } from '../actions';
-// import { signupUser } from '../actions/index';
 
 class SignIn extends Component {
   constructor(props) {
@@ -18,11 +16,23 @@ class SignIn extends Component {
     this.state = {
       email: '',
       password: '',
+      error: '',
     };
   }
 
   handleSignInPress = () => {
-    this.props.signinUser(this.state, this.navigation);
+    if (!this.state.email) {
+      this.setState({ error: 'Please enter an email.' });
+    } else if (!this.state.password) {
+      this.setState({ error: 'Please enter a password.' });
+    } else {
+      this.setState({ error: '' });
+      const user = {
+        email: this.state.email,
+        password: this.state.password,
+      };
+      this.props.signinUser(user, this.navigation);
+    }
   }
 
   handleBackPress = () => {
@@ -49,6 +59,9 @@ class SignIn extends Component {
           <AuthInput textContentType="password" secureTextEntry={true} placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
         </View>
         <View style={styles.authContainer}>
+          <Text style={styles.errorText}>{this.state.error}</Text>
+        </View>
+        <View style={styles.authContainer}>
           <AuthButton text="Sign In" onPress={() => { this.handleSignInPress(); }} />
           <AuthButton bottomButton={true} text="Back" onPress={() => { this.handleBackPress(); }} />
         </View>
@@ -71,6 +84,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     alignSelf: 'center',
     marginTop: 100,
+  },
+  errorText: {
+    color: '#fff',
+    textAlign: 'center',
+    alignSelf: 'center',
+    height: 44,
+    fontSize: 18,
+    width: '80%',
   },
   authContainer: {
     width: '100%',

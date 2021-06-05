@@ -41,7 +41,7 @@ class SignUp extends Component {
     } else if (this.validatePassword() !== true) {
       this.setState({ error: this.validatePassword() });
     } else {
-      console.log('Attempted sign up.');
+      this.setState({ error: '' });
       const user = {
         email: this.state.email,
         password: this.state.password,
