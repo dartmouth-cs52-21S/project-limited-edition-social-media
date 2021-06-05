@@ -23,10 +23,9 @@ function uploadFileToS3(signedRequest, file, url, type) {
   });
 }
 
-export default function uploadImage(file, type) {
+export default async function uploadImage(file, type) {
   console.log(type);
   // returns a promise so you can handle error and completion in your component
-  return getSignedRequest(file, type).then((response) => {
-    return uploadFileToS3(response.data.signedRequest, file, response.data.url, type);
-  });
+  const response = await getSignedRequest(file, type);
+  return uploadFileToS3(response.data.signedRequest, file, response.data.url, type);
 }
