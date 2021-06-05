@@ -10,6 +10,11 @@ const AuthInput = (props) => {
       value={props.value}
       placeholder={props.placeholder}
       placeholderTextColor="#9FB1BC"
+      returnKeyType={props.returnKeyType}
+      textContentType={props.textContentType}
+      secureTextEntry={props.secureTextEntry}
+      keyboardType={props.keyboardType}
+      autoCompleteType={props.autoCompleteType}
     />
   );
 };

@@ -45,8 +45,8 @@ class SignIn extends Component {
         </View>
 
         <View style={styles.authContainer}>
-          <AuthInput placeholder="Email" value={this.state.email} onChange={this.onEmailChange} />
-          <AuthInput placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
+          <AuthInput textContentType="emailAddress" placeholder="Email" value={this.state.email} onChange={this.onEmailChange} />
+          <AuthInput textContentType="password" secureTextEntry={true} placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
         </View>
         <View style={styles.authContainer}>
           <AuthButton text="Sign In" onPress={() => { this.handleSignInPress(); }} />
