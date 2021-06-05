@@ -80,6 +80,9 @@ const App = (props) => {
             <Stack.Screen
               name="PostFullScreen"
               component={PostMaximized}
+              options={{
+                headerShown: false,
+              }}
             />
           </Stack.Navigator>
         </NavigationContainer>
