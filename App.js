@@ -68,6 +68,10 @@ const App = (props) => {
             <Stack.Screen
               name="SignUp"
               component={SignUp}
+              options={{
+                headerTitle: 'Sign Up',
+                headerBackTitle: 'Back',
+              }}
             />
             <Stack.Screen
               name="MainTab"

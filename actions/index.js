@@ -104,13 +104,14 @@ export function authError(error) {
   if (error.response) {
     if (error.response.status === 401) {
       errorMessage = 'username/password does not exist';
+    } else if (error.response.status === 422) {
+      errorMessage = error.response.data.error;
     } else {
       errorMessage = error.response.data;
     }
   } else if (error.request) {
     errorMessage = error.request.responseText;
   } else {
-    console.log('error other');
     errorMessage = error;
   }
 
@@ -172,7 +173,6 @@ export function signupUser({
         routes: [{ name: 'MainTab' }],
       });
     }).catch((error) => {
-      console.log(error.response.data);
       dispatch(authError(error));
     });
   };
