@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  FlatList, View, StyleSheet,
+  FlatList, View, StyleSheet, Image,
 } from 'react-native';
 import {
   Modal, Portal, Button, Text,
@@ -49,9 +49,9 @@ class AllPosts extends Component {
 
   setVisible = (bool) => this.setState({ visible: bool });
 
-  showModal = ({ author: { username: currUser, displayname: displayName } }) => {
+  showModal = ({ author: { username: currUser, displayname: displayName, profilePic } }) => {
     this.setVisible(true);
-    this.setState({ currUser, displayName });
+    this.setState({ currUser, displayName, profilePic });
   }
 
   hideModal = () => this.setVisible(false);
@@ -69,6 +69,13 @@ class AllPosts extends Component {
   routeProfile = () => {
     this.hideModal();
     this.props.navigation.navigate('Profile', { name: 'Profile' });
+  }
+
+  handleShowProfilePress = () => {
+    this.props.navigation.navigate('OtherUserProfile', {
+      name: 'OtherUserProfile',
+      username: this.state.currUser,
+    });
   }
 
   renderModal = () => {
@@ -123,7 +130,14 @@ class AllPosts extends Component {
             contentContainerStyle={styles.containerStyle}
           >
             <Text style={styles.modalText}>{this.state.displayName || '--- bad data ---'}</Text>
-            {this.renderModal()}
+            <View style={styles.picView}>
+              <Image
+                style={styles.pic}
+                source={{ uri: this.state.profilePic || '' }}
+              />
+              {this.renderModal()}
+              {this.state.currUser === this.props.user.username ? <Text /> : <Button style={styles.follow} onPress={this.seeProfile}>See Profile</Button> }
+            </View>
           </Modal>
         </Portal>
       </View>
@@ -143,9 +157,22 @@ const styles = StyleSheet.create({
     zIndex: 99,
     backgroundColor: '#5486E8',
     color: '#fff',
+    width: '90%',
+    marginBottom: 10,
   },
   modalText: {
     textAlign: 'center',
+    fontWeight: '800',
+    fontSize: 20,
+  },
+  pic: {
+    width: 200,
+    height: 200,
+    margin: 20,
+  },
+  picView: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
