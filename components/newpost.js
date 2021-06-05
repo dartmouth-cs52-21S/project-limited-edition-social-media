@@ -40,11 +40,14 @@ class NewPost extends Component {
         }
         if (this.props.route.params.hashtags || this.props.route.params.hashtags === '') {
           const seperatedTags = [];
+          const tagSet = new Set();
+
           const tags = this.props.route.params.hashtags;
           // looping through hashtags string word by word and inserting them into an array
           tags.replace(/#/g, '').split(' ').forEach((tag) => {
-            if (tag !== '') {
+            if (tag !== '' && !tagSet.has(tag)) {
               seperatedTags.push(tag);
+              tagSet.add(tag);
             }
           });
           this.setState({ hashtags: seperatedTags });

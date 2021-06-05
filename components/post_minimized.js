@@ -2,6 +2,8 @@ import React from 'react';
 import {
   StyleSheet, View, Text, ImageBackground, Dimensions, TouchableOpacity, TouchableHighlight,
 } from 'react-native';
+import MaskedView from '@react-native-community/masked-view';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
 const computeRarity = (viewLimit) => {
@@ -17,6 +19,23 @@ const computeRarity = (viewLimit) => {
   }
 };
 
+const renderTagItem = (tag) => (
+  <View style={styles.topbarTagItem} key={tag}>
+    <Text style={styles.topbarTagItemText}>
+      #
+      {tag}
+    </Text>
+  </View>
+);
+
+const renderTags = (tags) => {
+  return (
+    <View style={styles.tagWrapper}>
+      {tags.map(renderTagItem)}
+    </View>
+  );
+};
+
 const PostMinimized = (props) => {
   const navigation = useNavigation();
   const rarity = computeRarity(props.viewLimit);
@@ -25,7 +44,7 @@ const PostMinimized = (props) => {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate('PostFullScreen', props)}
+      onPress={() => navigation.navigate('PostFullScreen', { ...props, showModal: null })}
     >
       <ImageBackground
         source={{ uri: props.preview }}
@@ -40,14 +59,19 @@ const PostMinimized = (props) => {
               </Text>
             </TouchableHighlight>
             <View style={styles.topbarTags}>
-              {props.tags.map((tag) => (
-                <View style={styles.topbarTagItem} key={tag}>
-                  <Text style={styles.topbarTagItemText}>
-                    #
-                    {tag}
-                  </Text>
-                </View>
-              ))}
+              <MaskedView
+                style={styles.topbarMaskedView}
+                maskElement={(
+                  <LinearGradient
+                    colors={['black', 'transparent']}
+                    style={{ flex: 1 }}
+                    start={[0.8, 0]}
+                    end={[1, 0]}
+                  />
+              )}
+              >
+                {renderTags(props.tags)}
+              </MaskedView>
             </View>
             <View style={styles.topbarViewLimit}>
               <Text style={styles.topbarViewLimitText}>
@@ -93,10 +117,25 @@ const styles = StyleSheet.create({
   },
 
   topbarTags: {
+    flexGrow: 1,
+    flexShrink: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginLeft: '5%',
+
+    marginLeft: '1%',
+  },
+  tagWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginLeft: '3%',
+  },
+  topbarMaskedView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '100%',
   },
   topbarTagItem: {
     flexDirection: 'row',
@@ -105,14 +144,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     opacity: 0.7,
     borderRadius: 5,
-    marginLeft: '1%',
-    marginRight: '1%',
+    marginRight: 5,
+    paddingLeft: 3,
+    paddingRight: 3,
+    alignSelf: 'center',
   },
   topbarTagItemText: {
     color: 'black',
     textAlign: 'center',
-    paddingLeft: '1%',
-    paddingRight: '1%',
   },
 
   topbarAuthor: {
@@ -120,8 +159,8 @@ const styles = StyleSheet.create({
   },
 
   topbarViewLimit: {
-    flex: 1,
     marginRight: '2%',
+    marginLeft: '2%',
   },
   topbarViewLimitText: {
     color: 'white',

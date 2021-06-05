@@ -57,12 +57,30 @@ export function createPost(navigation, post) {
   };
 }
 
+export function deletePost(id, history = null) {
+  /* axios delete */
+  return (dispatch) => {
+    const url = `${ROOT_URL}/posts/${id}`;
+    getData('token').then((authorization) => axios.delete(url, { headers: { authorization } }))
+      .then((response) => {
+        if (history) {
+          history.push('/');
+        }
+      }).catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
+  };
+}
+
 export function updatePost(id, fields) {
   /* axios put */
   return (dispatch) => {
     getData('token').then((authorization) => {
       axios.put(`${ROOT_URL}/posts/${id}`, fields, { headers: { authorization } }).then((response) => {
         dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
+        if (response.data.item.currentViews >= response.data.item.viewLimit) {
+          deletePost(id);
+        }
       }).catch((error) => dispatch({ type: ActionTypes.ERROR_SET, error }));
     });
   };
@@ -74,19 +92,6 @@ export function fetchPost(id) {
     axios.get(`${ROOT_URL}/posts/${id}`)
       .then(({ data: payload }) => dispatch({ type: ActionTypes.FETCH_POST, payload }))
       .catch((error) => dispatch({ type: ActionTypes.ERROR_SET, error }));
-  };
-}
-
-export function deletePost(id, history) {
-  /* axios delete */
-  return (dispatch) => {
-    const url = `${ROOT_URL}/posts/${id}`;
-    getData('token').then((authorization) => axios.delete(url, { headers: { authorization } }))
-      .then((response) => {
-        history.push('/');
-      }).catch((error) => {
-        dispatch({ type: ActionTypes.ERROR_SET, error });
-      });
   };
 }
 
