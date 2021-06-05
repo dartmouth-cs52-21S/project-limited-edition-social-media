@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   StyleSheet, View, Text, ImageBackground, Dimensions,
 } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Video } from 'expo-av';
 import { Icon } from 'react-native-elements';
@@ -17,39 +18,36 @@ const PostMaximized = (props) => {
   }, []);
 
   const video = React.createRef();
-
+  const renderTags = ({ item, index }) => {
+    return (
+      <View style={styles.topbarTagItem} key={item}>
+        <Text style={styles.topbarTagItemText}>
+          #
+          {item}
+        </Text>
+      </View>
+    );
+  };
   const postOverlay = (
     <View style={styles.overlayContainer}>
       <View style={styles.statusBar} />
-      <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-        <Icon
-          name="close-outline"
-          type="ionicon"
-          color="rgb(255, 255, 255)"
-          size={46}
-          containerStyle={{ borderRadius: 15 }}
-          onPress={() => {
-            props.navigation.goBack();
-          }}
-        />
-      </View>
-      <View style={styles.topbar}>
+      <View style={styles.topBar}>
+        <View style={styles.closeIconWrapper}>
+          <Icon
+            name="close-outline"
+            type="ionicon"
+            color="rgb(255, 255, 255)"
+            size={46}
+            containerStyle={{ borderRadius: 15 }}
+            onPress={() => {
+              props.navigation.goBack();
+            }}
+          />
+        </View>
         <View style={styles.topbarAuthor}>
           <Text style={styles.font}>
-            {postProps.displayName ? postProps.displayName : 'author'}
+            {postProps.author.displayname ? postProps.author.displayname : 'author'}
           </Text>
-        </View>
-        <View style={styles.topbarTags}>
-          {postProps.tags ? postProps.tags.map((tag) => {
-            return (
-              <View style={styles.topbarTagItem} key={tag}>
-                <Text style={styles.topbarTagItemText}>
-                  #
-                  {tag}
-                </Text>
-              </View>
-            );
-          }) : null}
         </View>
         <View style={styles.topbarViewLimit}>
           <Text style={styles.topbarViewLimitText}>
@@ -58,6 +56,20 @@ const PostMaximized = (props) => {
             {postProps.viewLimit !== undefined ? postProps.viewLimit : 'nan'}
           </Text>
         </View>
+      </View>
+      <View style={styles.tagWrapper}>
+        <Carousel
+          data={postProps.tags}
+          renderItem={renderTags}
+          sliderWidth={windowWidth}
+          itemWidth={windowWidth}
+          enableSnap
+          loop
+          autoplay
+          autoplayInterval={2000}
+          lockScrollWhileSnapping
+          contentContainerStyle={styles.topbarTags}
+        />
       </View>
       <View style={styles.caption}>
         <Text style={styles.captionContent}>
@@ -125,7 +137,12 @@ const styles = StyleSheet.create({
     height: windowHeight,
     backgroundColor: 'black',
   },
-  topbar: {
+  closeIconWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  tagWrapper: {
     height: '3%',
     width: '100%',
 
@@ -133,8 +150,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
+  topBar: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
   topbarAuthor: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginLeft: '2%',
   },
   topbarTags: {
@@ -145,6 +169,7 @@ const styles = StyleSheet.create({
   },
   topbarTagItem: {
     flexDirection: 'row',
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -152,15 +177,19 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginLeft: '1%',
     marginRight: '1%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
   },
   topbarTagItemText: {
     color: 'black',
     textAlign: 'center',
-    paddingLeft: '1%',
-    paddingRight: '1%',
   },
   topbarViewLimit: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignContent: 'center',
+    alignItems: 'center',
     marginRight: '2%',
   },
   topbarViewLimitText: {
