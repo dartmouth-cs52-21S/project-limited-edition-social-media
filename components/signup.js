@@ -4,6 +4,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import AuthInput from './auth_input';
+import AuthButton from './auth_button';
+
 import { signupUser } from '../actions';
 
 class SignUp extends Component {
@@ -48,15 +50,22 @@ class SignUp extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-          Sign Up
-        </Text>
-        <AuthInput placeholder="Email" value={this.state.email} onChange={this.onEmailChange} />
-        <AuthInput placeholder="Display Name" value={this.state.displayname} onChange={this.onDisplaynameChange} />
-        <AuthInput placeholder="Username" value={this.state.username} onChange={this.onUsernameChange} />
-        <AuthInput placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
-        <Button title="Sign Up" onPress={() => this.handleSignUpPress()} />
-        <Button title="Back" onPress={() => { this.handleBackPress(); }} />
+        <View style={styles.authContainer}>
+          <Text style={styles.title}>
+            Sign Up
+          </Text>
+        </View>
+
+        <View style={styles.authContainer}>
+          <AuthInput placeholder="Email" value={this.state.email} onChange={this.onEmailChange} />
+          <AuthInput placeholder="Display Name" value={this.state.displayname} onChange={this.onDisplaynameChange} />
+          <AuthInput placeholder="Username" value={this.state.username} onChange={this.onUsernameChange} />
+          <AuthInput placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
+        </View>
+        <View style={styles.authContainer}>
+          <AuthButton text="Sign Up" onPress={() => this.handleSignUpPress()} />
+          <AuthButton bottomButton={true} text="Back" onPress={() => { this.handleBackPress(); }} />
+        </View>
       </View>
     );
   }
@@ -67,10 +76,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
+    backgroundColor: '#2E4057',
   },
-  image: {
-    width: 400,
-    height: 300,
+  title: {
+    fontFamily: 'Gill Sans',
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#fff',
+    // backgroundColor: 'pink',
+    alignSelf: 'center',
+    marginTop: 100,
+    // height: '20%',
+  },
+  authContainer: {
+    width: '100%',
+    // backgroundColor: 'blue',
   },
 });
 
