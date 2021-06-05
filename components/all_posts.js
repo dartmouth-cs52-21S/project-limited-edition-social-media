@@ -72,6 +72,7 @@ class AllPosts extends Component {
   }
 
   handleShowProfilePress = () => {
+    this.hideModal();
     this.props.navigation.navigate('OtherUserProfile', {
       name: 'OtherUserProfile',
       username: this.state.currUser,
@@ -136,7 +137,7 @@ class AllPosts extends Component {
                 source={{ uri: this.state.profilePic || '' }}
               />
               {this.renderModal()}
-              {this.state.currUser === this.props.user.username ? <Text /> : <Button style={styles.follow} onPress={this.seeProfile}>See Profile</Button> }
+              {this.state.currUser === this.props.user.username ? <Text /> : <Button style={styles.follow} onPress={this.handleShowProfilePress}>See Profile</Button> }
             </View>
           </Modal>
         </Portal>
