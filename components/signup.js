@@ -51,9 +51,7 @@ class SignUp extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.authContainer}>
-          <Text style={styles.title}>
-            Sign Up
-          </Text>
+          <Text style={styles.title}>Sign Up</Text>
         </View>
 
         <View style={styles.authContainer}>
@@ -83,14 +81,11 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     color: '#fff',
-    // backgroundColor: 'pink',
     alignSelf: 'center',
     marginTop: 100,
-    // height: '20%',
   },
   authContainer: {
     width: '100%',
-    // backgroundColor: 'blue',
   },
 });
 
