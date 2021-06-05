@@ -7,14 +7,16 @@ import Carousel from 'react-native-snap-carousel';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Video } from 'expo-av';
 import { Icon } from 'react-native-elements';
-import { updatePost } from '../actions';
+import { updatePost, addPostToViewedInSession } from '../actions';
 
 const PostMaximized = (props) => {
   const postProps = props.route.params;
   let post = null;
 
   useEffect(() => {
-    props.updatePost(postProps.id, { currentViews: postProps.currentViews + 1 });
+    if (postProps.updateCount) {
+      props.updatePost(postProps.id, { currentViews: postProps.currentViews + 1 });
+    }
   }, []);
 
   const video = React.createRef();
@@ -220,4 +222,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { updatePost })(PostMaximized);
+export default connect(null, { updatePost, addPostToViewedInSession })(PostMaximized);

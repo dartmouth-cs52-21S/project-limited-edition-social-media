@@ -260,3 +260,14 @@ export function isFollowing(username) {
       });
   };
 }
+
+export function addPostToViewedInSession(postID) {
+  return (dispatch) => {
+    const url = `${ROOT_URL}/addToViewed/${postID}`;
+    getData('token').then((authorization) => axios.post(url, {}, { headers: { authorization } }))
+      .catch((error) => {
+        console.error(`Adding post to viewed in current session error: ${error}`);
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
+  };
+}

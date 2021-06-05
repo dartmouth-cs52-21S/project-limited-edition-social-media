@@ -57,8 +57,10 @@ class SignIn extends Component {
         <View style={styles.errorContainer}>
           {this.renderError()}
         </View>
-        <AuthInput placeholder="Email" value={this.state.email} onChange={this.onEmailChange} />
-        <AuthInput placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
+        <View style={styles.authInputWrapper}>
+          <AuthInput placeholder="Email" value={this.state.email} onChange={this.onEmailChange} />
+          <AuthInput placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
+        </View>
         <Button
           title="Sign In"
           onPress={this.handleSignInPress}
@@ -79,7 +81,20 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     margin: 12,
-    height: '2%',
+    minHeight: 30,
+  },
+  error: {
+    color: '#f52c4e', // red
+    textAlign: 'center',
+  },
+  authInputWrapper: {
+    margin: 0,
+    padding: 0,
+    width: '100%',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    alignItems: 'center',
+
   },
   button: {
     backgroundColor: '#9e28ed',
@@ -91,10 +106,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontFamily: 'Gill Sans',
-  },
-  error: {
-    color: '#f52c4e', // red
-    textAlign: 'center',
   },
   image: {
     width: 400,
