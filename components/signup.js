@@ -24,6 +24,7 @@ class SignUp extends Component {
     };
   }
 
+  // TODO: Check for email in use, username in use.
   handleSignUpPress() {
     if (!this.state.displayname) {
       this.setState({ error: 'Please enter a display name.' });
