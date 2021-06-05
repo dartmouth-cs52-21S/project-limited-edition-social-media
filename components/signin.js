@@ -6,6 +6,7 @@ import {
 import AuthInput from './auth_input';
 import AuthButton from './auth_button';
 import { signinUser } from '../actions';
+// import initialState from '../reducers/auth-reducer';
 
 class SignIn extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class SignIn extends Component {
     };
   }
 
+  // TODO: Tell user if invalid username/password.
   handleSignInPress = () => {
     if (!this.state.email) {
       this.setState({ error: 'Please enter an email.' });
@@ -32,6 +34,9 @@ class SignIn extends Component {
         password: this.state.password,
       };
       this.props.signinUser(user, this.navigation);
+      // if (!initialState.authenticated) {
+      //   this.setState({ error: 'Invalid username or password.' });
+      // }
     }
   }
 

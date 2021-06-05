@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, Pressable,
+  StyleSheet, View, Text,
 } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AllPosts from './all_posts';

@@ -13,7 +13,6 @@ class SignUp extends Component {
     super(props);
     const { navigation } = this.props;
     this.navigation = navigation;
-    this.error = 'poo';
 
     this.state = {
       email: '',
