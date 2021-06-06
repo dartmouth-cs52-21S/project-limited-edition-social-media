@@ -103,7 +103,7 @@ class SignUp extends Component {
 
   // TODO: Test if a username has been taken somehow.
   usernameIsTaken() {
-    return false;
+    return this.props.signUpError.usernameTaken;
   }
 
   render() {
@@ -158,5 +158,11 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
+const mapStateToProps = () => {
+  return {
+    signUpError: this.props.
+  }
+}
 
 export default connect(null, { signupUser })(SignUp);
