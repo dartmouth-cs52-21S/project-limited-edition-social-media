@@ -97,9 +97,26 @@ export function fetchPost(id) {
 // trigger to deauth if there is error
 // can also use in your error reducer if you have one to display an error message
 export function authError(error) {
+  let errorMessage;
+
+  console.log(error);
+  if (error.response) {
+    if (error.response.status === 401) {
+      errorMessage = 'username/password does not exist';
+    } else if (error.response.status === 422) {
+      errorMessage = error.response.data.error;
+    } else {
+      errorMessage = error.response.data;
+    }
+  } else if (error.request) {
+    errorMessage = error.request.responseText;
+  } else {
+    errorMessage = error;
+  }
+
   return {
     type: ActionTypes.AUTH_ERROR,
-    message: error,
+    message: errorMessage,
   };
 }
 
