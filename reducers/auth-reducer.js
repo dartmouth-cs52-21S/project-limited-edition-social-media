@@ -11,7 +11,7 @@ const AuthReducer = (state = initialState, action) => {
     case ActionTypes.DEAUTH_USER:
       return { ...state, authenticated: false };
     case ActionTypes.AUTH_ERROR:
-      return { ...state, authenticated: false };
+      return { ...state, error: action.message, authenticated: false };
     default:
       return state;
   }
