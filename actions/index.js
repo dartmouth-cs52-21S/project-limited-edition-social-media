@@ -98,8 +98,6 @@ export function fetchPost(id) {
 // can also use in your error reducer if you have one to display an error message
 export function authError(error) {
   let errorMessage;
-
-  console.log(error);
   if (error.response) {
     if (error.response.status === 401) {
       errorMessage = 'username/password does not exist';
@@ -139,7 +137,7 @@ export function signinUser({ email, password }, navigation) {
         routes: [{ name: 'MainTab' }],
       });
     }).catch((error) => {
-      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      dispatch(authError(error));
     });
   };
 }
@@ -166,8 +164,7 @@ export function signupUser({
         routes: [{ name: 'MainTab' }],
       });
     }).catch((error) => {
-      console.log(error.response.data);
-      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      dispatch(authError(error));
     });
   };
 }
