@@ -103,4 +103,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { signinUser })(SignIn);
+const mapStateToProps = (state) => (
+  {
+    signInError: state.auth.error,
+  }
+);
+
+export default connect(mapStateToProps, { signinUser })(SignIn);
