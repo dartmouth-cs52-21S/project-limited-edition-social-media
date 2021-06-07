@@ -16,8 +16,8 @@ export const ActionTypes = {
 };
 
 // lmited is not a typo do not change
-export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
-// export const ROOT_URL = 'http://localhost:9090/api';
+// export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
+export const ROOT_URL = 'http://localhost:9090/api';
 /// IMPORTANT! API CALLS ONLY IN HERE, NOWHERE ELSE
 
 // Learned about axios calls from https://blog.logrocket.com/how-to-make-http-requests-like-a-pro-with-axios/
@@ -248,4 +248,8 @@ export function isFollowing(username) {
         dispatch({ type: ActionTypes.ERROR_SET, error });
       });
   };
+}
+
+export function getSearchedUsers(profileName) {
+  return axios.get(`${ROOT_URL}/search/${profileName}`);
 }
