@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, Pressable,
+  StyleSheet, View, Text,
 } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AllPosts from './all_posts';
+import AuthButton from './auth_button';
 
 const ModalStack = createStackNavigator();
 
@@ -30,8 +31,14 @@ class HomeLimited extends Component {
             <ModalStack.Screen name="Home Limited" component={AllPosts} />
           </ModalStack.Navigator>
         </View> */}
+        <View style={styles.logoView}>
+          <Text style={styles.logoText}>Poof</Text>
+        </View>
+
         <View style={styles.signinFunctions}>
-          <Pressable
+          <AuthButton text="Sign In" onPress={() => this.handleSignInPress()} />
+          <AuthButton text="Sign Up" onPress={() => this.handleSignUpPress()} />
+          {/* <Pressable
             style={({ pressed }) => [
               {
                 backgroundColor: pressed ? '#4166b0' : '#5486E8',
@@ -64,7 +71,7 @@ class HomeLimited extends Component {
             <Text style={styles.buttonText}>
               Sign Up
             </Text>
-          </Pressable>
+          </Pressable> */}
         </View>
       </View>
     // <View style={styles.container}>
@@ -93,31 +100,29 @@ class HomeLimited extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#2E4057',
+    justifyContent: 'space-around',
+    alignContent: 'center',
   },
   homelimited: {
     flex: 1,
-
   },
-  signinFunctions: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    position: 'absolute',
-    bottom: 100,
+  logoView: {
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
   },
-  button: {
-    elevation: 40,
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    marginHorizontal: 30,
-  },
-  buttonText: {
-    fontSize: 18,
+  logoText: {
     color: '#fff',
+    fontSize: 60,
+    fontFamily: 'Gill Sans',
     fontWeight: 'bold',
-    alignSelf: 'center',
-    textTransform: 'uppercase',
+  },
+  signinFunctions: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: 200,
+    width: '100%',
   },
 
 });
