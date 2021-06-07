@@ -9,12 +9,14 @@ import { profileUser } from '../actions';
 
 class Profile extends Component {
   componentDidMount() {
-    this.props.profileUser();
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.props.profileUser();
+    });
   }
 
-  componentDidUpdate = () => {
-    // this.props.profileUser();
-  };
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
 
   handleSettingsPress = () => {
     console.warn(this.props.user);
@@ -30,8 +32,7 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <Appbar style={styles.top}>
-          {/* Temporary until I find the appropriate React lifecycle fuction */}
-          <Appbar.Action icon="refresh" onPress={() => this.props.profileUser()} />
+          {/* <Appbar.Action icon="refresh" onPress={() => this.props.profileUser()} /> */}
           <Text style={styles.center}>Profile</Text>
           <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
         </Appbar>
