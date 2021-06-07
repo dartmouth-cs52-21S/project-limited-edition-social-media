@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, FlatList, SafeAreaView,
+  Image, StyleSheet, SafeAreaView,
 } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+
+import { List, Searchbar } from 'react-native-paper';
 import {
   getSearchedUsers,
 } from '../actions';
@@ -12,11 +13,14 @@ const DEFAULT_STATE = {
   users: [],
 };
 
+const DEFAULT_IMG = 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg';
+
 class Search extends Component {
   constructor(props) {
     super(props);
     this.onChangeSearch = this.onChangeSearch.bind(this);
     this.renderUser = this.renderUser.bind(this);
+    this.renderUserProfile = this.renderUserProfile.bind(this);
   }
 
   componentDidMount() {
@@ -34,10 +38,22 @@ class Search extends Component {
     }));
   }
 
-  renderUser = ({ item }) => (
-    <Text>
-      {item.displayname}
-    </Text>
+  renderUserProfile({ username }) {
+    console.log(username);
+  }
+
+  renderUser = (item) => (
+    <List.Item
+      title={item.displayname || 'No Name'}
+      onPress={() => this.renderUserProfile(item)}
+      value={item.username}
+      left={() => (
+        <Image
+          style={styles.tinyLogo}
+          source={{ uri: item.profilePic || DEFAULT_IMG }}
+        />
+      )}
+    />
   );
 
   render() {
@@ -50,11 +66,10 @@ class Search extends Component {
           value={this.state?.searchQuery || ''}
         />
 
-        <FlatList
-          data={this.state?.users || []}
-          renderItem={this.renderUser}
-          keyExtractor={(item) => item.id}
-        />
+        <List.Section style={styles.listSection}>
+          <List.Subheader>Search by username</List.Subheader>
+          {(this.state?.users || []).map(this.renderUser)}
+        </List.Section>
       </SafeAreaView>
     );
   }
@@ -62,9 +77,16 @@ class Search extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
+  listSection: {
+    width: '100%',
   },
 });
 
