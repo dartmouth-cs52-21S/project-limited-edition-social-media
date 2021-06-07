@@ -8,7 +8,7 @@ class Activity extends Component {
     return (
       <View style={styles.container}>
         <Text>
-          Activity
+          Bubble Page here instead of activities maybe?
         </Text>
       </View>
     );
