@@ -18,8 +18,6 @@ import reducers from './reducers';
 
 LogBox.ignoreAllLogs();
 
-
-
 const Stack = createStackNavigator();
 
 const store = createStore(reducers, {}, compose(
