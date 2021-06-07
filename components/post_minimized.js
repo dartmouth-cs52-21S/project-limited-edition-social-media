@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  StyleSheet, View, Text, ImageBackground, Dimensions, TouchableOpacity,
+  StyleSheet, View, Text, ImageBackground, Dimensions, TouchableOpacity, TouchableHighlight,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,6 +20,7 @@ const computeRarity = (viewLimit) => {
 const PostMinimized = (props) => {
   const navigation = useNavigation();
   const rarity = computeRarity(props.viewLimit);
+  const openProfileModal = () => props.showModal(props);
 
   return (
     <TouchableOpacity
@@ -33,22 +34,20 @@ const PostMinimized = (props) => {
       >
         <View style={styles.subcontainer}>
           <View style={styles.topbar}>
-            <View style={styles.topbarAuthor}>
+            <TouchableHighlight style={styles.topbarAuthor} onPress={openProfileModal}>
               <Text style={styles.font}>
-                {props.displayName ? props.displayName : 'author'}
+                {props.author.displayname || 'author'}
               </Text>
-            </View>
+            </TouchableHighlight>
             <View style={styles.topbarTags}>
-              {props.tags.map((tag) => {
-                return (
-                  <View style={styles.topbarTagItem} key={tag}>
-                    <Text style={styles.topbarTagItemText}>
-                      #
-                      {tag}
-                    </Text>
-                  </View>
-                );
-              })}
+              {props.tags.map((tag) => (
+                <View style={styles.topbarTagItem} key={tag}>
+                  <Text style={styles.topbarTagItemText}>
+                    #
+                    {tag}
+                  </Text>
+                </View>
+              ))}
             </View>
             <View style={styles.topbarViewLimit}>
               <Text style={styles.topbarViewLimitText}>
@@ -60,33 +59,12 @@ const PostMinimized = (props) => {
           </View>
           <View style={styles.body}>
             <Text style={styles.bodyContent}>
-              {props.caption ? props.caption : 'NO CAPTION'}
+              {props.caption || 'NO CAPTION'}
             </Text>
           </View>
         </View>
       </ImageBackground>
     </TouchableOpacity>
-  );
-};
-
-const renderPostMinimizedItem = (props) => {
-  return (
-    <View>
-      {props.item.currentViews < props.item.viewLimit && (
-      <PostMinimized
-        caption={props.item.caption}
-        preview={props.item.preview}
-        content={props.item.content}
-        displayName={props.item.author.displayname}
-        currentViews={props.item.currentViews}
-        viewLimit={props.item.viewLimit}
-        blur={props.item.coverBlur}
-        tags={props.item.hashtags}
-        type={props.item.type}
-        id={props.item.id}
-      />
-      )}
-    </View>
   );
 };
 
@@ -174,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { PostMinimized, renderPostMinimizedItem };
+export default PostMinimized;
