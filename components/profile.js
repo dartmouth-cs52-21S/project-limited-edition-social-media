@@ -7,6 +7,8 @@ import { Appbar } from 'react-native-paper';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { profileUser } from '../actions';
 
+const DEFAULT_IMG = 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png';
+
 class Profile extends Component {
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
@@ -19,7 +21,6 @@ class Profile extends Component {
   }
 
   handleSettingsPress = () => {
-    console.warn(this.props.user);
     this.props.navigation.navigate('Settings', {
       name: 'Settings',
       isFollowerListVisible: this.props.user.isFollowerListVisible,
@@ -32,13 +33,12 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <Appbar style={styles.top}>
-          {/* <Appbar.Action icon="refresh" onPress={() => this.props.profileUser()} /> */}
           <Text style={styles.center}>Profile</Text>
           <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
         </Appbar>
         <Image
           style={styles.pic}
-          source={{ uri: this.props.user.profilePic || 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg' }}
+          source={{ uri: this.props.user.profilePic || DEFAULT_IMG }}
         />
         <Text style={styles.followNum}>
           {' '}

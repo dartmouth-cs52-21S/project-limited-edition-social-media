@@ -54,8 +54,6 @@ class Profile extends Component {
             {this.state.isBadgeListVisible ? 'Public' : 'Private'}
           </Button>
         </View>
-        <Button onPress={() => console.log(this.state)}>display state</Button>
-        <Button onPress={() => console.log(this.props.route.params)}>display props</Button>
         <Button style={styles.bttn} onPress={() => this.handleSignOutPress()}>Sign Out</Button>
       </View>
     );

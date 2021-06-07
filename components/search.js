@@ -13,7 +13,7 @@ const DEFAULT_STATE = {
   users: [],
 };
 
-const DEFAULT_IMG = 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg';
+const DEFAULT_IMG = 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png';
 
 class Search extends Component {
   constructor(props) {
@@ -39,7 +39,6 @@ class Search extends Component {
   }
 
   renderUserProfile({ username }) {
-    console.log(username);
   }
 
   renderUser = (item) => (
@@ -57,7 +56,6 @@ class Search extends Component {
   );
 
   render() {
-    console.warn(this.state);
     return (
       <SafeAreaView style={styles.container}>
         <Searchbar
