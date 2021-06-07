@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Image, StyleSheet, SafeAreaView,
+  Image, StyleSheet, SafeAreaView, ScrollView,
 } from 'react-native';
 
 import { List, Searchbar } from 'react-native-paper';
@@ -75,10 +75,12 @@ class Search extends Component {
           value={this.state?.searchQuery || ''}
         />
 
-        <List.Section style={styles.listSection}>
-          <List.Subheader>Press enter to search by username</List.Subheader>
-          {(this.state?.users || []).map(this.renderUser)}
-        </List.Section>
+        <ScrollView style={styles.listSection}>
+          <List.Section>
+            <List.Subheader>Press enter to search by username</List.Subheader>
+            {(this.state?.users || []).map(this.renderUser)}
+          </List.Section>
+        </ScrollView>
       </SafeAreaView>
     );
   }
