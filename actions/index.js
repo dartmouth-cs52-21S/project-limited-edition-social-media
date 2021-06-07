@@ -186,18 +186,6 @@ export function signoutUser(navigation) {
   };
 }
 
-export function profileUser() {
-  return async (dispatch) => {
-    const url = `${ROOT_URL}/profile`;
-    getData('token').then((authorization) => axios.post(url, {}, { headers: { authorization } }))
-      .then(({ data: payload }) => dispatch({ type: ActionTypes.FETCH_USER, payload }))
-      .catch((error) => {
-        console.error(`Profile failed with error: ${error}`);
-        dispatch(authError(`profile failed: ${error.data}`));
-      });
-  };
-}
-
 // storing token locally
 const storeData = async (dataName, value) => {
   try {
@@ -225,6 +213,30 @@ const removeData = async () => {
     // remove error
   }
 };
+
+export function profileUser() {
+  return async (dispatch) => {
+    const url = `${ROOT_URL}/profile`;
+    getData('token').then((authorization) => axios.post(url, {}, { headers: { authorization } }))
+      .then(({ data: payload }) => dispatch({ type: ActionTypes.FETCH_USER, payload }))
+      .catch((error) => {
+        console.error(`Profile failed with error: ${error}`);
+        dispatch(authError(`profile failed: ${error.data}`));
+      });
+  };
+}
+
+export function profileUserWithUsername(username) {
+  return async (dispatch) => {
+    const url = `${ROOT_URL}/user/${username}`;
+    getData('token').then((authorization) => axios.post(url, {}, { headers: { authorization } }))
+      .then(({ data: payload }) => dispatch({ type: ActionTypes.FETCH_USER, payload }))
+      .catch((error) => {
+        console.error(`Viewing ${username} profile failed with error: ${error}`);
+        dispatch(authError(`profile failed: ${error.data}`));
+      });
+  };
+}
 
 export function updateFollow(username) {
   return (dispatch) => {
@@ -257,4 +269,8 @@ export function isFollowing(username) {
         dispatch({ type: ActionTypes.ERROR_SET, error });
       });
   };
+}
+
+export function getSearchedUsers(profileName) {
+  return axios.get(`${ROOT_URL}/search/${profileName}`);
 }
