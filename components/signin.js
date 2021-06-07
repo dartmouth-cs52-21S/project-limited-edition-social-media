@@ -33,7 +33,6 @@ class SignIn extends Component {
         password: this.state.password,
       };
       this.props.signinUser(user, this.navigation);
-      console.log(this.props.signInError);
     }
   }
 
@@ -50,11 +49,11 @@ class SignIn extends Component {
     this.setState({ password: change });
   }
 
-  renderServerError = () => {
-    if (this.props.signInError) {
-      console.log('server error caught');
-      this.setState({ error: this.props.signInError });
-    }
+  renderError = () => {
+    return [
+      <Text style={styles.errorText} key="frontend">{this.state.error}</Text>,
+      <Text style={styles.errorText} key="backend">{this.props.signInError}</Text>,
+    ];
   }
 
   render() {
@@ -69,7 +68,7 @@ class SignIn extends Component {
           <AuthInput textContentType="password" secureTextEntry={true} placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
         </View>
         <View style={styles.authContainer}>
-          <Text style={styles.errorText}>{this.state.error}</Text>
+          {this.renderError()}
         </View>
         <View style={styles.authContainer}>
           <AuthButton text="Sign In" onPress={() => { this.handleSignInPress(); }} />

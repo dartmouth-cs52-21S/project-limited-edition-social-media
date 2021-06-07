@@ -29,8 +29,6 @@ class SignUp extends Component {
       this.setState({ error: 'Please enter a display name.' });
     } else if (!this.state.username) {
       this.setState({ error: 'Please enter a valid username.' });
-    } else if (this.usernameIsTaken()) {
-      this.setState({ error: 'Username unavailable.' });
     } else if (!this.state.email || !this.validateEmail()) {
       this.setState({ error: 'Please enter a valid email.' });
     } else if (!this.state.password) {
@@ -107,6 +105,13 @@ class SignUp extends Component {
     return this.props.signUpError;
   }
 
+  renderError = () => {
+    return [
+      <Text style={styles.errorText} key="frontend">{this.state.error}</Text>,
+      <Text style={styles.errorText} key="backend">{this.props.signUpError}</Text>,
+    ];
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -121,7 +126,7 @@ class SignUp extends Component {
           <AuthInput textContentType="newPassword" secureTextEntry={true} returnKeyType="done" placeholder="Password" value={this.state.password} onChange={this.onPasswordChange} />
         </View>
         <View style={styles.authContainer}>
-          <Text style={styles.errorText}>{this.state.error}</Text>
+          {this.renderError()}
         </View>
         <View style={styles.authContainer}>
           <AuthButton text="Sign Up" onPress={() => this.handleSignUpPress()} />
