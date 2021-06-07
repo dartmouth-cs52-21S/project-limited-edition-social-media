@@ -49,7 +49,7 @@ class Search extends Component {
     <List.Item
       title={item.displayname || 'No Name'}
       onPress={() => this.renderUserProfile(item)}
-      key={item.username}
+      key={item.id}
       left={() => (
         <Image
           style={styles.tinyLogo}
@@ -60,7 +60,6 @@ class Search extends Component {
   );
 
   render() {
-    console.warn(this.state);
     return (
       <SafeAreaView style={styles.container}>
         <Searchbar
