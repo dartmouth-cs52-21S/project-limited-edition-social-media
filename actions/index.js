@@ -18,8 +18,8 @@ export const ActionTypes = {
 };
 
 // lmited is not a typo do not change
-export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
-// export const ROOT_URL = 'http://localhost:9090/api';
+// export const ROOT_URL = 'https://lmited-edition-socialmedia-api.herokuapp.com/api';
+export const ROOT_URL = 'http://localhost:9090/api';
 /// IMPORTANT! API CALLS ONLY IN HERE, NOWHERE ELSE
 
 // Learned about axios calls from https://blog.logrocket.com/how-to-make-http-requests-like-a-pro-with-axios/
@@ -110,7 +110,6 @@ export function authError(error) {
 
 export function getUsers(profileName) {
   return (dispatch) => {
-    console.log('got here1');
     axios.post(`${ROOT_URL}/search`, { profileName }).then((response) => {
       console.log('got here2');
       // fetch search results
@@ -126,9 +125,10 @@ export function getUsers(profileName) {
 
 export function getSearchedUsers(profileName) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/search`, { profileName }).then((response) => {
+    axios.get(`${ROOT_URL}/search`, profileName).then((response) => {
       // fetch search results
-      //
+      console.log('LOOK HEREE');
+      console.log(response);
       dispatch({ type: ActionTypes.FIND_USER, payload: response });
       // storeData('token', response.data.token);
       // navigation.replace('MainTab');

@@ -11,21 +11,22 @@ import Dropdown from './dropdown';
 class Search extends Component {
   constructor(props) {
     super(props);
-    // this.state = { searchterm: '' };
+    this.state = { searchterm: '' };
     this.onInputChange = this.onInputChange.bind(this);
   }
 
   onInputChange(event) {
     console.log(event.target.value);
-    // this.setState({ searchterm: event.target.value });
+    this.setState({ searchterm: event.target.value });
     // this.props.onSearchChange(event.target.value);
-    this.props.getSearchedUsers(event.target.value);
+    this.props.getSearchedUsers({ name: event.target.value });
   }
 
   // displayUsers() {
   // }
 
   render() {
+    console.log(this.props.users);
     return (
       <View style={styles.container}>
         <Text>
@@ -36,9 +37,9 @@ class Search extends Component {
 
         <View style={styles.flatListContainer}>
           <FlatList
-          // data={this.props.users}
-            data={[{ id: 'stuff', id2: 'stuff2' }]}
-            renderItem={Dropdown}
+            data={this.props.users}
+            // data={[{ id: 'stuff', id2: 'stuff2' }]}
+            renderItem={() => (<Dropdown>Drop Menu</Dropdown>)}
             keyExtractor={(item) => item.id}
           />
         </View>

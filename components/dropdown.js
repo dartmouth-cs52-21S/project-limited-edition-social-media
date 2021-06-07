@@ -8,7 +8,7 @@ class Dropdown extends Component {
     return (
       <View style={styles.container}>
         <Text>
-          Dropdown
+          Dropdown component
         </Text>
       </View>
     );
