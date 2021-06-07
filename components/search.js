@@ -21,13 +21,15 @@ class Search extends Component {
     this.onChangeSearch = this.onChangeSearch.bind(this);
     this.renderUser = this.renderUser.bind(this);
     this.renderUserProfile = this.renderUserProfile.bind(this);
+    this.onIconPress = this.onIconPress.bind(this);
   }
 
   componentDidMount() {
     this.setState(DEFAULT_STATE);
   }
 
-  onChangeSearch(searchQuery) {
+  onIconPress() {
+    const { searchQuery } = this.state;
     if (!searchQuery) {
       this.setState(DEFAULT_STATE);
       return;
@@ -38,14 +40,22 @@ class Search extends Component {
     }));
   }
 
+  onChangeSearch(searchQuery) {
+    this.setState(searchQuery ? { searchQuery } : DEFAULT_STATE);
+  }
+
   renderUserProfile({ username }) {
+    this.props.navigation.navigate('OtherUserProfile', {
+      name: 'OtherUserProfile',
+      username,
+    });
   }
 
   renderUser = (item) => (
     <List.Item
       title={item.displayname || 'No Name'}
       onPress={() => this.renderUserProfile(item)}
-      key={item.username}
+      key={item.id}
       left={() => (
         <Image
           style={styles.tinyLogo}
@@ -61,11 +71,12 @@ class Search extends Component {
         <Searchbar
           placeholder="Find User"
           onChangeText={this.onChangeSearch}
+          onIconPress={this.onIconPress}
           value={this.state?.searchQuery || ''}
         />
 
         <List.Section style={styles.listSection}>
-          <List.Subheader>Search by username</List.Subheader>
+          <List.Subheader>Press enter to search by username</List.Subheader>
           {(this.state?.users || []).map(this.renderUser)}
         </List.Section>
       </SafeAreaView>
