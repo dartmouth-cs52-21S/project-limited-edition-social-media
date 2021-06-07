@@ -9,6 +9,7 @@ import Search from '../components/search';
 import Activity from '../components/activity';
 import Profile from '../components/profile';
 import Settings from '../components/settings';
+import OtherUserProfile from '../components/other_user_profile';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,15 @@ const ProfileStack = () => {
     <Stack.Navigator>
       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
       <Stack.Screen name="Settings" component={Settings} />
+    </Stack.Navigator>
+  );
+};
+
+const HomeStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+      <Stack.Screen name="OtherUserProfile" component={OtherUserProfile} />
     </Stack.Navigator>
   );
 };
@@ -35,7 +45,7 @@ const MainTabBar = () => {
         on whether the user is logged in. initialRouteName above will need to alternate based on
         authentication status as well. */}
       <Tab.Screen name="Home"
-        component={Home}
+        component={HomeStack}
         options={{
           tabBarLabel: 'Home',
           tabBarColor: 'rgb(29,24,27)',
