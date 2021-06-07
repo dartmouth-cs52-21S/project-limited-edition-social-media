@@ -27,7 +27,7 @@ const ProfileStack = () => {
 const HomeStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
       <Stack.Screen name="OtherUserProfile" component={OtherUserProfile} />
     </Stack.Navigator>
   );
