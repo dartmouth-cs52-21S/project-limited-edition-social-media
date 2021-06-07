@@ -7,14 +7,18 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar, LogBox } from 'react-native';
+import AppLoading from 'expo-app-loading';
+// eslint-disable-next-line camelcase
+import { useFonts, ZhiMangXing_400Regular } from '@expo-google-fonts/zhi-mang-xing';
 import { ActionTypes } from './actions';
-import Home from './components/home';
+import Home from './navigation/home';
 import PostMaximized from './components/post_maximized';
 import HomeLimited from './components/home_limited';
 import SignIn from './components/signin';
 import SignUp from './components/signup';
 import MainTabBar from './navigation/main_tab_bar';
 import reducers from './reducers';
+import NewPostTab from './navigation/new_post_tab';
 
 LogBox.ignoreAllLogs();
 
@@ -39,9 +43,16 @@ const getData = async () => {
 getData();
 
 const App = (props) => {
+  const [fontsLoaded] = useFonts({
+    ZhiMangXing_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <PaperProvider>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="white-content" />
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="HomeLimited"
@@ -72,6 +83,9 @@ const App = (props) => {
             <Stack.Screen
               name="PostFullScreen"
               component={PostMaximized}
+            />
+            <Stack.Screen name="Post"
+              component={NewPostTab}
             />
           </Stack.Navigator>
         </NavigationContainer>
