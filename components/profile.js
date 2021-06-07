@@ -8,43 +8,21 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { profileUser } from '../actions';
 
 class Profile extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isFollowerVisible: true,
-      isFollowingVisible: true,
-      isBadgeVisible: true,
-    };
+  componentDidMount() {
+    this.props.profileUser();
   }
 
-  componentDidMount = () => {
-    this.props.profileUser();
+  componentDidUpdate = () => {
+    // this.props.profileUser();
   };
 
-  followerVisible = () => {
-    const temp = this.state.isFollowerVisible;
-    this.setState({ isFollowerVisible: !temp });
-  }
-
-  followingVisible = () => {
-    const temp = this.state.isFollowingVisible;
-    this.setState({ isFollowingVisible: !temp });
-  }
-
-  badgeVisible = () => {
-    const temp = this.state.isBadgeVisible;
-    this.setState({ isBadgeVisible: !temp });
-  }
-
   handleSettingsPress = () => {
+    console.warn(this.props.user);
     this.props.navigation.navigate('Settings', {
       name: 'Settings',
-      followerVisible: this.followerVisible,
-      followingVisible: this.followingVisible,
-      badgeVisible: this.badgeVisible,
-      isFollowerVisible: this.state.isFollowerVisible,
-      isFollowingVisible: this.state.isFollowingVisible,
-      isBadgeVisible: this.state.isBadgeVisible,
+      isFollowerListVisible: this.props.user.isFollowerListVisible,
+      isFollowingListVisible: this.props.user.isFollowingListVisible,
+      isBadgeListVisible: this.props.user.isBadgeListVisible,
     });
   }
 
@@ -67,20 +45,24 @@ class Profile extends Component {
           {' '}
         </Text>
         <View style={styles.followContainer}>
-          <View style={this.state.isFollowerVisible ? styles.follow : styles.hide}>
+          <View style={this.props.user.isFollowerListVisible ? styles.follow : styles.hide}>
+            {/* <View style={this.state.isFollowerVisible ? styles.follow : styles.hide}> */}
             <Text style={styles.followNum}>{this.props.user.followerList.length}</Text>
             <Text style={styles.followWord}>followers</Text>
           </View>
-          <View style={this.state.isFollowerVisible && this.state.isFollowingVisible ? styles.follow : styles.hide}>
+          {/* <View style={this.state.isFollowerVisible && this.state.isFollowingVisible ? styles.follow : styles.hide}></View> */}
+          <View style={this.props.user.isFollowerListVisible && this.props.user.isFollowingListVisible ? styles.follow : styles.hide}>
             {/* Very confused by native styling o_o */}
             <Text style={styles.followNum}>            </Text>
           </View>
-          <View style={this.state.isFollowingVisible ? styles.follow : styles.hide}>
+          <View style={this.props.user.isFollowingListVisible ? styles.follow : styles.hide}>
+            {/* <View style={this.state.isFollowingVisible ? styles.follow : styles.hide}> */}
             <Text style={styles.followNum}>{this.props.user.followingList.length}</Text>
             <Text style={styles.followWord}>following</Text>
           </View>
         </View>
-        <View style={this.state.isBadgeVisible ? styles.badges : styles.hide}>
+        {/* <View style={this.state.isBadgeVisible ? styles.badges : styles.hide}> */}
+        <View style={this.props.user.isBadgeListVisible ? styles.badges : styles.hide}>
           <Text style={styles.badgeWord}>My Badges:</Text>
         </View>
       </View>

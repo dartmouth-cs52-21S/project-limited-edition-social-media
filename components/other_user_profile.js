@@ -29,24 +29,24 @@ class OtherUserProfile extends Component {
           {' '}
         </Text>
         <View style={styles.followContainer}>
-          {/* <View style={this.state.isFollowerVisible ? styles.follow : styles.hide}> */}
-          <View style={styles.follow}>
+          <View style={this.props.user.isFollowerListVisible ? styles.follow : styles.hide}>
+            {/* <View style={styles.follow}> */}
             <Text style={styles.followNum}>{this.props.user.followerList.length}</Text>
             <Text style={styles.followWord}>followers</Text>
           </View>
-          {/* <View style={this.state.isFollowerVisible && this.state.isFollowingVisible ? styles.follow : styles.hide}> */}
-          <View style={styles.follow}>
+          <View style={this.props.user.isFollowerListVisible && this.props.user.isFollowingListVisible ? styles.follow : styles.hide}>
+            {/* <View style={styles.follow}> */}
             {/* Very confused by native styling o_o */}
             <Text style={styles.followNum}>            </Text>
           </View>
-          {/* <View style={this.state.isFollowingVisible ? styles.follow : styles.hide}> */}
-          <View style={styles.follow}>
+          <View style={this.props.user.isFollowingListVisible ? styles.follow : styles.hide}>
+            {/* <View style={styles.follow}> */}
             <Text style={styles.followNum}>{this.props.user.followingList.length}</Text>
             <Text style={styles.followWord}>following</Text>
           </View>
         </View>
-        {/* <View style={this.state.isBadgeVisible ? styles.badges : styles.hide}> */}
-        <View style={styles.badges}>
+        <View style={this.props.user.isBadgeListVisible ? styles.badges : styles.hide}>
+          {/* <View style={styles.badges}> */}
           <Text style={styles.badgeWord}>My Badges:</Text>
         </View>
       </View>

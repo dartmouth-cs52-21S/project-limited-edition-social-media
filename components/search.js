@@ -46,7 +46,7 @@ class Search extends Component {
     <List.Item
       title={item.displayname || 'No Name'}
       onPress={() => this.renderUserProfile(item)}
-      value={item.username}
+      key={item.username}
       left={() => (
         <Image
           style={styles.tinyLogo}

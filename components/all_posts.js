@@ -11,6 +11,8 @@ import {
 } from '../actions';
 import PostMinimized from './post_minimized';
 
+const DEFAULT_IMG = 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg';
+
 class AllPosts extends Component {
   constructor(props) {
     super(props);
@@ -134,7 +136,7 @@ class AllPosts extends Component {
             <View style={styles.picView}>
               <Image
                 style={styles.pic}
-                source={{ uri: this.state.profilePic || '' }}
+                source={{ uri: this.state.profilePic || DEFAULT_IMG }}
               />
               {this.renderModal()}
               {this.state.currUser === this.props.user.username ? <Text /> : <Button style={styles.follow} onPress={this.handleShowProfilePress}>See Profile</Button> }
