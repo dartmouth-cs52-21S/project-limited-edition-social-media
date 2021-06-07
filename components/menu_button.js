@@ -4,21 +4,6 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-// (just listing the properties for future reference, may delete this comment when submitting final project)
-// This is a component for a button used in post creation, potentially usable in editting a post and profile settings
-// As props it takes the following (note: none of these properties need to be passed unless stated otherwise):
-// primaryText: text that appears to the left in bold
-// secondaryText: text that appears to the right in italics
-// centerText: set true if you want the text to be centered inside the button
-// onPress: the action performed on button press (button does not respond to touches if editable is false and onPress is not passed)
-// arrow: add an arrow icon to the right side of the button
-// editable: set true if you want the secondaryText to be editable when button is clicked, overrides onPress
-//    maxLength: the maximum length of secondaryText when it is editable (defaults to 10)
-//    onChangeText: the action performed when the secondaryText is edited (must be passed if editable true)
-//    numericKeyboard: set true to use numeric keyboard when editing
-// extraButtonStyles: pass styles to here to add/override any styles of the button container
-// extraPrimaryTextStyles: pass styles to here to add/override any styles of the primaryText
-// extraSecondaryTextStyles: pass styles to here to add/override any styles of the secondaryText
 class MenuButton extends Component {
   constructor(props) {
     super(props);

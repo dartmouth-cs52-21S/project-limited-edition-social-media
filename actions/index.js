@@ -14,7 +14,7 @@ export const ActionTypes = {
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
   GET_ARCHIVES: 'GET_ARCHIVE',
-  FIND_USER: 'FIND_USER',
+  CLEAR_AUTH_ERROR: 'CLEAR_AUTH_ERROR',
   UPDATE_FOLLOW: 'UPDATE_FOLLOW',
 };
 
@@ -59,12 +59,30 @@ export function createPost(navigation, post) {
   };
 }
 
+export function deletePost(id, history = null) {
+  /* axios delete */
+  return (dispatch) => {
+    const url = `${ROOT_URL}/posts/${id}`;
+    getData('token').then((authorization) => axios.delete(url, { headers: { authorization } }))
+      .then((response) => {
+        if (history) {
+          history.push('/');
+        }
+      }).catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
+  };
+}
+
 export function updatePost(id, fields) {
   /* axios put */
   return (dispatch) => {
     getData('token').then((authorization) => {
       axios.put(`${ROOT_URL}/posts/${id}`, fields, { headers: { authorization } }).then((response) => {
         dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
+        if (response.data.item.currentViews >= response.data.item.viewLimit) {
+          deletePost(id);
+        }
       }).catch((error) => dispatch({ type: ActionTypes.ERROR_SET, error }));
     });
   };
@@ -79,34 +97,35 @@ export function fetchPost(id) {
   };
 }
 
-export function deletePost(id, history) {
-  /* axios delete */
-  return (dispatch) => {
-    const url = `${ROOT_URL}/posts/${id}`;
-    getData('token').then((authorization) => axios.delete(url, { headers: { authorization } }))
-      .then((response) => {
-        history.push('/');
-      }).catch((error) => {
-        dispatch({ type: ActionTypes.ERROR_SET, error });
-      });
-  };
-}
-
 // trigger to deauth if there is error
 // can also use in your error reducer if you have one to display an error message
 export function authError(error) {
+  let errorMessage;
+  if (error.response) {
+    if (error.response.status === 401) {
+      errorMessage = 'username/password does not exist';
+    } else if (error.response.status === 422) {
+      errorMessage = error.response.data.error;
+    } else {
+      errorMessage = error.response.data;
+    }
+  } else if (error.request) {
+    errorMessage = error.request.responseText;
+  } else {
+    errorMessage = error;
+  }
+
   return {
     type: ActionTypes.AUTH_ERROR,
-    message: error,
+    message: errorMessage,
   };
 }
 
-// Does this even need an action for search?
-
-// in search bar, map users to props
-// .filter (js function that can be called on an array like map that filters based on
-// field) so filter on display name, based on what strings in the array include the search
-// query
+export function clearAuthError() {
+  return {
+    type: ActionTypes.CLEAR_AUTH_ERROR,
+  };
+}
 
 export function getUsers(profileName) {
   return (dispatch) => {
@@ -116,20 +135,6 @@ export function getUsers(profileName) {
       // fetch search results
       //
       dispatch({ type: ActionTypes.FETCH_POSTS });
-      // storeData('token', response.data.token);
-      // navigation.replace('MainTab');
-    }).catch((error) => {
-      dispatch(authError(`Search Failed: ${error.response.data}`));
-    });
-  };
-}
-
-export function getSearchedUsers(profileName) {
-  return (dispatch) => {
-    axios.get(`${ROOT_URL}/search`, { profileName }).then((response) => {
-      // fetch search results
-      //
-      dispatch({ type: ActionTypes.FIND_USER, payload: response });
       // storeData('token', response.data.token);
       // navigation.replace('MainTab');
     }).catch((error) => {
@@ -151,9 +156,13 @@ export function signinUser({ email, password }, navigation) {
     axios.post(`${ROOT_URL}/signin`, { email, password }).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
       storeData('token', response.data.token);
-      navigation.replace('MainTab');
+      // navigation.reset('MainTab');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainTab' }],
+      });
     }).catch((error) => {
-      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      dispatch(authError(error));
     });
   };
 }
@@ -175,10 +184,12 @@ export function signupUser({
       dispatch({ type: ActionTypes.AUTH_USER });
       storeData('token', response.data.token);
       // localStorage.setItem('token', response.data.token);
-      navigation.replace('MainTab');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainTab' }],
+      });
     }).catch((error) => {
-      console.log(error.response.data);
-      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      dispatch(authError(error));
     });
   };
 }
@@ -190,18 +201,6 @@ export function signoutUser(navigation) {
     removeData();
     dispatch({ type: ActionTypes.DEAUTH_USER });
     navigation.replace('HomeLimited');
-  };
-}
-
-export function profileUser() {
-  return async (dispatch) => {
-    const url = `${ROOT_URL}/profile`;
-    getData('token').then((authorization) => axios.post(url, {}, { headers: { authorization } }))
-      .then(({ data: payload }) => dispatch({ type: ActionTypes.FETCH_USER, payload }))
-      .catch((error) => {
-        console.error(`Profile failed with error: ${error}`);
-        dispatch(authError(`profile failed: ${error.data}`));
-      });
   };
 }
 
@@ -267,6 +266,30 @@ const removeData = async () => {
 //   }
 // };
 
+export function profileUser() {
+  return async (dispatch) => {
+    const url = `${ROOT_URL}/profile`;
+    getData('token').then((authorization) => axios.post(url, {}, { headers: { authorization } }))
+      .then(({ data: payload }) => dispatch({ type: ActionTypes.FETCH_USER, payload }))
+      .catch((error) => {
+        console.error(`Profile failed with error: ${error}`);
+        dispatch(authError(`profile failed: ${error.data}`));
+      });
+  };
+}
+
+export function profileUserWithUsername(username) {
+  return async (dispatch) => {
+    const url = `${ROOT_URL}/user/${username}`;
+    getData('token').then((authorization) => axios.post(url, {}, { headers: { authorization } }))
+      .then(({ data: payload }) => dispatch({ type: ActionTypes.FETCH_USER, payload }))
+      .catch((error) => {
+        console.error(`Viewing ${username} profile failed with error: ${error}`);
+        dispatch(authError(`profile failed: ${error.data}`));
+      });
+  };
+}
+
 export function updateFollow(username) {
   return (dispatch) => {
     const url = `${ROOT_URL}/profile/follow/${username}`;
@@ -298,4 +321,8 @@ export function isFollowing(username) {
         dispatch({ type: ActionTypes.ERROR_SET, error });
       });
   };
+}
+
+export function getSearchedUsers(profileName) {
+  return axios.get(`${ROOT_URL}/search/${profileName}`);
 }

@@ -5,21 +5,6 @@ import {
 import { Icon } from 'react-native-elements';
 import MenuButton from './menu_button';
 
-// (may delete this when submitting final project, just here for reference)
-// used in newpost.js
-// potentially reusable when editting an existing post or viewing an existing post
-// if you are using this in the future remember to:
-// set this component up in a stack navigation(or whichever kind of navigation)
-// turn off the navigation header using 'headerShown: false'
-// use navigation.navigate(thisComponent, params) to navigate to this component
-//      Within params set the following:
-//        field: name of the field to be displayed
-//        fieldText: the text to be displayed under the field
-//        editable: should the fieldViewer component be view only or editable
-//        route: the component you are navigating from
-// if making an editable field:
-//   within your component add a listener with 'navigation.addListener('focus', () => {})'
-//   within that listener update your components state with 'this.props.route.params.(passed in field name from above)'
 class FieldViewer extends Component {
   constructor(props) {
     super(props);

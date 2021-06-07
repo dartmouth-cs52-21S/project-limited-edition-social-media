@@ -3,13 +3,11 @@
 import { combineReducers } from 'redux';
 import PostsReducer from './post-reducer';
 import AuthReducer from './auth-reducer';
-import searchReducer from './search-reducer';
 import userReducer from './user-reducer';
 
 const rootReducer = combineReducers({
   posts: PostsReducer,
   auth: AuthReducer,
-  search: searchReducer,
   user: userReducer,
 });
 

@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React, { Component } from 'react';
 import {
   StyleSheet, View, Text, ImageBackground,
@@ -5,6 +6,8 @@ import {
 import { connect } from 'react-redux';
 import { Buffer } from 'buffer';
 import { ImageManipulator } from 'expo-image-crop';
+import * as FileSystem from 'expo-file-system';
+import AnimatedLoader from 'react-native-animated-loader';
 import MenuButton from './menu_button';
 import { createPost } from '../actions';
 import uploadImage from '../s3';
@@ -23,6 +26,8 @@ class NewPost extends Component {
       hashtags: [],
       base64: '',
       showImageEditor: false,
+      isLoading: false,
+      showError: false,
     };
   }
 
@@ -35,22 +40,22 @@ class NewPost extends Component {
         }
         if (this.props.route.params.hashtags || this.props.route.params.hashtags === '') {
           const seperatedTags = [];
+          const tagSet = new Set();
+
           const tags = this.props.route.params.hashtags;
           // looping through hashtags string word by word and inserting them into an array
           tags.replace(/#/g, '').split(' ').forEach((tag) => {
-            if (tag !== '') {
+            if (tag !== '' && !tagSet.has(tag)) {
               seperatedTags.push(tag);
+              tagSet.add(tag);
             }
           });
           this.setState({ hashtags: seperatedTags });
         }
-        // getting the content, preview and content type from the camera
+        // getting the content and content type from the camera
         if (this.props.route.params.contentUri) {
           // eslint-disable-next-line react/no-unused-state
           this.setState({ content: this.props.route.params.contentUri });
-        }
-        if (this.props.route.params.previewUri) {
-          this.setState({ preview: this.props.route.params.previewUri });
         }
         if (this.props.route.params.type) {
           this.setState({ type: this.props.route.params.type });
@@ -105,110 +110,144 @@ class NewPost extends Component {
     }));
   }
 
-  onPublishPress = () => {
+  onPublishPress = async () => {
+    this.setState({ isLoading: true });
+    const previewBase64 = await FileSystem.readAsStringAsync(this.state.preview, { encoding: FileSystem.EncodingType.Base64 });
+    // Got code for file extension extraction here: https://stackoverflow.com/questions/54342873/how-to-get-file-extension-with-expo-filesystem
+    const previewType = this.state.preview.substr(this.state.preview.lastIndexOf('.') + 1);
+    const contentType = this.state.content.substr(this.state.content.lastIndexOf('.') + 1);
     // sending post to server for creation and navigating to home page
-    // console.log(this.state.base64);
-    if (this.state.base64) {
-      uploadImage(Buffer.from(this.state.base64, 'base64')).then((url) => {
-        this.props.createPost(this.props.navigation, {
-          caption: this.state.caption,
-          content: url,
-          viewLimit: this.state.maxViews,
-          currentViews: 0,
-          hashtags: this.state.hashtags,
-          coverBlur: this.state.blur,
-          type: this.state.type,
-          preview: this.state.preview,
+    if (this.state.base64 && previewBase64) {
+      uploadImage(Buffer.from(this.state.base64, 'base64'), contentType).then((contentUrl) => {
+        uploadImage(Buffer.from(previewBase64, 'base64'), previewType).then((previewUrl) => {
+          this.props.createPost(this.props.navigation, {
+            caption: this.state.caption,
+            content: contentUrl,
+            viewLimit: this.state.maxViews,
+            currentViews: 0,
+            hashtags: this.state.hashtags,
+            coverBlur: this.state.blur,
+            type: this.state.type,
+            preview: previewUrl,
+          });
+        }).catch((error) => {
+          console.log(error);
+          this.setState({ isLoading: false });
+          this.setState({ showError: true });
         });
       }).catch((error) => {
         console.log(error);
+        this.setState({ isLoading: false });
+        this.setState({ showError: true });
       });
+    } else {
+      this.setState({ isLoading: false });
+      this.setState({ showError: true });
     }
-
-    // if (this.state.base64) {
-    //   uploadImage(this.state.file).then((url) => {
-    //     this.props.createPost({
-    //       title: this.state.title,
-    //       tags: this.state.tags,
-    //       content: this.state.content,
-    //       coverUrl: url,
-    //     }, this.props.history);
-    //   }).catch((error) => {
-    //     console.log(error);
-    //   });
-    // }
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.preview}>
-          <Text style={styles.text}>Cover Preview</Text>
-          <ImageBackground
-            style={styles.image}
-            imageStyle={{ borderRadius: 50, width: '100%', height: '100%' }}
-            source={{ uri: this.state.preview }}
-            blurRadius={parseInt(this.state.blur, 10) || 0}
-          >
-            <MenuButton
-              primaryText="Edit Cover"
-              centerText
-              extraButtonStyles={{ width: '42%', backgroundColor: 'rgba(255,255,255,0.6)' }}
-              onPress={this.onImageEditPress}
-            />
-            {/* <ImageManipulator
-              photo={{ uri: this.state.preview }}
-              isVisible={this.state.showImageEditor}
-              onPictureChoosed={(data) => {
-                this.setState({ preview: data.uri });
-              }}
-              onToggleModal={this.onImageEditPress}
-              saveOptions={{
-                compress: 1,
-                format: 'png',
-              }}
-              borderColor="rgba(78, 20, 140, 0.5)"
-            /> */}
-          </ImageBackground>
+    if (this.state.isLoading) {
+      return (
+        <AnimatedLoader
+          visible
+          overlayColor="rgba(78, 20, 140,0.4)"
+          source={require('../assets/9844-loading-40-paperplane.json')}
+          animationStyle={styles.lottie}
+          speed={1}
+        >
+          <Text style={styles.lottieText}>Publishing Your Post...</Text>
+        </AnimatedLoader>
+      );
+    } else if (this.state.showError) {
+      return (
+        <View style={{
+          justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%',
+        }}
+        >
+          <Text>There was an error processing your post :(</Text>
+          <MenuButton
+            primaryText="Go Home"
+            centerText
+            onPress={() => {
+              this.props.navigation.navigate('Camera');
+              this.props.navigation.replace('Camera');
+              this.props.navigation.navigate('Home');
+            }}
+          />
         </View>
-        <MenuButton
-          primaryText="Blur"
-          secondaryText={this.state.blur}
-          editable
-          maxLength={3}
-          onChangeText={this.onBlurChange}
-          numericKeyboard
-          extraButtonStyles={styles.blurButton}
-        />
-        <MenuButton
-          primaryText="Max Views"
-          secondaryText={this.state.maxViews}
-          maxLength={7}
-          editable
-          onChangeText={this.onMaxViewsChange}
-          numericKeyboard
-        />
-        <MenuButton
-          primaryText="Caption"
-          secondaryText={this.state.caption || 'Write a caption'}
-          onPress={this.onCaptionPress}
-          arrow
-        />
-        <MenuButton
-          primaryText="hashtags"
-          secondaryText={this.state.hashtags.length !== 0 ? `#${this.state.hashtags.join(' #')}` : 'Include some #hashtags'}
-          onPress={this.onHashtagsPress}
-          arrow
-        />
-        <MenuButton
-          primaryText="Publish"
-          onPress={this.onPublishPress}
-          centerText
-          extraButtonStyles={styles.publishButton}
-          extraPrimaryTextStyles={styles.publishText}
-        />
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <View style={styles.preview}>
+            <Text style={styles.text}>Cover Preview</Text>
+            <ImageBackground
+              style={styles.image}
+              imageStyle={{ borderRadius: 10, width: '100%', height: '100%' }}
+              source={{ uri: this.state.preview }}
+              blurRadius={parseInt(this.state.blur, 10) || 0}
+            >
+              <MenuButton
+                primaryText="Edit Cover"
+                centerText
+                extraButtonStyles={{ width: '42%', backgroundColor: 'rgba(255,255,255,0.6)' }}
+                onPress={this.onImageEditPress}
+              />
+              <ImageManipulator
+                photo={{ uri: this.state.preview }}
+                isVisible={this.state.showImageEditor}
+                onPictureChoosed={(data) => {
+                  this.setState({ preview: data.uri });
+                }}
+                onToggleModal={this.onImageEditPress}
+                saveOptions={{
+                  compress: 1,
+                  format: 'png',
+                }}
+                borderColor="rgba(78, 20, 140, 0.5)"
+              />
+            </ImageBackground>
+          </View>
+          <MenuButton
+            primaryText="Blur"
+            secondaryText={this.state.blur}
+            editable
+            maxLength={3}
+            onChangeText={this.onBlurChange}
+            numericKeyboard
+            extraButtonStyles={styles.blurButton}
+          />
+          <MenuButton
+            primaryText="Max Views"
+            secondaryText={this.state.maxViews}
+            maxLength={7}
+            editable
+            onChangeText={this.onMaxViewsChange}
+            numericKeyboard
+          />
+          <MenuButton
+            primaryText="Caption"
+            secondaryText={this.state.caption || 'Write a caption'}
+            onPress={this.onCaptionPress}
+            arrow
+          />
+          <MenuButton
+            primaryText="hashtags"
+            secondaryText={this.state.hashtags.length !== 0 ? `#${this.state.hashtags.join(' #')}` : 'Include some #hashtags'}
+            onPress={this.onHashtagsPress}
+            arrow
+          />
+          <MenuButton
+            primaryText="Publish"
+            onPress={this.onPublishPress}
+            centerText
+            extraButtonStyles={styles.publishButton}
+            extraPrimaryTextStyles={styles.publishText}
+          />
+        </View>
+      );
+    }
   }
 }
 const styles = StyleSheet.create({
@@ -250,6 +289,17 @@ const styles = StyleSheet.create({
   blurButton: {
     borderTopColor: 'rgb(196, 193, 200)',
     borderTopWidth: StyleSheet.hairlineWidth,
+  },
+  lottie: {
+    width: 300,
+    height: 300,
+  },
+  lottieText: {
+    color: 'rgb(255,255,255)',
+    fontSize: 25,
+    fontWeight: '500',
+    fontFamily: 'Gill Sans',
+    fontStyle: 'italic',
   },
 });
 
