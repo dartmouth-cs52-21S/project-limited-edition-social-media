@@ -10,7 +10,7 @@ const AuthButton = (props) => {
           backgroundColor: pressed ? '#00000033' : 'transparent',
         }, styles.bottomButton] : [
         {
-          backgroundColor: pressed ? '#F15F01' : '#396580',
+          backgroundColor: pressed ? '#F15F01' : '#468189',
         }, styles.button]
       )}
       onPress={() => { props.onPress(); }}
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color: '#fff',
+    color: '#FFFBFC',
     fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',
