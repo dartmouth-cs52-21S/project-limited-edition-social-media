@@ -24,6 +24,15 @@ const ProfileStack = () => {
   );
 };
 
+const SearchStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+      <Stack.Screen name="OtherUserProfile" component={OtherUserProfile} />
+    </Stack.Navigator>
+  );
+};
+
 const HomeStack = () => {
   return (
     <Stack.Navigator>
@@ -55,7 +64,7 @@ const MainTabBar = () => {
         }}
       />
       <Tab.Screen name="Search"
-        component={Search}
+        component={SearchStack}
         options={{
           tabBarLabel: 'Search',
           tabBarColor: 'rgb(59,54,57)',

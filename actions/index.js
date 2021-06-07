@@ -270,3 +270,7 @@ export function isFollowing(username) {
       });
   };
 }
+
+export function getSearchedUsers(profileName) {
+  return axios.get(`${ROOT_URL}/search/${profileName}`);
+}
