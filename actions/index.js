@@ -12,6 +12,7 @@ export const ActionTypes = {
   FETCH_USER: 'FETCH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
+  CLEAR_AUTH_ERROR: 'CLEAR_AUTH_ERROR',
   UPDATE_FOLLOW: 'UPDATE_FOLLOW',
 };
 
@@ -115,6 +116,12 @@ export function authError(error) {
   return {
     type: ActionTypes.AUTH_ERROR,
     message: errorMessage,
+  };
+}
+
+export function clearAuthError() {
+  return {
+    type: ActionTypes.CLEAR_AUTH_ERROR,
   };
 }
 

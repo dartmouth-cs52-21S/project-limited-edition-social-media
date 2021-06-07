@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import AuthInput from './auth_input';
 import AuthButton from './auth_button';
-import { signinUser } from '../actions';
+import { signinUser, clearAuthError } from '../actions';
 
 class SignIn extends Component {
   constructor(props) {
@@ -26,8 +26,6 @@ class SignIn extends Component {
       this.setState({ error: 'Please enter an email.' });
     } else if (!this.state.password) {
       this.setState({ error: 'Please enter a password.' });
-    } else if (this.props.signInError) {
-      this.setState({ error: this.props.signInError });
     } else {
       this.setState({ error: '' });
       const user = {
@@ -35,10 +33,12 @@ class SignIn extends Component {
         password: this.state.password,
       };
       this.props.signinUser(user, this.navigation);
+      console.log(this.props.signInError);
     }
   }
 
   handleBackPress = () => {
+    this.props.clearAuthError();
     this.navigation.goBack();
   }
 
@@ -48,6 +48,13 @@ class SignIn extends Component {
 
   onPasswordChange = (change) => {
     this.setState({ password: change });
+  }
+
+  renderServerError = () => {
+    if (this.props.signInError) {
+      console.log('server error caught');
+      this.setState({ error: this.props.signInError });
+    }
   }
 
   render() {
@@ -107,4 +114,4 @@ const mapStateToProps = (state) => (
   }
 );
 
-export default connect(mapStateToProps, { signinUser })(SignIn);
+export default connect(mapStateToProps, { signinUser, clearAuthError })(SignIn);

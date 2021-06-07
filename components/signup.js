@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import AuthInput from './auth_input';
 import AuthButton from './auth_button';
 
-import { signupUser } from '../actions';
+import { signupUser, clearAuthError } from '../actions';
 
 class SignUp extends Component {
   constructor(props) {
@@ -52,6 +52,7 @@ class SignUp extends Component {
   }
 
   handleBackPress = () => {
+    this.props.clearAuthError();
     this.navigation.goBack();
   }
 
@@ -165,4 +166,4 @@ const mapStateToProps = (state) => (
   }
 );
 
-export default connect(mapStateToProps, { signupUser })(SignUp);
+export default connect(mapStateToProps, { signupUser, clearAuthError })(SignUp);
