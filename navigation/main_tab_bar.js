@@ -10,6 +10,7 @@ import Activity from '../components/activity';
 import Profile from '../components/profile';
 import Settings from '../components/settings';
 import OtherUserProfile from '../components/other_user_profile';
+// import AllPosts from '../components/bubbleview';
 
 const Stack = createStackNavigator();
 
@@ -85,6 +86,8 @@ const MainTabBar = () => {
           ),
         }}
       />
+      <Tab.Screen name="Profile" component={ProfileStack} />
+      {/* <Tab.Screen name="BubView" component={AllPosts} /> */}
     </Tab.Navigator>
   );
 };
