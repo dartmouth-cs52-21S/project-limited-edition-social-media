@@ -12,6 +12,7 @@ export const ActionTypes = {
   FETCH_USER: 'FETCH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
+  CLEAR_AUTH_ERROR: 'CLEAR_AUTH_ERROR',
   UPDATE_FOLLOW: 'UPDATE_FOLLOW',
 };
 
@@ -90,9 +91,30 @@ export function fetchPost(id) {
 // trigger to deauth if there is error
 // can also use in your error reducer if you have one to display an error message
 export function authError(error) {
+  let errorMessage;
+  if (error.response) {
+    if (error.response.status === 401) {
+      errorMessage = 'username/password does not exist';
+    } else if (error.response.status === 422) {
+      errorMessage = error.response.data.error;
+    } else {
+      errorMessage = error.response.data;
+    }
+  } else if (error.request) {
+    errorMessage = error.request.responseText;
+  } else {
+    errorMessage = error;
+  }
+
   return {
     type: ActionTypes.AUTH_ERROR,
-    message: error,
+    message: errorMessage,
+  };
+}
+
+export function clearAuthError() {
+  return {
+    type: ActionTypes.CLEAR_AUTH_ERROR,
   };
 }
 
@@ -114,7 +136,9 @@ export function signinUser({ email, password }, navigation) {
         index: 0,
         routes: [{ name: 'MainTab' }],
       });
-    }).catch((error) => dispatch(authError(`Sign In Failed: ${error.data}`)));
+    }).catch((error) => {
+      dispatch(authError(error));
+    });
   };
 }
 
@@ -140,8 +164,7 @@ export function signupUser({
         routes: [{ name: 'MainTab' }],
       });
     }).catch((error) => {
-      console.log(error.response.data);
-      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      dispatch(authError(error));
     });
   };
 }
