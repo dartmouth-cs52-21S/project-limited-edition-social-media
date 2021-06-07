@@ -22,6 +22,15 @@ const ProfileStack = () => {
   );
 };
 
+const SearchStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+      <Stack.Screen name="OtherUserProfile" component={OtherUserProfile} />
+    </Stack.Navigator>
+  );
+};
+
 const HomeStack = () => {
   return (
     <Stack.Navigator>
@@ -39,7 +48,7 @@ const MainTabBar = () => {
         authentication status as well. */}
       {/* <Tab.Screen name="Home" component={Home} /> */}
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Search" component={Search} />
+      <Tab.Screen name="Search" component={SearchStack} />
       <Tab.Screen name="Post" component={NewPostTab} options={{ tabBarVisible: false }} />
       <Tab.Screen name="Activity" component={Activity} />
       <Tab.Screen name="Profile" component={ProfileStack} />

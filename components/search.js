@@ -39,14 +39,17 @@ class Search extends Component {
   }
 
   renderUserProfile({ username }) {
-    console.log(username);
+    this.props.navigation.navigate('OtherUserProfile', {
+      name: 'OtherUserProfile',
+      username,
+    });
   }
 
   renderUser = (item) => (
     <List.Item
       title={item.displayname || 'No Name'}
       onPress={() => this.renderUserProfile(item)}
-      value={item.username}
+      key={item.username}
       left={() => (
         <Image
           style={styles.tinyLogo}
