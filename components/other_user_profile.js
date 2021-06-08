@@ -42,9 +42,6 @@ class OtherUserProfile extends Component {
             <Text style={styles.followWord}>following</Text>
           </View>
         </View>
-        <View style={this.props.user.isBadgeListVisible ? styles.badges : styles.hide}>
-          <Text style={styles.badgeWord}>My Badges:</Text>
-        </View>
       </View>
     );
   }
@@ -96,10 +93,6 @@ const styles = StyleSheet.create({
   followNum: {
     fontWeight: '800',
     textAlign: 'center',
-    fontSize: 20,
-  },
-  badgeWord: {
-    fontWeight: '600',
     fontSize: 20,
   },
   hide: {

@@ -25,7 +25,6 @@ class Profile extends Component {
       name: 'Settings',
       isFollowerListVisible: this.props.user.isFollowerListVisible,
       isFollowingListVisible: this.props.user.isFollowingListVisible,
-      isBadgeListVisible: this.props.user.isBadgeListVisible,
     });
   }
 
@@ -61,10 +60,6 @@ class Profile extends Component {
             <Text style={styles.followNum}>{this.props.user.followingList.length}</Text>
             <Text style={styles.followWord}>following</Text>
           </View>
-        </View>
-        {/* <View style={this.state.isBadgeVisible ? styles.badges : styles.hide}> */}
-        <View style={this.props.user.isBadgeListVisible ? styles.badges : styles.hide}>
-          <Text style={styles.badgeWord}>My Badges:</Text>
         </View>
       </View>
     );
@@ -117,10 +112,6 @@ const styles = StyleSheet.create({
   followNum: {
     fontWeight: '800',
     textAlign: 'center',
-    fontSize: 20,
-  },
-  badgeWord: {
-    fontWeight: '600',
     fontSize: 20,
   },
   hide: {
