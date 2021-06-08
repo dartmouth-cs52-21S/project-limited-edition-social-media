@@ -35,7 +35,7 @@ const ArchiveTab = (props) => (
             </TouchableOpacity>
           </View>
         ),
-        headerStyle: { backgroundColor: 'rgb(89,84,87)' },
+        headerStyle: { backgroundColor: '#468189' },
       })}
     />
   </ModalStack.Navigator>

@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -7,15 +8,24 @@ import { Buffer } from 'buffer';
 import * as ImagePicker from 'expo-image-picker';
 import { Appbar } from 'react-native-paper';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import AnimatedLoader from 'react-native-animated-loader';
 import { profileUser, updateProfilePhoto } from '../actions';
 import uploadImage from '../s3';
 
 const DEFAULT_IMG = 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png';
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+    };
+  }
+
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       this.props.profileUser();
+      this.setState({ isLoading: false });
     });
   }
 
@@ -51,6 +61,7 @@ class Profile extends Component {
 
         // sending media to new post editor
         if (!result.cancelled) {
+          this.setState({ isLoading: true });
           if (result.type === 'image') {
             const profilePhoto = {
               contentUri: result.uri, previewUri: result.uri, base64: result.base64, type: 'image',
@@ -59,7 +70,7 @@ class Profile extends Component {
 
             if (profilePhoto.base64) {
               uploadImage(Buffer.from(profilePhoto.base64, 'base64'), contentType).then((contentUrl) => {
-                this.props.updateProfilePhoto(contentUrl);
+                this.props.updateProfilePhoto(contentUrl, this.props.navigation);
               }).catch((error) => {
                 console.log(error);
               });
@@ -72,44 +83,58 @@ class Profile extends Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Appbar style={styles.top}>
-          <Text style={styles.center}>Profile</Text>
-          <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
-        </Appbar>
-        <TouchableOpacity
-          onPress={this.handleCameraRollClick}
+    if (this.state.isLoading) {
+      return (
+        <AnimatedLoader
+          visible
+          overlayColor="#ffffff"
+          source={require('../assets/lf30_editor_aec9qyjr.json')}
+          animationStyle={styles.lottie}
+          speed={2}
         >
-          <Image
-            style={styles.pic}
-            source={{ uri: this.props.user.profilePic || DEFAULT_IMG }}
-          />
-        </TouchableOpacity>
-        <Text style={styles.followNum}>
-          {' '}
-          {this.props.user.displayname}
-          {' '}
-        </Text>
-        <View style={styles.followContainer}>
-          <View style={this.props.user.isFollowerListVisible ? styles.follow : styles.hide}>
-            {/* <View style={this.state.isFollowerVisible ? styles.follow : styles.hide}> */}
-            <Text style={styles.followNum}>{this.props.user.followerList.length}</Text>
-            <Text style={styles.followWord}>followers</Text>
-          </View>
-          {/* <View style={this.state.isFollowerVisible && this.state.isFollowingVisible ? styles.follow : styles.hide}></View> */}
-          <View style={this.props.user.isFollowerListVisible && this.props.user.isFollowingListVisible ? styles.follow : styles.hide}>
-            {/* Very confused by native styling o_o */}
-            <Text style={styles.followNum}>            </Text>
-          </View>
-          <View style={this.props.user.isFollowingListVisible ? styles.follow : styles.hide}>
-            {/* <View style={this.state.isFollowingVisible ? styles.follow : styles.hide}> */}
-            <Text style={styles.followNum}>{this.props.user.followingList.length}</Text>
-            <Text style={styles.followWord}>following</Text>
+          <Text style={styles.lottieText}>Updating Profile Photo...</Text>
+        </AnimatedLoader>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Appbar style={styles.top}>
+            <Text style={styles.center}>Profile</Text>
+            <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
+          </Appbar>
+          <TouchableOpacity
+            onPress={this.handleCameraRollClick}
+          >
+            <Image
+              style={styles.pic}
+              source={{ uri: this.props.user.profilePic || DEFAULT_IMG }}
+            />
+          </TouchableOpacity>
+          <Text style={styles.followNum}>
+            {' '}
+            {this.props.user.displayname}
+            {' '}
+          </Text>
+          <View style={styles.followContainer}>
+            <View style={this.props.user.isFollowerListVisible ? styles.follow : styles.hide}>
+              {/* <View style={this.state.isFollowerVisible ? styles.follow : styles.hide}> */}
+              <Text style={styles.followNum}>{this.props.user.followerList?.length}</Text>
+              <Text style={styles.followWord}>followers</Text>
+            </View>
+            {/* <View style={this.state.isFollowerVisible && this.state.isFollowingVisible ? styles.follow : styles.hide}></View> */}
+            <View style={this.props.user.isFollowerListVisible && this.props.user.isFollowingListVisible ? styles.follow : styles.hide}>
+              {/* Very confused by native styling o_o */}
+              <Text style={styles.followNum}>            </Text>
+            </View>
+            <View style={this.props.user.isFollowingListVisible ? styles.follow : styles.hide}>
+              {/* <View style={this.state.isFollowingVisible ? styles.follow : styles.hide}> */}
+              <Text style={styles.followNum}>{this.props.user.followingList?.length}</Text>
+              <Text style={styles.followWord}>following</Text>
+            </View>
           </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
 }
 
@@ -164,6 +189,10 @@ const styles = StyleSheet.create({
   },
   hide: {
     display: 'none',
+  },
+  lottie: {
+    width: 300,
+    height: 300,
   },
 });
 

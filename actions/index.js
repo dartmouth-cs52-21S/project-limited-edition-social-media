@@ -332,9 +332,16 @@ export function updateProfileFieldVisibility(field) {
   };
 }
 
-export function updateProfilePhoto(profileUrl) {
+export function updateProfilePhoto(profileUrl, navigation) {
   return async (dispatch) => {
     const url = `${ROOT_URL}/profile`;
-    return getData('token').then((authorization) => axios.put(url, { profileUrl }, { headers: { authorization } }));
+    getData('token').then((authorization) => axios.put(url, { profileUrl }, { headers: { authorization } }))
+      .then(({ data: payload }) => {
+        dispatch({ type: ActionTypes.FETCH_USER, payload });
+        navigation.replace('Profile');
+      }).catch((error) => {
+        console.error(`Profile failed with error: ${error}`);
+        dispatch(authError(`profile failed: ${error.data}`));
+      });
   };
 }

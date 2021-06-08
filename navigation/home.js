@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
-  Text, StyleSheet, View, TouchableOpacity, Image,
+  Text, StyleSheet, View, TouchableOpacity,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
@@ -41,7 +41,7 @@ const Home = (props) => (
             >
               <MaterialCommunityIcons name="plus-circle"
                 color="#468189"
-                size={30}
+                size={40}
               />
             </TouchableOpacity>
           </View>
