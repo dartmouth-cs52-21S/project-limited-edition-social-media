@@ -274,3 +274,11 @@ export function updateProfileFieldVisibility(field) {
     return getData('token').then((authorization) => axios.put(url, {}, { headers: { authorization } }));
   };
 }
+
+export function updateProfilePhoto(profileUrl) {
+  return async (dispatch) => {
+    const url = `${ROOT_URL}/profile`;
+    console.log(profileUrl);
+    return getData('token').then((authorization) => axios.put(url, { profileUrl }, { headers: { authorization } }));
+  };
+}

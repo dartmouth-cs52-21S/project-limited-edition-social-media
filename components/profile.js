@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  StyleSheet, View, Text, Image,
+  StyleSheet, View, Text, Image, TouchableOpacity, Platform,
 } from 'react-native';
+import { Buffer } from 'buffer';
+import * as ImagePicker from 'expo-image-picker';
 import { Appbar } from 'react-native-paper';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { profileUser } from '../actions';
+import { profileUser, updateProfilePhoto } from '../actions';
+import uploadImage from '../s3';
 
 const DEFAULT_IMG = 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png';
 
@@ -29,6 +32,46 @@ class Profile extends Component {
     });
   }
 
+  handleCameraRollClick = () => {
+    (async () => {
+      // Asking for permission to use camera roll
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        return status;
+      }
+      return 'granted';
+    })().then(async (response) => {
+      // allowing user to select a piece of media if given permissions
+      if (response === 'granted') {
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          base64: true,
+          allowsEditing: false,
+          quality: 0,
+        });
+
+        // sending media to new post editor
+        if (!result.cancelled) {
+          if (result.type === 'image') {
+            const profilePhoto = {
+              contentUri: result.uri, previewUri: result.uri, base64: result.base64, type: 'image',
+            };
+            const contentType = profilePhoto.contentUri.substr(profilePhoto.contentUri.lastIndexOf('.') + 1);
+
+            if (profilePhoto.base64) {
+              uploadImage(Buffer.from(profilePhoto.base64, 'base64'), contentType).then((contentUrl) => {
+                this.props.updateProfilePhoto(contentUrl);
+              }).catch((error) => {
+                console.log(error);
+              });
+            }
+          }
+        }
+      }
+    }, (reject) => {
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -36,10 +79,14 @@ class Profile extends Component {
           <Text style={styles.center}>Profile</Text>
           <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
         </Appbar>
-        <Image
-          style={styles.pic}
-          source={{ uri: this.props.user.profilePic || DEFAULT_IMG }}
-        />
+        <TouchableOpacity
+          onPress={this.handleCameraRollClick}
+        >
+          <Image
+            style={styles.pic}
+            source={{ uri: this.props.user.profilePic || DEFAULT_IMG }}
+          />
+        </TouchableOpacity>
         <Text style={styles.followNum}>
           {' '}
           {this.props.user.displayname}
@@ -134,4 +181,4 @@ const mapStateToProps = ({ user }) => (
   }
 );
 
-export default connect(mapStateToProps, { profileUser })(Profile);
+export default connect(mapStateToProps, { profileUser, updateProfilePhoto })(Profile);
