@@ -194,6 +194,13 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
   },
+  lottieText: {
+    color: '#468189',
+    fontSize: 25,
+    fontWeight: '500',
+    fontFamily: 'Gill Sans',
+    fontStyle: 'italic',
+  },
 });
 
 const mapStateToProps = ({ user }) => (

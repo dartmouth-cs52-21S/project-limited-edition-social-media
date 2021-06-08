@@ -61,7 +61,7 @@ export function updateArchives(postId) {
 
 export function deleteArchivePost(postId, navigation) {
   return (dispatch) => {
-    getData('token').then((authorization) => axios.delete(`${ROOT_URL}/archive`, { postId }, { headers: { authorization } })
+    getData('token').then((authorization) => axios.put(`${ROOT_URL}/archive`, { postId }, { headers: { authorization } })
       .then((response) => {
         dispatch({ type: ActionTypes.GET_ARCHIVE, payload: response.data });
         navigation.goBack();
