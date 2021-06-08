@@ -52,7 +52,7 @@ const App = (props) => {
   }
   return (
     <PaperProvider>
-      <StatusBar barStyle="white-content" />
+      <StatusBar barStyle="dark-content" />
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="HomeLimited"

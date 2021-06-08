@@ -151,8 +151,8 @@ class NewPost extends Component {
       return (
         <AnimatedLoader
           visible
-          overlayColor="rgba(78, 20, 140,0.4)"
-          source={require('../assets/9844-loading-40-paperplane.json')}
+          overlayColor="#ffffff"
+          source={require('../assets/lf30_editor_yuqappkw.json')}
           animationStyle={styles.lottie}
           speed={1}
         >
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   lottieText: {
-    color: 'rgb(255,255,255)',
+    color: '#468189',
     fontSize: 25,
     fontWeight: '500',
     fontFamily: 'Gill Sans',

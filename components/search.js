@@ -72,6 +72,9 @@ class Search extends Component {
           placeholder="Find User"
           onChangeText={this.onChangeSearch}
           onIconPress={this.onIconPress}
+          onSubmitEditing={() => {
+            this.onIconPress();
+          }}
           value={this.state?.searchQuery || ''}
         />
 
