@@ -57,7 +57,7 @@ const MainTabBar = () => {
         component={HomeStack}
         options={{
           tabBarLabel: 'Home',
-          tabBarColor: 'rgb(29,24,27)',
+          tabBarColor: '#468189',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),

@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     top: statusBarHeight,
     display: 'flex',
     justifyContent: 'space-between',
+    backgroundColor: '#468189',
   },
   right: {
     right: 0,
