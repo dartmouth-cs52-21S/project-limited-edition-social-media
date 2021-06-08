@@ -19,7 +19,6 @@ import SignUp from './components/signup';
 import MainTabBar from './navigation/main_tab_bar';
 import reducers from './reducers';
 import NewPostTab from './navigation/new_post_tab';
-import ProfilePhoto from './components/profile_photo';
 
 LogBox.ignoreAllLogs();
 
@@ -87,9 +86,6 @@ const App = (props) => {
             />
             <Stack.Screen name="Post"
               component={NewPostTab}
-            />
-            <Stack.Screen name="profilePhoto"
-              component={ProfilePhoto}
             />
           </Stack.Navigator>
         </NavigationContainer>
