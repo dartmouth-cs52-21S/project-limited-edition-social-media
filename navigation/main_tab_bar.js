@@ -6,10 +6,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from './home';
 import Search from '../components/search';
-import Activity from '../components/activity';
 import Profile from '../components/profile';
 import Settings from '../components/settings';
 import OtherUserProfile from '../components/other_user_profile';
+import ArchiveTab from './archive_tab';
 
 const Stack = createStackNavigator();
 
@@ -78,13 +78,13 @@ const MainTabBar = () => {
           ),
         }}
       />
-      <Tab.Screen name="Explore"
-        component={Activity}
+      <Tab.Screen name="Archive"
+        component={ArchiveTab}
         options={{
-          tabBarLabel: 'Explore',
+          tabBarLabel: 'Archive',
           tabBarColor: '#FFFBFC',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="chart-bubble" color={color} size={26} />
+            <MaterialCommunityIcons name="archive" color={color} size={26} />
           ),
         }}
       />

@@ -4,12 +4,6 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-// this is a custom button used in the 'camera.js' component
-// (may delete this when turning in final project) listing props for reference
-// this.props.iconName
-// this.props.iconType
-// this.props.iconText
-// this.props.handlePress
 const CameraButton = (props) => {
   return (
     <View style={[styles.buttonContainer, props.extraStyles]}>

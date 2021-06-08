@@ -44,24 +44,6 @@ const Home = (props) => (
                 size={30}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.container, { marginBottom: 18 }]}
-              onPress={() => {
-
-              }}
-            >
-              <MaterialCommunityIcons name="archive"
-                color="#468189"
-                size={30}
-              />
-            </TouchableOpacity>
-            {/* <TouchableOpacity
-              style={styles.container}
-              onPress={() => {
-                navigation.navigate('Profile');
-              }}
-            >
-              <Image style={styles.image} source={{ uri: props.user.profilePic || 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg' }} />
-            </TouchableOpacity> */}
           </View>
         ),
         headerStyle: { backgroundColor: '#FFFBFC' },

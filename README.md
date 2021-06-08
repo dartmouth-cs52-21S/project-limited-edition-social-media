@@ -1,26 +1,28 @@
-# Project Name: Limited Edition Social Media Platform
+# Poof! (Limited Edition Social Media Platform)
+
+## The Team
 
 ![Team Photo](https://i.imgur.com/bTG56lp.jpg)
 
-Introducing the next best social media! We're a platform that aims to maximize engagement while minimizing social clout. Gone are the like counters, the emphasis on who's following who and how high your follower count is. Instead, we restrict the number of unique views per post. Once a post's views are gone... *poof* the post also disappears. Welcome to a social media platform that breaks all the rules.
+## Our Story
 
-Our platform attempts to innovate the existing social media landscape by also giving users a bit more control over how their content is curated. We seek to improve transparency and enhance engagement.
+Introducing the next best social media! We're a platform that aims to **maximize engagement** while **minimizing social clout**. Gone are the like counters, the emphasis on who's following who and how high your follower count is. Instead, we restrict the number of unique views per post and give you the option to hide your follower/following count. Once a post's views are gone... *poof* the post also disappears. 
+
+Our platform attempts to innovate on the existing social media landscape by giving users a bit more control over how their content is curated. We seek to improve transparency and enhance engagement.
+
+Welcome to a social media platform that breaks all the rules.
 
 [#FeelingCuteMightDeleteLater](https://github.com/dartmouth-cs52-21S/project-limited-edition-social-media)
 
 ## Mock Up
 
-Explore page (temporary gif until we come up with mockup):
-
-![screenshootOfExploreSeciton](https://github.com/blakesanie/React-Bubble-UI/blob/HEAD/example/public/demo.gif?raw=true)
-
-Standard View
+Where everything begins:
 
 ![screenshootOfStandardView](assets/Poof.png)
 
 Searching in Standard View:
 
-![screenshootOfSearching]()
+![screenshootOfSearching](assets/search.gif)
 
 Sign-Up Flow:
 
@@ -28,11 +30,21 @@ Sign-Up Flow:
 
 Create a post:
 
-![screenshootOfCreatingPost]()
+![screenshootOfCreatingPost](assets/createPost.gif)
 
 Profile View:
 
 ![screenshootOfProfileView](assets/Profile.png)
+
+Main Feed: 
+
+![feed](assets/feed.gif)
+
+**To bring you quality and functionality, we've had to make the difficult decision to do away with some reach goals. Some day, we'll bring you this:**
+
+Omnidirectional feed
+
+![screenshootOfExploreSeciton](https://github.com/blakesanie/React-Bubble-UI/blob/HEAD/example/public/demo.gif?raw=true)
 
 Live Commenting:
 
@@ -43,13 +55,17 @@ Messaging:
 ![screenshootOfMessaging](assets/Messaging1.png)
 ![screenshootOfMessaging](assets/Messaging2.png)
 
+**There's also badges, an activities page, the whole galore...saved for posterity!**
+
 ## Architecture
 
 For all descriptions of code organization and tools and libraries used:
+* Figma - code scaffolding (see our prototype [here](https://www.figma.com/file/jhVNv2xzJKylPZacF5I5L0/Mockups?node-id=0%3A1)!)
 * React Native - to bring the app to your mobile devices
 * Firebase/ MongoDB - database storage 
 * Heroku - for deployment
 * Amazon S3 - object storage 
+* React Native Paper + other visualization libraries - styling
 
 ## Setup
 
@@ -61,6 +77,11 @@ For all descriptions of code organization and tools and libraries used:
 * Download the Expo Go app, create an account.
 * Scan the QR code generated with your phone camera, making sure your phone is on the same network as wherever `expo start` was run.
 
+Feel free to test with our Expo link:
+* **Project Link:** https://expo.io/@sudbala/Poof
+* **Username:** sudharsan.balasubramani.22@dartmouth.edu
+* **Password:** limitededitioncs52
+
 ## Deployment
 
 1. Clone this repository in your favorite location:
@@ -68,19 +89,20 @@ For all descriptions of code organization and tools and libraries used:
     * (Backend) `git clone git@github.com:dartmouth-cs52-21S/project-api-limited-edition-social-media.git`
 
 2. Install necessary dependencies using `npm install`
-3. Run the application! `npm start`
+3. Run the application! 
+    * `expo start` on our client repository
+    * `npm start` on our backend repository
 
 ## Authors
 
 The Team:
-
-  - Irene Lam
-  - Jacob Werzinsky
-  - Junhwi Kim
-  - Maxwell Reiferson
-  - Nalin Vattigunta
-  - Sudharsan Balasubramani
+- Sudharsan Balasubramani
+- Junhwi Kim
+- Irene Lam
+- Maxwell Reiferson
+- Nalin Vattigunta
+- Jacob Werzinsky
 
 ## :heart: Acknowledgments :heart:
 
-Acnowledgement to our professor, Tim Tregubov, and the amazing TAs for their insight and feedback!
+Much love to our professor, Tim Tregubov, and our amazing TAs for their insight and feedback!

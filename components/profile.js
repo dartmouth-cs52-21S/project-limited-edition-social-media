@@ -7,44 +7,24 @@ import { Appbar } from 'react-native-paper';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { profileUser } from '../actions';
 
+const DEFAULT_IMG = 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png';
+
 class Profile extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isFollowerVisible: true,
-      isFollowingVisible: true,
-      isBadgeVisible: true,
-    };
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.props.profileUser();
+    });
   }
 
-  componentDidMount = () => {
-    this.props.profileUser();
-  };
-
-  followerVisible = () => {
-    const temp = this.state.isFollowerVisible;
-    this.setState({ isFollowerVisible: !temp });
-  }
-
-  followingVisible = () => {
-    const temp = this.state.isFollowingVisible;
-    this.setState({ isFollowingVisible: !temp });
-  }
-
-  badgeVisible = () => {
-    const temp = this.state.isBadgeVisible;
-    this.setState({ isBadgeVisible: !temp });
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   handleSettingsPress = () => {
     this.props.navigation.navigate('Settings', {
       name: 'Settings',
-      followerVisible: this.followerVisible,
-      followingVisible: this.followingVisible,
-      badgeVisible: this.badgeVisible,
-      isFollowerVisible: this.state.isFollowerVisible,
-      isFollowingVisible: this.state.isFollowingVisible,
-      isBadgeVisible: this.state.isBadgeVisible,
+      isFollowerListVisible: this.props.user.isFollowerListVisible,
+      isFollowingListVisible: this.props.user.isFollowingListVisible,
     });
   }
 
@@ -52,14 +32,12 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <Appbar style={styles.top}>
-          {/* Temporary until I find the appropriate React lifecycle fuction */}
-          <Appbar.Action icon="refresh" onPress={() => this.props.profileUser()} />
           <Text style={styles.center}>Profile</Text>
           <Appbar.Action icon="cog" onPress={() => this.handleSettingsPress()} />
         </Appbar>
         <Image
           style={styles.pic}
-          source={{ uri: this.props.user.profilePic || 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg' }}
+          source={{ uri: this.props.user.profilePic || DEFAULT_IMG }}
         />
         <Text style={styles.followNum}>
           {' '}
@@ -67,21 +45,21 @@ class Profile extends Component {
           {' '}
         </Text>
         <View style={styles.followContainer}>
-          <View style={this.state.isFollowerVisible ? styles.follow : styles.hide}>
+          <View style={this.props.user.isFollowerListVisible ? styles.follow : styles.hide}>
+            {/* <View style={this.state.isFollowerVisible ? styles.follow : styles.hide}> */}
             <Text style={styles.followNum}>{this.props.user.followerList.length}</Text>
             <Text style={styles.followWord}>followers</Text>
           </View>
-          <View style={this.state.isFollowerVisible && this.state.isFollowingVisible ? styles.follow : styles.hide}>
+          {/* <View style={this.state.isFollowerVisible && this.state.isFollowingVisible ? styles.follow : styles.hide}></View> */}
+          <View style={this.props.user.isFollowerListVisible && this.props.user.isFollowingListVisible ? styles.follow : styles.hide}>
             {/* Very confused by native styling o_o */}
             <Text style={styles.followNum}>            </Text>
           </View>
-          <View style={this.state.isFollowingVisible ? styles.follow : styles.hide}>
+          <View style={this.props.user.isFollowingListVisible ? styles.follow : styles.hide}>
+            {/* <View style={this.state.isFollowingVisible ? styles.follow : styles.hide}> */}
             <Text style={styles.followNum}>{this.props.user.followingList.length}</Text>
             <Text style={styles.followWord}>following</Text>
           </View>
-        </View>
-        <View style={this.state.isBadgeVisible ? styles.badges : styles.hide}>
-          <Text style={styles.badgeWord}>My Badges:</Text>
         </View>
       </View>
     );
@@ -135,10 +113,6 @@ const styles = StyleSheet.create({
   followNum: {
     fontWeight: '800',
     textAlign: 'center',
-    fontSize: 20,
-  },
-  badgeWord: {
-    fontWeight: '600',
     fontSize: 20,
   },
   hide: {

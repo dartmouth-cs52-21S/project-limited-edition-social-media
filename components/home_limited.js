@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import {
   StyleSheet, View, Text,
 } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import AllPosts from './all_posts';
+// import { createStackNavigator } from '@react-navigation/stack';
+// import AllPosts from './all_posts';
 import AuthButton from './auth_button';
 
-const ModalStack = createStackNavigator();
+// const ModalStack = createStackNavigator();
 
 class HomeLimited extends Component {
   constructor(props) {
