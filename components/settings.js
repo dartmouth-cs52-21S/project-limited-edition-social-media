@@ -15,7 +15,6 @@ class Profile extends Component {
     this.state = {
       isFollowerListVisible: this.profileState.isFollowerListVisible,
       isFollowingListVisible: this.profileState.isFollowingListVisible,
-      isBadgeListVisible: this.profileState.isBadgeListVisible,
     };
   }
 
@@ -44,14 +43,6 @@ class Profile extends Component {
             onPress={() => this.handleOptionUpdate('isFollowingListVisible')}
           >
             {this.state.isFollowingListVisible ? 'Public' : 'Private'}
-          </Button>
-        </View>
-        <View style={styles.top}>
-          <Text style={styles.text}>My Badges</Text>
-          <Button style={styles.textBttn}
-            onPress={() => this.handleOptionUpdate('isBadgeListVisible')}
-          >
-            {this.state.isBadgeListVisible ? 'Public' : 'Private'}
           </Button>
         </View>
         <Button style={styles.bttn} onPress={() => this.handleSignOutPress()}>Sign Out</Button>
