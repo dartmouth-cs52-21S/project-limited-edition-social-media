@@ -19,7 +19,12 @@ const ProfileStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
-      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="Settings"
+        component={Settings}
+        options={({ navigation, route }) => ({
+          headerStyle: { backgroundColor: '#FFFBFC' },
+        })}
+      />
     </Stack.Navigator>
   );
 };
@@ -45,7 +50,7 @@ const HomeStack = () => {
 const MainTabBar = () => {
   return (
     <Tab.Navigator initialRouteName="Home"
-      activeColor="rgba(255, 255, 255, 1)"
+      activeColor="#468189"
       inactiveColor="rgb(156, 153, 150)"
       shifting
       barStyle={{ backgroundColor: 'tomato' }}
@@ -57,7 +62,7 @@ const MainTabBar = () => {
         component={HomeStack}
         options={{
           tabBarLabel: 'Home',
-          tabBarColor: 'rgb(29,24,27)',
+          tabBarColor: '#FFFBFC',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
@@ -67,7 +72,7 @@ const MainTabBar = () => {
         component={SearchStack}
         options={{
           tabBarLabel: 'Search',
-          tabBarColor: 'rgb(59,54,57)',
+          tabBarColor: '#FFFBFC',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="search-web" color={color} size={26} />
           ),
@@ -77,7 +82,7 @@ const MainTabBar = () => {
         component={ArchiveTab}
         options={{
           tabBarLabel: 'Archive',
-          tabBarColor: 'rgb(89,84,87)',
+          tabBarColor: '#FFFBFC',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="archive" color={color} size={26} />
           ),
@@ -88,7 +93,7 @@ const MainTabBar = () => {
         component={ProfileStack}
         options={{
           tabBarLabel: 'Profile',
-          tabBarColor: 'rgb(119,114,117)',
+          tabBarColor: '#FFFBFC',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),

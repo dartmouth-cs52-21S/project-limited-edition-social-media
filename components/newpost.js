@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   publishText: {
-    color: 'rgb(78, 20, 140)',
+    color: '#468189',
     fontSize: 30,
   },
   publishButton: {

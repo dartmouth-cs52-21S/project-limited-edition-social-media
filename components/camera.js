@@ -214,7 +214,7 @@ class NewPostCamera extends Component {
         <View style={[styles.tabs, displayNone]}>
           <TouchableOpacity
             style={[styles.tab,
-              { borderBottomColor: this.state.isVideo ? 'rgba(78, 20, 140, 0)' : 'rgba(78, 20, 140, 1)' }]}
+              { borderBottomColor: this.state.isVideo ? '#46818900' : '#468189FF' }]}
             onPress={this.handlePhotoSwitch}
           >
             <Text style={styles.text}>
@@ -223,7 +223,7 @@ class NewPostCamera extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.tab,
-              { borderBottomColor: this.state.isVideo ? 'rgba(78, 20, 140, 1)' : 'rgba(78, 20, 140, 0)' }]}
+              { borderBottomColor: this.state.isVideo ? '#468189FF' : '#46818900' }]}
             onPress={this.handleVideoSwitch}
           >
             <Text style={styles.text}>
@@ -300,14 +300,14 @@ const styles = StyleSheet.create({
   cameraCaptureInner: {
     width: 80,
     height: 80,
-    backgroundColor: 'rgba(78, 20, 140, 1)',
+    backgroundColor: '#468189',
     borderWidth: 2,
     borderColor: 'white',
   },
   cameraCaptureOuter: {
     width: 94,
     height: 94,
-    backgroundColor: 'rgba(78, 20, 140, 0.7)',
+    backgroundColor: '#468189bb',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     width: 60,
   },
   text: {
-    color: 'rgb(78, 20, 140)',
+    color: '#468189',
     fontSize: 21,
     textAlign: 'center',
   },

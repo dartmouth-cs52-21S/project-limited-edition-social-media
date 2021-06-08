@@ -10,12 +10,12 @@ const AuthButton = (props) => {
           backgroundColor: pressed ? '#00000033' : 'transparent',
         }, styles.bottomButton] : [
         {
-          backgroundColor: pressed ? '#F15F01' : '#396580',
+          backgroundColor: pressed ? '#E1E1E1' : '#FFFBFC',
         }, styles.button]
       )}
       onPress={() => { props.onPress(); }}
     >
-      <Text style={styles.buttonText}>
+      <Text style={props.bottomButton ? styles.bottomButtonText : styles.buttonText}>
         { props.text }
       </Text>
     </Pressable>
@@ -48,7 +48,14 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color: '#fff',
+    color: '#468189',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
+  },
+  bottomButtonText: {
+    fontSize: 18,
+    color: '#FFFBFC',
     fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',

@@ -100,7 +100,7 @@ class HomeLimited extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2E4057',
+    backgroundColor: '#468189',
     justifyContent: 'space-around',
     alignContent: 'center',
   },
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logoText: {
-    color: '#fff',
+    color: '#FFFBFC',
     fontSize: 60,
     fontFamily: 'Gill Sans',
     fontWeight: 'bold',

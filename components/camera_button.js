@@ -11,7 +11,7 @@ const CameraButton = (props) => {
         <Icon
           name={props.iconName}
           type={props.iconType}
-          color="rgb(78, 20, 140)"
+          color="#468189"
           backgroundColor="rgb(255, 255, 255)"
           size={40}
           containerStyle={{ borderRadius: 15 }}

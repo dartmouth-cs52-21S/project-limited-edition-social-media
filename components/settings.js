@@ -5,6 +5,7 @@ import {
   StyleSheet, View, Text,
 } from 'react-native';
 import { Button } from 'react-native-paper';
+import AuthButton from './auth_button';
 import { signoutUser, updateProfileFieldVisibility } from '../actions';
 
 class Profile extends Component {
@@ -45,7 +46,7 @@ class Profile extends Component {
             {this.state.isFollowingListVisible ? 'Public' : 'Private'}
           </Button>
         </View>
-        <Button style={styles.bttn} onPress={() => this.handleSignOutPress()}>Sign Out</Button>
+        <AuthButton text="Sign out" onPress={() => this.handleSignOutPress()} />
       </View>
     );
   }
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'space-evenly',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFBFC',
   },
   image: {
     width: 400,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
   },
   top: {
     position: 'relative',
-    width: '100%',
+    width: '80%',
     top: 0,
     display: 'flex',
     padding: 0,
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     top: 10,
     left: 10,
+    color: '#468189',
   },
   bttn: {
     // backgroundColor: '#5486E8',
@@ -94,6 +96,7 @@ const styles = StyleSheet.create({
     // fontFamily: 'Open Sans',
     fontSize: 20,
     position: 'absolute',
+    color: '#468189',
   },
 });
 

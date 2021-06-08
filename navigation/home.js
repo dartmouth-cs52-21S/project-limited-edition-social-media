@@ -20,40 +20,33 @@ const Home = (props) => (
           </View>
         ),
         headerTitle: () => (
-          <TouchableOpacity style={[styles.container, { marginBottom: 18 }]}
-            onPress={() => {
-              navigation.navigate('Post');
-            }}
-          >
-            <MaterialCommunityIcons name="plus-circle"
-              color="rgb(255,255,255)"
-              size={49}
-            />
-          </TouchableOpacity>
+          <View />
+          // <TouchableOpacity style={[styles.container, { marginBottom: 18 }]}
+          //   onPress={() => {
+          //     navigation.navigate('Post');
+          //   }}
+          // >
+          //   <MaterialCommunityIcons name="plus-circle"
+          //     color="#FFFBFC"
+          //     size={35}
+          //   />
+          // </TouchableOpacity>
         ),
         headerRight: () => (
           <View style={styles.rightHeader}>
             <TouchableOpacity style={[styles.container, { marginBottom: 18 }]}
               onPress={() => {
-                navigation.navigate('Archive');
+                navigation.navigate('Post');
               }}
             >
-              <MaterialCommunityIcons name="account-supervisor"
-                color="rgb(255,255,255)"
-                size={45}
+              <MaterialCommunityIcons name="plus-circle"
+                color="#468189"
+                size={30}
               />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.container}
-              onPress={() => {
-                navigation.navigate('Profile');
-              }}
-            >
-              <Image style={styles.image} source={{ uri: props.user.profilePic || 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg' }} />
             </TouchableOpacity>
           </View>
         ),
-        headerStyle: { backgroundColor: 'rgb(29,24,27)' },
+        headerStyle: { backgroundColor: '#FFFBFC' },
       })}
     />
   </ModalStack.Navigator>
@@ -64,20 +57,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
+    marginRight: 12,
   },
   rightHeader: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    marginBottom: 8,
+    // backgroundColor: 'pink',
   },
   text: {
-    color: 'rgb(255,255,255)',
+    color: '#468189',
     fontSize: 40,
     paddingBottom: 60,
     fontWeight: '500',
     fontFamily: 'ZhiMangXing_400Regular',
-    textShadowColor: 'rgba(0,0,0,0.5)',
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 4,
+    // textShadowColor: 'rgba(0,0,0,0.5)',
+    // textShadowOffset: { width: 2, height: 2 },
+    // textShadowRadius: 4,
   },
   image: {
     height: 50,
