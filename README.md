@@ -16,29 +16,33 @@ Welcome to a social media platform that breaks all the rules.
 
 ## Mock Up
 
-Where everything begins:
+### Where everything begins:
 
-![screenshootOfStandardView](assets/Poof.png)
+![screenshootOfStandardView](assets/cover.png)
 
-Searching in Standard View:
+### Sign-Up Flow:
+
+![screenshootOfSignUpFlow](assets/signup.png)
+
+### Main Feed: 
+
+![feed](assets/feed.gif)
+
+### Searching in Standard View:
 
 ![screenshootOfSearching](assets/search.gif)
 
-Sign-Up Flow:
-
-![screenshootOfSignUpFlow](assets/Sign_Up.png)
-
-Create a post:
+### Create a post:
 
 ![screenshootOfCreatingPost](assets/createPost.gif)
 
-Profile View:
+### Profile View:
 
-![screenshootOfProfileView](assets/Profile.png)
+![screenshootOfProfileView](assets/profile.gif)
 
-Main Feed: 
+### Archives:
 
-![feed](assets/feed.gif)
+![archive](assets/archive.gif)
 
 **To bring you quality and functionality, we've had to make the difficult decision to do away with some reach goals. Some day, we'll bring you this:**
 
