@@ -75,11 +75,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
-    marginRight: 10,
+    marginRight: 12,
   },
   rightHeader: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    marginBottom: 8,
     // backgroundColor: 'pink',
   },
   text: {
