@@ -22,6 +22,9 @@ const UserReducer = (state = initialState, action) => {
         profilePic: action.payload.profilePic,
         username: action.payload.username,
         email: action.payload.email,
+        isFollowingListVisible: action.payload.isFollowingListVisible,
+        isFollowerListVisible: action.payload.isFollowerListVisible,
+        isBadgeListVisible: action.payload.isBadgeListVisible,
       };
     case ActionTypes.UPDATE_FOLLOW:
       return {

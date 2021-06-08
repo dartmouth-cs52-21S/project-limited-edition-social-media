@@ -31,10 +31,7 @@ export function fetchPosts() {
     axios.get(`${ROOT_URL}/posts`).then((response) => {
       // we dispactch the action to fetch all posts, making the payload the data we get back from the api server
       dispatch({ type: ActionTypes.FETCH_POSTS, payload: response.data });
-    }).catch((error) => {
-      // hit an error do something else!
-      dispatch({ type: ActionTypes.ERROR_SET, error });
-    });
+    }).catch((error) => dispatch({ type: ActionTypes.ERROR_SET, error }));
   };
 }
 
@@ -50,9 +47,7 @@ export function createPost(navigation, post) {
         // navigating to the home page
         navigation.navigate('Home');
         dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
-      }).catch((error) => {
-        dispatch({ type: ActionTypes.ERROR_SET, error });
-      });
+      }).catch((error) => dispatch({ type: ActionTypes.ERROR_SET, error }));
     });
   };
 }
@@ -66,9 +61,7 @@ export function deletePost(id, history = null) {
         if (history) {
           history.push('/');
         }
-      }).catch((error) => {
-        dispatch({ type: ActionTypes.ERROR_SET, error });
-      });
+      }).catch((error) => dispatch({ type: ActionTypes.ERROR_SET, error }));
   };
 }
 
@@ -273,4 +266,11 @@ export function isFollowing(username) {
 
 export function getSearchedUsers(profileName) {
   return axios.get(`${ROOT_URL}/search/${profileName}`);
+}
+
+export function updateProfileFieldVisibility(field) {
+  return async (dispatch) => {
+    const url = `${ROOT_URL}/user/${field}`;
+    return getData('token').then((authorization) => axios.put(url, {}, { headers: { authorization } }));
+  };
 }

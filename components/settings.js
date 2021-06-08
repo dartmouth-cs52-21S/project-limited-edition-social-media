@@ -5,51 +5,26 @@ import {
   StyleSheet, View, Text,
 } from 'react-native';
 import { Button } from 'react-native-paper';
-import { signoutUser } from '../actions';
+import { signoutUser, updateProfileFieldVisibility } from '../actions';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isFollowerVisible: true,
-      isFollowingVisible: true,
-      isBadgeVisible: true,
-    };
     this.navigation = this.props.navigation;
     this.profileState = this.props.route.params;
-    // state variable for didMount, load when true, loading screen if not
-    // conditional render
-  }
-
-  componentDidMount() {
-    this.setState({
-      isFollowerVisible: this.profileState.isFollowerVisible,
-      isFollowingVisible: this.profileState.isFollowingVisible,
-      isBadgeVisible: this.profileState.isBadgeVisible,
-    });
+    this.state = {
+      isFollowerListVisible: this.profileState.isFollowerListVisible,
+      isFollowingListVisible: this.profileState.isFollowingListVisible,
+      isBadgeListVisible: this.profileState.isBadgeListVisible,
+    };
   }
 
   handleSignOutPress() {
     this.props.signoutUser(this.navigation);
   }
 
-  changeState(paramVisible) {
-    switch (paramVisible) {
-      case 'isFollowerVisible':
-        const follower = this.state.isFollowerVisible;
-        this.setState({ isFollowerVisible: !follower });
-        break;
-      case 'isFollowingVisible':
-        const following = this.state.isFollowingVisible;
-        this.setState({ isFollowingVisible: !following });
-        break;
-      case 'isBadgeVisible':
-        const badge = this.state.isBadgeVisible;
-        this.setState({ isBadgeVisible: !badge });
-        break;
-      default:
-        break;
-    }
+  handleOptionUpdate(field) {
+    this.props.updateProfileFieldVisibility(field).then(({ data: currState }) => this.setState(currState));
   }
 
   render() {
@@ -58,34 +33,25 @@ class Profile extends Component {
         <View style={styles.top}>
           <Text style={styles.text}>Follower Count</Text>
           <Button style={styles.textBttn}
-            onPress={() => {
-              this.profileState.followerVisible();
-              this.changeState('isFollowerVisible');
-            }}
+            onPress={() => this.handleOptionUpdate('isFollowerListVisible')}
           >
-            {this.state.isFollowerVisible ? 'Public' : 'Private'}
+            {this.state.isFollowerListVisible ? 'Public' : 'Private'}
           </Button>
         </View>
         <View style={styles.top}>
           <Text style={styles.text}>Following Count</Text>
           <Button style={styles.textBttn}
-            onPress={() => {
-              this.profileState.followingVisible();
-              this.changeState('isFollowingVisible');
-            }}
+            onPress={() => this.handleOptionUpdate('isFollowingListVisible')}
           >
-            {this.state.isFollowingVisible ? 'Public' : 'Private'}
+            {this.state.isFollowingListVisible ? 'Public' : 'Private'}
           </Button>
         </View>
         <View style={styles.top}>
           <Text style={styles.text}>My Badges</Text>
           <Button style={styles.textBttn}
-            onPress={() => {
-              this.profileState.badgeVisible();
-              this.changeState('isBadgeVisible');
-            }}
+            onPress={() => this.handleOptionUpdate('isBadgeListVisible')}
           >
-            {this.state.isBadgeVisible ? 'Public' : 'Private'}
+            {this.state.isBadgeListVisible ? 'Public' : 'Private'}
           </Button>
         </View>
         <Button style={styles.bttn} onPress={() => this.handleSignOutPress()}>Sign Out</Button>
@@ -146,4 +112,4 @@ const mapStateToProps = ({ user }) => (
   }
 );
 
-export default connect(mapStateToProps, { signoutUser })(Profile);
+export default connect(mapStateToProps, { signoutUser, updateProfileFieldVisibility })(Profile);

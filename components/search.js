@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Image, StyleSheet, SafeAreaView,
+  Image, StyleSheet, SafeAreaView, ScrollView,
 } from 'react-native';
 
 import { List, Searchbar } from 'react-native-paper';
@@ -13,7 +13,7 @@ const DEFAULT_STATE = {
   users: [],
 };
 
-const DEFAULT_IMG = 'https://i.pinimg.com/236x/02/6a/cc/026acca08fb7beea6bd4ecd430e312bd.jpg';
+const DEFAULT_IMG = 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png';
 
 class Search extends Component {
   constructor(props) {
@@ -75,10 +75,12 @@ class Search extends Component {
           value={this.state?.searchQuery || ''}
         />
 
-        <List.Section style={styles.listSection}>
-          <List.Subheader>Press enter to search by username</List.Subheader>
-          {(this.state?.users || []).map(this.renderUser)}
-        </List.Section>
+        <ScrollView style={styles.listSection}>
+          <List.Section>
+            <List.Subheader>Press enter to search by username</List.Subheader>
+            {(this.state?.users || []).map(this.renderUser)}
+          </List.Section>
+        </ScrollView>
       </SafeAreaView>
     );
   }
