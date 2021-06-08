@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import {
   StyleSheet, View, Text, ImageBackground, Dimensions,
@@ -9,14 +8,31 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Video } from 'expo-av';
 import { Icon } from 'react-native-elements';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { updateArchives } from '../actions';
+import React, { useEffect, useState } from 'react';
+import {
+  getArchives, updateArchives, updatePost, deleteArchivePost,
+} from '../actions';
 
 const PostMaximized = (props) => {
   const postProps = props.route.params;
   let post = null;
+  const [archived, setArchived] = useState(false);
+
+  useEffect(() => {
+    if (!postProps.archive) {
+      props.updatePost(postProps.id, { currentViews: postProps.currentViews + 1 });
+      props.getArchives();
+    }
+  }, []);
 
   const onArchivePress = () => {
+    setArchived(true);
     props.updateArchives(postProps.id);
+  };
+
+  const onDeletePress = () => {
+    props.deleteArchivePost(postProps.id, props.navigation);
+    props.getArchives();
   };
 
   const video = React.createRef();
@@ -79,6 +95,11 @@ const PostMaximized = (props) => {
         </Text>
       </View>
       <TouchableOpacity style={[styles.bottom, { display: postProps.archive ? 'none' : 'flex' }]} onPress={onArchivePress}>
+        <Text style={{ color: 'rgb(255,255,255)', display: archived ? 'flex' : 'none' }}>Archived!</Text>
+        <MaterialCommunityIcons name="archive" color="rgb(255,255,255)" size={50} />
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.bottom, { display: 'none' }]} onPress={onDeletePress}>
+        <Text style={{ color: 'rgb(255,255,255)', fontSize: 16 }}>Delete.</Text>
         <MaterialCommunityIcons name="archive" color="rgb(255,255,255)" size={50} />
       </TouchableOpacity>
     </View>
@@ -232,4 +253,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { updateArchives })(PostMaximized);
+export default connect(null, {
+  updateArchives, updatePost, getArchives, deleteArchivePost,
+})(PostMaximized);
