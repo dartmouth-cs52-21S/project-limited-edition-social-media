@@ -62,6 +62,19 @@ export function updateArchives(postId) {
   };
 }
 
+export function deleteArchivePost(postId, navigation) {
+  return (dispatch) => {
+    getData('token').then((authorization) => axios.delete(`${ROOT_URL}/archive`, { postId }, { headers: { authorization } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.GET_ARCHIVE, payload: response.data });
+        navigation.goBack();
+      }).catch((error) => {
+        console.log(error);
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      }));
+  };
+}
+
 export function createPost(navigation, post) {
   return (dispatch) => {
     // getting the auth token
