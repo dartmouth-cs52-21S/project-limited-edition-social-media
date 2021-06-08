@@ -32,7 +32,6 @@ const PostMaximized = (props) => {
 
   const onDeletePress = () => {
     props.deleteArchivePost(postProps.id, props.navigation);
-    props.getArchives();
   };
 
   const video = React.createRef();
@@ -98,7 +97,7 @@ const PostMaximized = (props) => {
         <Text style={{ color: 'rgb(255,255,255)', display: archived ? 'flex' : 'none' }}>Archived!</Text>
         <MaterialCommunityIcons name="archive" color="rgb(255,255,255)" size={50} />
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.bottom, { display: 'none' }]} onPress={onDeletePress}>
+      <TouchableOpacity style={[styles.bottom, { display: postProps.archive ? 'flex' : 'none' }]} onPress={onDeletePress}>
         <Text style={{ color: 'rgb(255,255,255)', fontSize: 16 }}>Delete.</Text>
         <MaterialCommunityIcons name="archive" color="rgb(255,255,255)" size={50} />
       </TouchableOpacity>
