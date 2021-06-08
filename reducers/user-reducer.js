@@ -34,7 +34,7 @@ const userReducer = (state = initialState, action) => {
         followingList: action.payload.followingList,
         followerList: action.payload.followerList,
       };
-    case ActionTypes.GET_ARCHIVES:
+    case ActionTypes.GET_ARCHIVE:
       return { ...state, archivedFeed: action.payload };
     default:
       return state;

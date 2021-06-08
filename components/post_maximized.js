@@ -1,21 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
   StyleSheet, View, Text, ImageBackground, Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Video } from 'expo-av';
 import { Icon } from 'react-native-elements';
-import { updatePost } from '../actions';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { updateArchives } from '../actions';
 
 const PostMaximized = (props) => {
   const postProps = props.route.params;
   let post = null;
 
-  useEffect(() => {
-    props.updatePost(postProps.id, { currentViews: postProps.currentViews + 1 });
-  }, []);
+  const onArchivePress = () => {
+    props.updateArchives(postProps.id);
+  };
 
   const video = React.createRef();
   const renderTags = ({ item, index }) => {
@@ -50,7 +52,7 @@ const PostMaximized = (props) => {
           </Text>
         </View>
         <View style={styles.topbarViewLimit}>
-          <Text style={styles.topbarViewLimitText}>
+          <Text style={[styles.topbarViewLimitText, { display: postProps.archive ? 'none' : 'flex' }]}>
             {postProps.currentViews !== undefined ? postProps.viewLimit - postProps.currentViews : 'nan'}
             /
             {postProps.viewLimit !== undefined ? postProps.viewLimit : 'nan'}
@@ -71,11 +73,14 @@ const PostMaximized = (props) => {
           contentContainerStyle={styles.topbarTags}
         />
       </View>
-      <View style={styles.caption}>
+      <View style={[styles.caption, { display: postProps.caption ? 'flex' : 'none' }]}>
         <Text style={styles.captionContent}>
-          {postProps.caption ? postProps.caption : 'NO CAPTION'}
+          {postProps.caption}
         </Text>
       </View>
+      <TouchableOpacity style={[styles.bottom, { display: postProps.archive ? 'none' : 'flex' }]} onPress={onArchivePress}>
+        <MaterialCommunityIcons name="archive" color="rgb(255,255,255)" size={50} />
+      </TouchableOpacity>
     </View>
   );
 
@@ -215,9 +220,16 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     justifyContent: 'center',
   },
+  bottom: {
+    position: 'absolute',
+    bottom: 50,
+    left: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   font: {
     color: 'white',
   },
 });
 
-export default connect(null, { updatePost })(PostMaximized);
+export default connect(null, { updateArchives })(PostMaximized);

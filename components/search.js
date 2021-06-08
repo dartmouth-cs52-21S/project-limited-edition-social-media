@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import {
   Image, StyleSheet, SafeAreaView,
 } from 'react-native';
-import { connect } from 'react-redux';
+
 import { List, Searchbar } from 'react-native-paper';
-import { getSearchedUsers } from '../actions';
+import {
+  getSearchedUsers,
+} from '../actions';
 
 const DEFAULT_STATE = {
   searchQuery: '',
@@ -84,6 +86,7 @@ class Search extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    // flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
   },
@@ -94,15 +97,6 @@ const styles = StyleSheet.create({
   listSection: {
     width: '100%',
   },
-  flatListContainer: {
-    flex: 1,
-    height: 100,
-    width: 100,
-  },
 });
 
-const mapStateToProps = (state) => ({
-  users: state.search.searchedUsers,
-});
-
-export default connect(mapStateToProps, { getSearchedUsers })(Search);
+export default Search;

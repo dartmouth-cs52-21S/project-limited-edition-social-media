@@ -79,7 +79,7 @@ class MenuButton extends Component {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 65,
+    height: '9%',
     backgroundColor: 'rgb(255,255,255)',
   },
   primaryText: {

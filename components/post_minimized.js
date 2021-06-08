@@ -74,7 +74,7 @@ const PostMinimized = (props) => {
               </MaskedView>
             </View>
             <View style={styles.topbarViewLimit}>
-              <Text style={styles.topbarViewLimitText}>
+              <Text style={[styles.topbarViewLimitText, { display: props.archive ? 'none' : 'flex' }]}>
                 {props.currentViews !== undefined ? props.viewLimit - props.currentViews : 'nan'}
                 /
                 {props.viewLimit !== undefined ? props.viewLimit : 'nan'}
@@ -83,7 +83,7 @@ const PostMinimized = (props) => {
           </View>
           <View style={styles.body}>
             <Text style={styles.bodyContent}>
-              {props.caption || 'NO CAPTION'}
+              {props.caption}
             </Text>
           </View>
         </View>

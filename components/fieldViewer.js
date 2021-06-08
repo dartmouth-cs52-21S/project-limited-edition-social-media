@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
   title: {
     borderTopColor: 'rgb(196, 193, 200)',
     borderTopWidth: StyleSheet.hairlineWidth,
+    height: 70,
   },
 });
 

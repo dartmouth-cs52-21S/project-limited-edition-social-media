@@ -191,7 +191,7 @@ class NewPost extends Component {
               <MenuButton
                 primaryText="Edit Cover"
                 centerText
-                extraButtonStyles={{ width: '42%', backgroundColor: 'rgba(255,255,255,0.6)' }}
+                extraButtonStyles={{ height: '22%', width: '42%', backgroundColor: 'rgba(255,255,255,0.6)' }}
                 onPress={this.onImageEditPress}
               />
               <ImageManipulator
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   preview: {
     width: '100%',
-    height: 300,
+    height: '38%',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     borderTopColor: 'rgb(196, 193, 200)',
     borderTopWidth: 2,
     marginTop: 'auto',
-    height: 90,
+    height: '12%',
   },
   blurButton: {
     borderTopColor: 'rgb(196, 193, 200)',

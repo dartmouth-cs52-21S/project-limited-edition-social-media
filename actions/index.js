@@ -13,7 +13,7 @@ export const ActionTypes = {
   FETCH_USER: 'FETCH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
-  GET_ARCHIVES: 'GET_ARCHIVE',
+  GET_ARCHIVE: 'GET_ARCHIVE',
   CLEAR_AUTH_ERROR: 'CLEAR_AUTH_ERROR',
   UPDATE_FOLLOW: 'UPDATE_FOLLOW',
 };
@@ -40,18 +40,45 @@ export function fetchPosts() {
   };
 }
 
+export function getArchives() {
+  return (dispatch) => {
+    getData('token').then((authorization) => axios.get(`${ROOT_URL}/archive`, { headers: { authorization } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.GET_ARCHIVE, payload: response.data });
+      }).catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      }));
+  };
+}
+
+export function updateArchives(postId) {
+  return (dispatch) => {
+    getData('token').then((authorization) => axios.post(`${ROOT_URL}/archive`, { postId }, { headers: { authorization } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.GET_ARCHIVE, payload: response.data });
+      }).catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      }));
+  };
+}
+
 export function createPost(navigation, post) {
   return (dispatch) => {
     // getting the auth token
     getData('token').then((token) => {
       // using auth token to create a post on the server
-      axios.post(`${ROOT_URL}/posts`, post, { headers: { authorization: token } }).then((response) => {
-        // reseting navigation for new_post_tab
-        navigation.navigate('Camera');
-        navigation.replace('Camera');
-        // navigating to the home page
-        navigation.navigate('Home');
-        dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
+      axios.post(`${ROOT_URL}/posts`, post, { headers: { authorization: token } }).then((postsResponse) => {
+        axios.post(`${ROOT_URL}/archive`, { postId: postsResponse.data.id }, { headers: { authorization: token } }).then((archiveResponse) => {
+          dispatch({ type: ActionTypes.GET_ARCHIVE, payload: archiveResponse.data });
+          dispatch({ type: ActionTypes.FETCH_POST, payload: postsResponse.data });
+          // reseting navigation for new_post_tab
+          navigation.navigate('Camera');
+          navigation.replace('Camera');
+          // navigating to the home page
+          navigation.navigate('MainTab');
+        }).catch((error) => {
+          dispatch({ type: ActionTypes.ERROR_SET, error });
+        });
       }).catch((error) => {
         dispatch({ type: ActionTypes.ERROR_SET, error });
       });
@@ -129,11 +156,8 @@ export function clearAuthError() {
 
 export function getUsers(profileName) {
   return (dispatch) => {
-    console.log('got here1');
     axios.post(`${ROOT_URL}/search`, { profileName }).then((response) => {
-      console.log('got here2');
       // fetch search results
-      //
       dispatch({ type: ActionTypes.FETCH_POSTS });
       // storeData('token', response.data.token);
       // navigation.replace('MainTab');
@@ -231,40 +255,6 @@ const removeData = async () => {
     // remove error
   }
 };
-
-// const getArchives = async () => {
-//   try {
-//     await AsyncStorage.getItem('token');
-//     return (dispatch) => {
-//       axios.get(`${ROOT_URL}/archive`).then((response) => {
-//         dispatch({ type: ActionTypes.GET_ARCHIVES, payload: response });
-//       }).catch((e) => {
-//         // remove error
-//         return e;
-//       });
-//     };
-//   } catch (e) {
-//     return e;
-//   }
-// };
-
-// const updateArchives = async (postid) => {
-//   try {
-//     await AsyncStorage.getItem('token');
-//     return (dispatch) => {
-//       axios.post(`${ROOT_URL}/archive`, {
-//         postid,
-//       }).then((response) => {
-//         getArchives()(dispatch);
-//       }).catch((e) => {
-//         // remove error
-//         return e;
-//       });
-//     };
-//   } catch (e) {
-//     return e;
-//   }
-// };
 
 export function profileUser() {
   return async (dispatch) => {
