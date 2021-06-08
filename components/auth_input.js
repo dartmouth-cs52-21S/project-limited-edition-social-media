@@ -9,7 +9,7 @@ const AuthInput = (props) => {
       onChangeText={(value) => props.onChange(value)}
       value={props.value}
       placeholder={props.placeholder}
-      placeholderTextColor="#468189"
+      placeholderTextColor="#FFFBFC"
       returnKeyType={props.returnKeyType}
       textContentType={props.textContentType}
       secureTextEntry={props.secureTextEntry}
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     width: '80%',
     // borderWidth: 1,
     borderBottomWidth: 3,
-    borderColor: '#468189',
+    borderColor: '#FFFBFC',
     color: '#FFFBFC',
     alignSelf: 'center',
     fontSize: 18,

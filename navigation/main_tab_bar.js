@@ -67,7 +67,7 @@ const MainTabBar = () => {
         component={SearchStack}
         options={{
           tabBarLabel: 'Search',
-          tabBarColor: 'rgb(59,54,57)',
+          tabBarColor: '#468189',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="search-web" color={color} size={26} />
           ),
@@ -77,7 +77,7 @@ const MainTabBar = () => {
         component={Activity}
         options={{
           tabBarLabel: 'Explore',
-          tabBarColor: 'rgb(89,84,87)',
+          tabBarColor: '#468189',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="chart-bubble" color={color} size={26} />
           ),
@@ -88,7 +88,7 @@ const MainTabBar = () => {
         component={ProfileStack}
         options={{
           tabBarLabel: 'Profile',
-          tabBarColor: 'rgb(119,114,117)',
+          tabBarColor: '#468189',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),

@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import { signoutUser } from '../actions';
+import AuthButton from './auth_button';
 
 class Profile extends Component {
   constructor(props) {
@@ -88,7 +89,7 @@ class Profile extends Component {
             {this.state.isBadgeVisible ? 'Public' : 'Private'}
           </Button>
         </View>
-        <Button style={styles.bttn} onPress={() => this.handleSignOutPress()}>Sign Out</Button>
+        <AuthButton onPress={() => this.handleSignOutPress()}>Sign Out</AuthButton>
       </View>
     );
   }
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'space-evenly',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#468189',
   },
   image: {
     width: 400,
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
   },
   top: {
     position: 'relative',
-    width: '100%',
+    width: '80%',
     top: 0,
     display: 'flex',
     padding: 0,
@@ -125,6 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     top: 10,
     left: 10,
+    color: '#FFFBFC',
   },
   bttn: {
     // backgroundColor: '#5486E8',

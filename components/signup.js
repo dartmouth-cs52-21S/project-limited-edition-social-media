@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#32292F',
+    backgroundColor: '#468189',
   },
   title: {
     fontFamily: 'Gill Sans',
