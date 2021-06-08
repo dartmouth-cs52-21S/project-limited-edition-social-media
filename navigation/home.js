@@ -35,10 +35,10 @@ const Home = (props) => (
           <View style={styles.rightHeader}>
             <TouchableOpacity style={[styles.container, { marginBottom: 18 }]}
               onPress={() => {
-
+                navigation.navigate('Archive');
               }}
             >
-              <MaterialCommunityIcons name="archive"
+              <MaterialCommunityIcons name="account-supervisor"
                 color="rgb(255,255,255)"
                 size={45}
               />

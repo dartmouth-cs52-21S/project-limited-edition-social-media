@@ -13,7 +13,6 @@ function getSignedRequest(file, type) {
 function uploadFileToS3(signedRequest, file, url, type) {
   // eslint-disable-next-line no-param-reassign
   // url += `?${(new Date()).getTime()}`;
-  console.log(url);
   return new Promise((fulfill, reject) => {
     axios.put(signedRequest, file, { headers: { 'Content-Type': type } }).then((response) => {
       fulfill(url);
@@ -24,7 +23,6 @@ function uploadFileToS3(signedRequest, file, url, type) {
 }
 
 export default async function uploadImage(file, type) {
-  console.log(type);
   // returns a promise so you can handle error and completion in your component
   const response = await getSignedRequest(file, type);
   return uploadFileToS3(response.data.signedRequest, file, response.data.url, type);

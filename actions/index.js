@@ -1,6 +1,7 @@
 import axios from 'axios';
 // import { AsyncStorage } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import archived_feed from '../components/archived_feed';
 
 // keys for actiontypes
 export const ActionTypes = {
@@ -12,6 +13,7 @@ export const ActionTypes = {
   FETCH_USER: 'FETCH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
+  GET_ARCHIVE: 'GET_ARCHIVE',
   CLEAR_AUTH_ERROR: 'CLEAR_AUTH_ERROR',
   UPDATE_FOLLOW: 'UPDATE_FOLLOW',
 };
@@ -35,19 +37,48 @@ export function fetchPosts() {
   };
 }
 
+export function getArchives() {
+  return (dispatch) => {
+    getData('token').then((authorization) => axios.get(`${ROOT_URL}/archive`, { headers: { authorization } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.GET_ARCHIVE, payload: response.data });
+      }).catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      }));
+  };
+}
+
+export function updateArchives(postId) {
+  return (dispatch) => {
+    getData('token').then((authorization) => axios.post(`${ROOT_URL}/archive`, { postId }, { headers: { authorization } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.GET_ARCHIVE, payload: response.data });
+      }).catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      }));
+  };
+}
+
 export function createPost(navigation, post) {
   return (dispatch) => {
     // getting the auth token
     getData('token').then((token) => {
       // using auth token to create a post on the server
-      axios.post(`${ROOT_URL}/posts`, post, { headers: { authorization: token } }).then((response) => {
-        // reseting navigation for new_post_tab
-        navigation.navigate('Camera');
-        navigation.replace('Camera');
-        // navigating to the home page
-        navigation.navigate('Home');
-        dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
-      }).catch((error) => dispatch({ type: ActionTypes.ERROR_SET, error }));
+      axios.post(`${ROOT_URL}/posts`, post, { headers: { authorization: token } }).then((postsResponse) => {
+        axios.post(`${ROOT_URL}/archive`, { postId: postsResponse.data.id }, { headers: { authorization: token } }).then((archiveResponse) => {
+          dispatch({ type: ActionTypes.GET_ARCHIVE, payload: archiveResponse.data });
+          dispatch({ type: ActionTypes.FETCH_POST, payload: postsResponse.data });
+          // reseting navigation for new_post_tab
+          navigation.navigate('Camera');
+          navigation.replace('Camera');
+          // navigating to the home page
+          navigation.navigate('MainTab');
+        }).catch((error) => {
+          dispatch({ type: ActionTypes.ERROR_SET, error });
+        });
+      }).catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
     });
   };
 }
@@ -115,6 +146,19 @@ export function authError(error) {
 export function clearAuthError() {
   return {
     type: ActionTypes.CLEAR_AUTH_ERROR,
+  };
+}
+
+export function getUsers(profileName) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/search`, { profileName }).then((response) => {
+      // fetch search results
+      dispatch({ type: ActionTypes.FETCH_POSTS });
+      // storeData('token', response.data.token);
+      // navigation.replace('MainTab');
+    }).catch((error) => {
+      dispatch(authError(`Search Failed: ${error.response.data}`));
+    });
   };
 }
 
