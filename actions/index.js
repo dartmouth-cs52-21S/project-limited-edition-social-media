@@ -125,7 +125,7 @@ export function authError(error) {
   let errorMessage;
   if (error.response) {
     if (error.response.status === 401) {
-      errorMessage = 'username/password does not exist';
+      errorMessage = 'Invalid email and password combination';
     } else if (error.response.status === 422) {
       errorMessage = error.response.data.error;
     } else {
