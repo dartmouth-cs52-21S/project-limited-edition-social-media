@@ -151,7 +151,7 @@ class AllPosts extends Component {
 const styles = StyleSheet.create({
   postsContainer: {
     flex: 1,
-    backgroundColor: '#468189',
+    backgroundColor: '#FFFBFC',
   },
   containerStyle: {
     backgroundColor: '#fff',

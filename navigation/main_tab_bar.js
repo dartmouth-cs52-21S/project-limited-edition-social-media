@@ -19,7 +19,12 @@ const ProfileStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
-      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="Settings"
+        component={Settings}
+        options={({ navigation, route }) => ({
+          headerStyle: { backgroundColor: '#FFFBFC' },
+        })}
+      />
     </Stack.Navigator>
   );
 };
@@ -45,7 +50,7 @@ const HomeStack = () => {
 const MainTabBar = () => {
   return (
     <Tab.Navigator initialRouteName="Home"
-      activeColor="rgba(255, 255, 255, 1)"
+      activeColor="#468189"
       inactiveColor="rgb(156, 153, 150)"
       shifting
       barStyle={{ backgroundColor: 'tomato' }}
@@ -57,7 +62,7 @@ const MainTabBar = () => {
         component={HomeStack}
         options={{
           tabBarLabel: 'Home',
-          tabBarColor: '#468189',
+          tabBarColor: '#FFFBFC',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
@@ -67,7 +72,7 @@ const MainTabBar = () => {
         component={SearchStack}
         options={{
           tabBarLabel: 'Search',
-          tabBarColor: '#468189',
+          tabBarColor: '#FFFBFC',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="search-web" color={color} size={26} />
           ),
@@ -77,7 +82,7 @@ const MainTabBar = () => {
         component={Activity}
         options={{
           tabBarLabel: 'Explore',
-          tabBarColor: '#468189',
+          tabBarColor: '#FFFBFC',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="chart-bubble" color={color} size={26} />
           ),
@@ -88,7 +93,7 @@ const MainTabBar = () => {
         component={ProfileStack}
         options={{
           tabBarLabel: 'Profile',
-          tabBarColor: '#468189',
+          tabBarColor: '#FFFBFC',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),

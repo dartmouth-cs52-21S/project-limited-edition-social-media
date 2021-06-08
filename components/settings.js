@@ -89,7 +89,7 @@ class Profile extends Component {
             {this.state.isBadgeVisible ? 'Public' : 'Private'}
           </Button>
         </View>
-        <AuthButton onPress={() => this.handleSignOutPress()}>Sign Out</AuthButton>
+        <AuthButton text="Sign out" onPress={() => this.handleSignOutPress()} />
       </View>
     );
   }
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'space-evenly',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#468189',
+    backgroundColor: '#FFFBFC',
   },
   image: {
     width: 400,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     top: 10,
     left: 10,
-    color: '#FFFBFC',
+    color: '#468189',
   },
   bttn: {
     // backgroundColor: '#5486E8',
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     // fontFamily: 'Open Sans',
     fontSize: 20,
     position: 'absolute',
+    color: '#468189',
   },
 });
 

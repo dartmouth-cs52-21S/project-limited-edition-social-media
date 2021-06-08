@@ -40,7 +40,7 @@ const Home = (props) => (
               }}
             >
               <MaterialCommunityIcons name="plus-circle"
-                color="#FFFBFC"
+                color="#468189"
                 size={30}
               />
             </TouchableOpacity>
@@ -50,7 +50,7 @@ const Home = (props) => (
               }}
             >
               <MaterialCommunityIcons name="archive"
-                color="#FFFBFC"
+                color="#468189"
                 size={30}
               />
             </TouchableOpacity>
@@ -64,7 +64,7 @@ const Home = (props) => (
             </TouchableOpacity> */}
           </View>
         ),
-        headerStyle: { backgroundColor: '#468189' },
+        headerStyle: { backgroundColor: '#FFFBFC' },
       })}
     />
   </ModalStack.Navigator>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'pink',
   },
   text: {
-    color: '#FFFBFC',
+    color: '#468189',
     fontSize: 40,
     paddingBottom: 60,
     fontWeight: '500',
