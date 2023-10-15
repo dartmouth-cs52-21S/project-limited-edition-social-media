@@ -14,6 +14,9 @@ Welcome to a social media platform that breaks all the rules.
 
 [#FeelingCuteMightDeleteLater](https://github.com/dartmouth-cs52-21S/project-limited-edition-social-media)
 
+## Our API
+https://github.com/dartmouth-cs52-21S/project-api-limited-edition-social-media
+
 ## Mock Up
 
 ### Where everything begins:
